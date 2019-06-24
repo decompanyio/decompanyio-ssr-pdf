@@ -3,7 +3,9 @@ let router = express.Router();
 
 router.get('/', function (req, res, next) {
 
+
     // 렌더링
+    console.log('404 페이지 렌더링 시작 . . .');
     res.render('notFoundPage', {
         title: 'notFoundPage',
     });

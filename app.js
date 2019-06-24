@@ -1,4 +1,9 @@
 'use strict';
+
+// NODE_ENV 설정
+process.env.NODE_ENV = ( process.env.NODE_ENV && ( process.env.NODE_ENV ).trim().toLowerCase() === 'production' ) ? 'prod' : 'dev';
+console.log("process.env.NODE_ENV : [" + ( process.env.NODE_ENV ).trim().toUpperCase() + "]");
+
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -33,7 +38,7 @@ app.use("/jquery", express.static(path.join(__dirname, "/node_modules/jQuery/dis
 
 
 
-if (process.env.NODE_ENV === 'test')  router.use('/sam', compression());
+if (process.env.NODE_ENV === 'dev')  router.use('/sam', compression());
 else router.use(compression());
 
 

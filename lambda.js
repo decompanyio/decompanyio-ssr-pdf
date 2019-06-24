@@ -1,5 +1,6 @@
 'use strict';
-const awsServerlessExpress = require(process.env.NODE_ENV === 'test' ? '../../index' : 'aws-serverless-express');
+const awsServerlessExpress = require(process.env.NODE_ENV === 'dev' ? '../../index' : 'aws-serverless-express');
+console.log("awsServerlessExpress : " + awsServerlessExpress);
 const app = require('./app');
 
 // NOTE: If you get ERR_CONTENT_DECODING_FAILED in your browser, this is likely
