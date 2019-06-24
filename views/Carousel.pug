@@ -1,0 +1,182 @@
+extends layout
+
+append styles
+    link(href="../css/carousel.css", rel="stylesheet")
+
+block body
+    #carousel-wrapper
+        +carousel("viewer",urlList)
+        +icon("fullscreen")
+        +icon("option-vertical")
+        #option-wrapper
+            .optionList Auto Mode
+
+block scripts
+    script.
+        let shortId = '#{shortid}' || location.reload();
+        let documentId = '#{documentId}' || location.reload();
+        let fullscreenFlag = false;
+        let optionFlag = false;
+        let autoOption = false;
+        let page = 1;
+
+        const carouselInner = $(".carousel-inner");
+        const carouselViewer = $('#carousel-viewer');
+        const carouselWrapper = $('#carousel-wrapper');
+
+        $(document).ready(() => {
+            // 첫 페이지 CSS 설정
+            const activeEl = $(".active")[0].firstChild;
+            setResolve(activeEl);
+
+            // 첫 페이지 트랙킹
+            postTracking()
+
+            // 카로셀 설정
+            $(".carousel").carousel({
+                keyboard: true,
+                interval: 0
+            });
+        })
+
+
+        // 윈도우 창 크기 변화 체크
+        $(window).resize(() => {
+            const activeEl = $(".active")[0].firstChild;
+            setResolve(activeEl);
+        });
+
+
+        // 전체화면 버튼
+        $(".glyphicon-fullscreen").click(() => {
+            handelFullscreen();
+        });
+
+
+        // 옵션 버튼
+        $(".glyphicon-option-vertical").click(() => {
+            if(!optionFlag){
+                showOption();
+            }else{
+                hideOption();
+            }
+        });
+
+        // 옵션 자동 진행 버튼
+        $(".optionList").click(() => {
+            if(!autoOption){
+                $(".optionList").text("Manual Mode");
+                $(".carousel").carousel({
+                    interval: 2000,
+                });
+            }else{
+                $(".optionList").text("Auto Mode");
+                $(".carousel").carousel({
+                    interval: 0
+                });
+            }
+            autoOption = !autoOption;
+            hideOption();
+        });
+
+
+        // 슬라이드 페이지 전환 직전 이벤트
+        carouselViewer.on('slide.bs.carousel', (e) => {
+            checkRatio();
+        })
+
+
+        // 슬라이드 페이지 전환 직후 이벤트
+        carouselViewer.on('slid.bs.carousel', (e) => {
+            getPageFromUrl();
+        })
+
+
+        // url에서 페이지 GET
+        getPageFromUrl = () => {
+            const activeEl = $(".active")[0].firstChild
+            const splitArr = activeEl.src.split("/");
+            page = splitArr[splitArr.length - 1];
+            postTracking();
+        }
+
+
+        // 트랙킹 진행
+        postTracking= () => {
+            tracking(shortId, {
+                id: documentId,
+                n: page,
+                ev: "view"
+            }, true);
+        }
+
+        //옵션 숨김
+        hideOption= () => {
+            $("#option-wrapper").css("display", "none");
+            optionFlag = false;
+        }
+
+
+        //옵션 표시
+        showOption = () => {
+            $("#option-wrapper").css("display", "inline-block");
+            optionFlag = true;
+        }
+
+
+        // 화면, 이미지 비율 비교
+        checkRatio = () => {
+            const activeEl = $(".active");
+            setResolve(activeEl.next()[0] ? activeEl.next()[0].firstChild : carouselInner[0].firstChild.firstChild);
+            setResolve(activeEl.prev()[0] ? activeEl.prev()[0].firstChild : carouselInner[0].lastChild.firstChild);
+        }
+
+
+        // 해상도 별 이미지 CSS 설정
+        setResolve = (e) => {
+            let icw = window.innerWidth;
+            let ich = window.innerHeight;
+            let inw = e.naturalWidth;
+            let inh = e.naturalHeight;
+            let ratioXForMargin = icw / inw;
+            let ratioYForMargin = ich / inh;
+
+            if ((ich / icw) >= (inh / inw)) {
+                let marginValue = Math.floor(Math.abs(ich - (inh * ratioXForMargin)) / 2);
+                e.setAttribute('style', 'width: 100% !important; padding-left:0; padding-top: ' + marginValue + 'px;');
+            } else {
+                let marginValue = Math.floor(Math.abs(icw - (inw * ratioYForMargin)) / 2);
+                e.setAttribute('style', 'height: 100% !important; padding-top: 0; padding-left: ' + marginValue + 'px;');
+            }
+
+        }
+
+
+        // 전체화면 메소드
+        handelFullscreen = () => {
+            if (!fullscreenFlag) {
+                if (carouselWrapper[0].requestFullscreen) {
+                    carouselWrapper[0].requestFullscreen();
+                } else if (carouselWrapper[0].mozRequestFullScreen) { /* Firefox */
+                    carouselWrapper[0].mozRequestFullScreen();
+                } else if (carouselWrapper[0].webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                    carouselWrapper[0].webkitRequestFullscreen();
+                } else if (carouselWrapper[0].msRequestFullscreen) { /* IE/Edge */
+                    carouselWrapper[0].msRequestFullscreen();
+                }
+                fullscreenFlag = true;
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) { /* Firefox */
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE/Edge */
+                    document.msExitFullscreen();
+                }
+                fullscreenFlag = false;
+            }
+        }
+
+

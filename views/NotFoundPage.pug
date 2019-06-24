@@ -1,0 +1,31 @@
+extends layout
+
+append styles
+    link(href="../css/notFoundPage.css", rel="stylesheet")
+
+block body
+    .no-data-icon
+        +icon("warning-sign")
+        br
+        .explain Not Found Page
+        br
+
+        span(class='explain-sub') Go to Polaris Office after
+        #time-set 5
+        span(class='explain-sub') seconds.
+
+block scripts
+    script.
+        let time = 5;
+
+
+        setInterval(function () {
+            --time
+            $("#time-set").text(time);
+            if (time <= 0) {
+                location.replace("https://www.polarishare.com")
+            }
+            ;
+        }, 1000);
+
+
