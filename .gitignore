@@ -1,2 +1,10 @@
 lambda-invoke-response.json
 packaged-sam.yaml
+
+# package directories
+.DS_store
+node_modules
+build
+/package.json
+/package-lock.json
+/.idea/
