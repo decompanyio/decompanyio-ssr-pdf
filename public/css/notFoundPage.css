@@ -1,0 +1,46 @@
+/*2019-06-05
+dean
+404 화면 CSS*/
+
+.no-data-icon {
+    margin-top: 20%;
+    font-size: 16px;
+    text-align: center;
+}
+
+.glyphicon-warning-sign {
+    font-size: 100px;
+    margin-bottom: 20px;
+    font-weight: 100;
+    color: #3681fe;
+}
+
+.explain-sub {
+    display: inline-block;
+    color: #909090;
+    margin: 0 10px;
+
+}
+
+.explain {
+    font-weight: bold;
+    color: #4d4d4d;
+}
+
+#time-set {
+    display: inline-block;
+    font-weight: bold;
+    color: #3681fe;
+}
+
+@media all and (min-width: 1200px) {
+    .no-data-icon {
+        margin-top: 15%;
+    }
+}
+
+@media all and (max-width: 575px) {
+    .no-data-icon {
+        margin-top: 40%;
+    }
+}
