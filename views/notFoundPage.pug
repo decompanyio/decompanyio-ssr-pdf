@@ -4,6 +4,7 @@ append styles
     link(href="../css/notFoundPage.css", rel="stylesheet")
 
 block body
+    - console.log("404 body 태그 읽기 완료");
     .no-data-icon
         +icon("warning-sign")
         br
@@ -15,6 +16,7 @@ block body
         span(class='explain-sub') seconds.
 
 block scripts
+    - console.log("404 script 태그 읽기 완료");
     script.
         let time = 5;
 

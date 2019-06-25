@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 
 router.get('/', function (req, res, next) {
+    console.log("original url : [" + req.originalUrl + "]");
 
 
     // 렌더링

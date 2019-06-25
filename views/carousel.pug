@@ -4,6 +4,7 @@ append styles
     link(href="../css/carousel.css", rel="stylesheet")
 
 block body
+    - console.log("카로셀 body");
     #carousel-wrapper
         +carousel("viewer",urlList)
         +icon("fullscreen")
@@ -12,6 +13,7 @@ block body
             .optionList Auto Mode
 
 block scripts
+    - console.log("카로셀 script");
     script.
         let shortId = '#{shortid}' || location.reload();
         let documentId = '#{documentId}' || location.reload();

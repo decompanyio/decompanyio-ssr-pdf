@@ -3,6 +3,7 @@ let shortid = require('shortid');
 let router = express.Router();
 
 router.get('/', function (req, res, next) {
+    console.log("original url : [" + req.originalUrl + "]");
     // Document 정보 GET
     console.log('XMLHttpRequest 시작 . . .');
     let XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
