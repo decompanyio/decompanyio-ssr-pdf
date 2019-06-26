@@ -1,22 +1,27 @@
 extends layout
 
 append styles
-    link(href="../css/carousel.css", rel="stylesheet")
+    link(href="css/carousel.css", rel="stylesheet")
 
 block body
-    - console.log("카로셀 body");
+    - console.log("카로셀 body SETTING . . .");
     #carousel-wrapper
         +carousel("viewer",urlList)
+        +icon("home")
         +icon("fullscreen")
         +icon("option-vertical")
         #option-wrapper
             .optionList Auto Mode
 
 block scripts
-    - console.log("카로셀 script");
+    - console.log("카로셀 script SETTING . . .");
     script.
-        let shortId = '#{shortid}' || location.reload();
-        let documentId = '#{documentId}' || location.reload();
+        let shortId = '#{shortid}' || "";
+        let documentId = '#{documentId}' || "";
+        let seoTitle = '#{seoTitle}' || "";
+        let username = '#{username}' || "";
+        let docTitle = '#{docTitle}' || "";
+        let desc = '#{desc}' ;
         let fullscreenFlag = false;
         let optionFlag = false;
         let autoOption = false;
@@ -62,6 +67,12 @@ block scripts
             }else{
                 hideOption();
             }
+        });
+
+
+        // 홈 버튼
+        $(".glyphicon-home").click(() => {
+            location.href = "https://share.decompany.io/" + username + "/" + seoTitle;
         });
 
         // 옵션 자동 진행 버튼

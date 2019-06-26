@@ -171,6 +171,26 @@ body {
     padding: 4px 3px 4px 5px;
 }
 
+/*홈페이지 이동 버튼 CSS*/
+.glyphicon-home {
+    position: absolute;
+    padding: 4px;
+    display: inline-block;
+    right: 18px;
+    top: 60px;
+    z-index: 2;
+    font-size: 23px;
+    color: hsla(0, 0%, 100%, .79);
+    cursor: pointer;
+    background: rgba(0, 0, 0, .29);
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+
+
 
 /*전체화면 버튼 CSS*/
 .glyphicon-fullscreen {
