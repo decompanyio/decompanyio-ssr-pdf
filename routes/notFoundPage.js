@@ -9,6 +9,7 @@ router.get('/', function (req, res, next) {
     console.log('404 페이지 렌더링 시작 . . .');
     res.render('notFoundPage', {
         title: 'notFoundPage',
+        env: process.env.NODE_ENV
     });
 
 });

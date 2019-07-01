@@ -2,16 +2,6 @@ let apiDomain = "https://api.share.decompany.io/rest";
 let trackingUrl = "/api/tracking/collect";
 
 
-// json => 쿼리 스트링
-function jsonToQueryString(json) {
-  return "?" +
-      Object.keys(json).map(function(key) {
-        return encodeURIComponent(key) + "=" +
-            encodeURIComponent(json[key]);
-      }).join("&");
-}
-
-
 // 트래킹 정보 세팅
 function setTrackingInfo(shortid) {
   let timestamp = Date.now();
@@ -46,14 +36,22 @@ function setTrackingInfo(shortid) {
   return trackingInfo;
 }
 
-function tracking(shortId, params, async, sidClear) {
-  return new Promise((resolve, reject) => {
+function tracking(shortId, params, async, sidClear,callback) {
 
     let timestamp = Date.now();
     let trackingInfo = this.setTrackingInfo(shortId);
-    params.sid = trackingInfo.sid; //session id
-    params.cid = trackingInfo.cid; //clinet id
-    params.t = timestamp; //touch time
+    params.sid = trackingInfo.sid; // session id
+    params.cid = trackingInfo.cid; // clinet id
+    params.t = timestamp; // touch time
+
+    // json => 쿼리 스트링
+    function jsonToQueryString(json) {
+      return "?" +
+          Object.keys(json).map(function(key) {
+            return encodeURIComponent(key) + "=" +
+                encodeURIComponent(json[key]);
+          }).join("&");
+    }
 
     let querystring = jsonToQueryString(params);
     let tracking = apiDomain + trackingUrl + querystring;
@@ -69,7 +67,6 @@ function tracking(shortId, params, async, sidClear) {
       //touchAt 현재 시간으로 갱신 후 localStorage에 저장
       trackingInfo.touchAt = timestamp;
       localStorage.setItem("tracking_info", JSON.stringify(trackingInfo));
-      resolve(res);
+      callback(res, params);
     });
-  });
 }

@@ -5,6 +5,10 @@ let router = express.Router();
 let templatePath = require.resolve('../views/carousel.pug');
 let templateFn = pug.compileFile(templatePath);
 
+let apiUrl = process.env.NODE_ENV === 'prod' ? "https://api.polarishare.com/rest" : "https://api.share.decompany.io/rest";
+let imageUrl = process.env.NODE_ENV === 'prod' ? "https://api.polarishare.com/ve" : "https://thumb.share.decompany.io";
+
+
 router.get('/', function (req, res, next) {
     res.header("Content-Type", "text/html");
     console.log("original url : [" + req.originalUrl + "]");
@@ -19,16 +23,15 @@ router.get('/', function (req, res, next) {
         if (xhr.readyState === xhr.DONE) {
             let res = JSON.parse(xhr.responseText);
 
-
             console.log('Document Data 유효성 체크 시작 . . .');
             checkRes(res.document);
         }
     };
-    xhr.open('GET', 'https://api.share.decompany.io/rest/api/document/info' + req.originalUrl, true);
+    xhr.open('GET', apiUrl + '/api/document/info' + req.originalUrl, true);
     xhr.send(null);
 
 
-
+    // GET data 체크
     function checkRes(docList) {
         if(docList) {
             console.log('Document Data GET 성공 . . .');
@@ -40,6 +43,7 @@ router.get('/', function (req, res, next) {
             // 렌더링
             res.render('notFoundPage', {
                 title: 'notFoundPage',
+                env: process.env.NODE_ENV
             });
         }
     }
@@ -52,7 +56,7 @@ router.get('/', function (req, res, next) {
 
         console.log('Document 썸네일 이미지 SETTING . . .');
         for (let i = 0; i < docList.totalPages; ++i) {
-            let url = 'https://thumb.share.decompany.io/' + docList.documentId + "/2048/" + (i + 1);
+            let url = imageUrl + "/" + docList.documentId + "/2048/" + (i + 1);
             tmpArr.push({"image": url});
         }
 
@@ -63,9 +67,12 @@ router.get('/', function (req, res, next) {
             seoTitle: docList.seoTitle,
             documentId: docList.documentId,
             username: docList.author.username,
+            email: docList.author.email,
             docTitle: docList.title,
             desc: docList.desc || "",
+            forceTracking: docList.forceTracking || false,
             shortid: shortid.generate(),
+            created : new Date(docList.created),
             env: process.env.NODE_ENV
         };
 

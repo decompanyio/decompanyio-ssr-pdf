@@ -157,7 +157,7 @@ body {
 .glyphicon-option-vertical {
     position: absolute;
     display: inline-block;
-    right: 18px;
+    right: 15px;
     top: 18px;
     z-index: 2;
     font-size: 23px;
@@ -176,7 +176,7 @@ body {
     position: absolute;
     padding: 4px;
     display: inline-block;
-    right: 18px;
+    right: 15px;
     top: 60px;
     z-index: 2;
     font-size: 23px;
@@ -189,6 +189,10 @@ body {
     user-select: none;
 }
 
+.glyphicon-home:hover {
+    color: #ffffff;
+}
+
 
 
 
@@ -197,7 +201,7 @@ body {
     position: absolute;
     padding: 4px;
     display: inline-block;
-    right: 18px;
+    right: 15px;
     bottom: 18px;
     top: auto;
     z-index: 2;

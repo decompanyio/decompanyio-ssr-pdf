@@ -2,6 +2,9 @@
 mixin icon(name)
     span.glyphicon(class=`glyphicon-${name}`, aria-hidden="true", onClcik=`${name}Click()`)
 
+mixin iconOk(name)
+    i.glyphicon(class=`glyphicon-${name}`, aria-hidden="true", onClcik=`${name}Click()`)
+
 mixin icon-primary(name)
     span.glyphicon.text-primary(class=`glyphicon-${name}`, aria-hidden="true")
 

@@ -2,9 +2,12 @@ extends layout
 
 append styles
     link(href="css/carousel.css", rel="stylesheet")
+    link(href="css/notFoundPage.css", rel="stylesheet")
+    link(href="css/email.css", rel="stylesheet")
 
 block body
     - console.log("카로셀 body SETTING . . .");
+
     #carousel-wrapper
         +carousel("viewer",urlList)
         +icon("home")
@@ -13,15 +16,45 @@ block body
         #option-wrapper
             .optionList Auto Mode
 
+
+    #email-wrapper
+        .dialog-title Want to read more?
+
+        .dialogSubject Please check sign-up link in your inbox. The author of this content can view the information you have entered.
+        input(class="custom-input" type="text" placeholder="Email" autoComplete="off" id="email-input" )
+        .emailError
+
+
+        #classic-modal-slide-policy
+            input(type="checkbox" id="termsCheckbox")
+            label(for="termsCheckbox")
+                span
+                    +iconOk("ok")
+                .checkbox-explain I agree to submit this information, which will be collected and used according to &nbsp
+                    a(class="checkbox-policy-link" target="_blank" href="https://www.polarishare.com/legal/policy.html" rel="noopener noreferrer" title="Read decompany’s privacy policy.") Decompany’s privacy policy.
+
+        .ok-btn Sign up
+
+
+
+
+
+
+
 block scripts
     - console.log("카로셀 script SETTING . . .");
     script.
+
         let shortId = '#{shortid}' || "";
         let documentId = '#{documentId}' || "";
         let seoTitle = '#{seoTitle}' || "";
         let username = '#{username}' || "";
         let docTitle = '#{docTitle}' || "";
-        let desc = '#{desc}' ;
+        let forceTracking = '#{forceTracking}';
+        let env = '#{env}';
+        let cid = null;
+        let sid = null;
+        let clientEmail = null;
         let fullscreenFlag = false;
         let optionFlag = false;
         let autoOption = false;
@@ -31,7 +64,9 @@ block scripts
         const carouselViewer = $('#carousel-viewer');
         const carouselWrapper = $('#carousel-wrapper');
 
+
         $(document).ready(() => {
+
             // 첫 페이지 CSS 설정
             const activeEl = $(".active")[0].firstChild;
             setResolve(activeEl);
@@ -62,9 +97,9 @@ block scripts
 
         // 옵션 버튼
         $(".glyphicon-option-vertical").click(() => {
-            if(!optionFlag){
+            if (!optionFlag) {
                 showOption();
-            }else{
+            } else {
                 hideOption();
             }
         });
@@ -72,17 +107,18 @@ block scripts
 
         // 홈 버튼
         $(".glyphicon-home").click(() => {
-            location.href = "https://share.decompany.io/" + username + "/" + seoTitle;
+            location.href = appProperties().domain(env).mainHost + "/" + username + "/" + seoTitle;
         });
+
 
         // 옵션 자동 진행 버튼
         $(".optionList").click(() => {
-            if(!autoOption){
+            if (!autoOption) {
                 $(".optionList").text("Manual Mode");
                 $(".carousel").carousel({
                     interval: 2000,
                 });
-            }else{
+            } else {
                 $(".optionList").text("Auto Mode");
                 $(".carousel").carousel({
                     interval: 0
@@ -91,6 +127,54 @@ block scripts
             autoOption = !autoOption;
             hideOption();
         });
+
+
+        // 이메일 모달 값 입력 체크
+        $("#email-input").keyup(function () {
+            let value = $("#email-input").val();
+            let checkEmail = checkEmailForm(value);
+            let errMsg = checkEmail ? "" : "Email address does not fit the form .";
+            $(".emailError").text(errMsg);
+        })
+
+
+        // 이메일 모달 체크박스 클릭
+        $("#termsCheckbox").change(function () {
+            const termsCheckbox = document.getElementById("termsCheckbox").nextElementSibling.firstChild;
+            if ($("#termsCheckbox").is(":checked")) {
+                termsCheckbox.style.border = "1px solid #3681fe";
+            } else {
+                termsCheckbox.style.border = "1px solid #f92121";
+            }
+        })
+
+
+        // 이메일 sign up 버튼 클릭
+        $(".ok-btn").click(function () {
+            let emailError = $(".emailError").text();
+            if (emailError !== "" && !$("#termsCheckbox").is(":checked")) {
+                return;
+            }
+
+            let data = {
+                "cid": getId().cid,
+                "sid": getId().sid,
+                "email": $("#email-input").val(),
+                "documentId": seoTitle
+            }
+
+            $.ajax({
+                type: "POST",
+                accept: "application/json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                dataType: "json",
+                url: appProperties().domain(env).api + "/api/tracking/confirm",
+                success: function (res) {
+                    postTracking();
+                }
+            })
+        })
 
 
         // 슬라이드 페이지 전환 직전 이벤트
@@ -113,18 +197,42 @@ block scripts
             postTracking();
         }
 
-
+        // forceTracking, clientEmail, pageNum >2 이메일 모달 등장 조건
         // 트랙킹 진행
-        postTracking= () => {
+        postTracking = () => {
             tracking(shortId, {
                 id: documentId,
                 n: page,
                 ev: "view"
-            }, true);
+            }, true, false, function (res, params) {
+                if (forceTracking) {
+                    if (res.user) {
+                        clientEmail = res.user.e;
+                        $("#email-wrapper").css("display", "none");
+                    } else {
+                        $("#email-wrapper").css("display", "block");
+                    }
+                }
+
+                setId(params);
+            });
         }
 
+
+        // cid, sid 설정
+        setId = (params) => {
+            cid = params.cid;
+            sid = params.sid;
+        }
+
+        // cid, sid GET
+        getId = () => {
+            return {"cid": cid, "sid": sid};
+        }
+
+
         //옵션 숨김
-        hideOption= () => {
+        hideOption = () => {
             $("#option-wrapper").css("display", "none");
             optionFlag = false;
         }
@@ -191,5 +299,23 @@ block scripts
                 fullscreenFlag = false;
             }
         }
+
+
+        // json => 쿼리 스트링
+        jsonToQueryString = (json) => {
+            return "?" +
+                Object.keys(json).map(function (key) {
+                    return encodeURIComponent(key) + "=" +
+                        encodeURIComponent(json[key]);
+                }).join("&");
+        }
+
+
+        // 이메일 양식 체크
+        checkEmailForm = (email) => {
+            let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+            return email.match(regExp);
+        };
 
 

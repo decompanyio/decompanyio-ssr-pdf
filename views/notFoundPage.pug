@@ -18,16 +18,18 @@ block body
 block scripts
     - console.log("404 script 태그 읽기 완료");
     script.
-        let time = 5;
 
+        let time = 5;
+        let env = '#{env}' || "dev";
 
         setInterval(function () {
             --time
-            $("#time-set").text(time);
-            if (time <= 0) {
-                location.replace("https://www.polarishare.com")
+            if (time >= 0) {
+                $("#time-set").text(time);
+                if (time === 0) {
+                    location.replace(appProperties().domain(env).mainHost)
+                }
             }
-            ;
         }, 1000);
 
 
