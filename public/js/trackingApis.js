@@ -1,4 +1,3 @@
-let apiDomain = "https://api.share.decompany.io/rest";
 let trackingUrl = "/api/tracking/collect";
 
 
@@ -54,7 +53,7 @@ function tracking(shortId, params, async, sidClear,callback) {
     }
 
     let querystring = jsonToQueryString(params);
-    let tracking = apiDomain + trackingUrl + querystring;
+    let tracking = params.apiDomain + trackingUrl + querystring;
 
     $.ajax({
       type: "GET",

@@ -6,7 +6,9 @@ let templatePath = require.resolve('../views/carousel.pug');
 let templateFn = pug.compileFile(templatePath);
 
 let apiUrl = process.env.NODE_ENV === 'prod' ? "https://api.polarishare.com/rest" : "https://api.share.decompany.io/rest";
-let imageUrl = process.env.NODE_ENV === 'prod' ? "https://api.polarishare.com/ve" : "https://thumb.share.decompany.io";
+let imageUrl = process.env.NODE_ENV === 'prod' ? "https://res.polarishare.com" : "https://thumb.share.decompany.io";
+let mainHost = process.env.NODE_ENV === 'prod' ? "https://www.polarishare.com" : "https://share.decompany.io";
+let embedUrl = process.env.NODE_ENV === 'prod' ? "https://embed.polarishare.com" : "https://embed.share.decompany.io";
 
 
 router.get('/', function (req, res, next) {
@@ -24,7 +26,7 @@ router.get('/', function (req, res, next) {
             let res = JSON.parse(xhr.responseText);
 
             console.log('Document Data 유효성 체크 시작 . . .');
-            checkRes(res.document);
+            checkRes(res.document, res.text);
         }
     };
     xhr.open('GET', apiUrl + '/api/document/info' + req.originalUrl, true);
@@ -32,16 +34,16 @@ router.get('/', function (req, res, next) {
 
 
     // GET data 체크
-    function checkRes(docList) {
+    function checkRes(docList, text) {
         if(docList) {
             console.log('Document Data GET 성공 . . .');
-            setImgUrl(docList);
+            setImgUrl(docList, text);
         }
         else{
             console.log('Document Data GET 실패 . . .');
             console.log('404 페이지 이동 . . .');
             // 렌더링
-            res.render('notFoundPage', {
+            res.status(404).render('notFoundPage', {
                 title: 'notFoundPage',
                 env: process.env.NODE_ENV
             });
@@ -51,7 +53,7 @@ router.get('/', function (req, res, next) {
 
 
     // 이미지 URL SET
-    function setImgUrl(docList) {
+    function setImgUrl(docList, text) {
         let tmpArr = [];
 
         console.log('Document 썸네일 이미지 SETTING . . .');
@@ -65,6 +67,7 @@ router.get('/', function (req, res, next) {
             title: 'carousel',
             urlList: tmpArr,
             seoTitle: docList.seoTitle,
+            text: text,
             documentId: docList.documentId,
             username: docList.author.username,
             email: docList.author.email,
@@ -73,7 +76,12 @@ router.get('/', function (req, res, next) {
             forceTracking: docList.forceTracking || false,
             shortid: shortid.generate(),
             created : new Date(docList.created),
-            env: process.env.NODE_ENV
+            env: process.env.NODE_ENV,
+            mainHost: mainHost,
+            embedUrl: embedUrl,
+            apiUrl: apiUrl,
+            ogUrl: embedUrl +"/" + docList.seoTitle
+
         };
 
         res.write(templateFn(docObj));

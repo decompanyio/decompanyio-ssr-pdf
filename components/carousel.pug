@@ -10,20 +10,20 @@ mixin carousel-caption(item)
                 a.btn.btn-lg.btn-primary(href="#{item.button.url}" role="button") #{item.button.caption}
 
 //- carousel
-mixin carousel(id, items)
+mixin carousel(id, items, text)
     .carousel.slide(id=`carousel-${id}`, data-ride="carousel", data-interval="false", data-keyboard="true" )
         .carousel-inner(role="listbox")
             each item,index in items
                 - let imgSrc = item.image;
                 if(index === 0)
                     .item.active
-                        img(src=imgSrc)
+                        img(class="carouselImg" src=imgSrc alt=text[index])
                         //span #{item.image}
                         //+carousel-caption(item)
 
                 else
                     .item
-                        img(src=imgSrc)
+                        img(class="carouselImg" src=imgSrc alt=text[index])
                         //+carousel-caption(item)
 
         //-  Controls

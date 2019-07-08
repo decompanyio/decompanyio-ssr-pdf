@@ -1,8 +1,10 @@
+let pathArray = window.location.pathname.split('/');
+
 //Auth0 초기화
 let authData = new auth0.WebAuth({
     domain: 'decompany.auth0.com',
     clientID: 'e7kW3VpEKzprBPyHy13VL221pB1q971j',
-    redirectUri: 'https://share.decompany.io/callback',
+    redirectUri: 'https://2xbm04bxne.execute-api.us-west-1.amazonaws.com/callback',
     responseType: "token id_token",
     scope: "openid profile email"
 });

@@ -1,7 +1,8 @@
 'use strict';
 
 // NODE_ENV 설정
-process.env.NODE_ENV = ( process.env.NODE_ENV && ( process.env.NODE_ENV ).trim().toLowerCase() === 'production' ) ? 'prod' : 'dev';
+//process.env.NODE_ENV = ( process.env.NODE_ENV && ( process.env.NODE_ENV ).trim().toLowerCase() === 'production' ) ? 'prod' : 'dev';
+process.env.NODE_ENV = "prod";
 console.log("process.env.NODE_ENV : [" + ( process.env.NODE_ENV ).trim().toUpperCase() + "]");
 
 const path = require('path');
@@ -15,6 +16,7 @@ const router = express.Router();
 
 let carouselRouter = require('./routes/carousel');
 let notFoundPageRouter = require('./routes/notFoundPage');
+//let callbackRouter = require('./routes/callback');
 
 
 
@@ -32,18 +34,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-if (process.env.NODE_ENV === 'dev')  router.use('/sam', compression());
+if (process.env.NODE_ENV === 'local')  router.use('/sam', compression());
 else router.use(compression());
 
 
 
 app.use('/', notFoundPageRouter);
 app.use('/404', notFoundPageRouter);
+//app.use('/callback', callbackRouter);
 app.use('/:documentId', carouselRouter);
 app.use(function(err, req, res, next) {     // error handler
     // set locals, only providing error in development
     res.locals.message = err.message;
-    res.locals.error = process.env.NODE_ENV === 'dev' ? err : {};
+    res.locals.error = process.env.NODE_ENV === 'local' ? err : {};
 
     // render the error page
     res.status(err.status || 500);

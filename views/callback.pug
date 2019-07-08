@@ -1,0 +1,28 @@
+extends layout
+
+append styles
+    link(href="css/callback.css", rel="stylesheet")
+
+block body
+    - console.log("callback 태그 읽기 완료");
+    #callback-wrapper
+
+block scripts
+    - console.log("callback script 태그 읽기 완료");
+    script.
+
+        let time = 5;
+        let env = '#{env}' || "dev";
+
+        setInterval(function () {
+            --time
+            if (time >= 0) {
+                $("#time-set").text(time);
+                if (time === 0) {
+                    location.replace(appProperties().domain(env).mainHost)
+                }
+            }
+        }, 1000);
+
+
+

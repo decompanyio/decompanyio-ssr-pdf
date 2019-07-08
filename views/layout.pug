@@ -2,52 +2,74 @@ include ../components/carousel
 include ../components/icons
 
 doctype html
-html(lang="en")
+html(lang="en", prefix="og: http://ogp.me/ns#")
     head
         meta(charset="UTF-8")
+        meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' name='viewport')
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
+
+
         meta(name="title" content=docTitle || "")
-        meta(name="description", content=desc || "")
-        meta(name="author", content=username || email)
+        meta(name="description" content=desc || "")
+        meta(name="author" content=username || email)
+
+
+        meta(name="twitter:card" content="summary_large_image")
+        meta(name="twitter:site" content="@Polarishare")
+        meta(name="twitter:title" content=docTitle || "")
+        meta(name="twitter:description" content=desc || "")
+        meta(name="twitter:image" content=(urlList ? urlList[0].image : ""))
+        meta(name="twitter:url" content=ogUrl)
+
+
+        meta(property="og:url" content=ogUrl)
         meta(property="og:site_name" content="Polaris Share")
-        meta(property="og:type" content="website")
+        meta(property="og:type" content="video")
         meta(property="og:title" content=docTitle || "")
         meta(property="og:description" content=desc || "")
-        meta(property="og:url" content='https://www.polarishare.com' + username + "/" + seoTitle)
         meta(property="og:image" content=(urlList ? urlList[0].image : ""))
         meta(property="og:image:width" content="720")
         meta(property="og:image:height" content="498")
         meta(property="og:regDate" content=created)
-        meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' name='viewport')
+
+
+        meta(content="2237550809844881" property="fb:app_id" name="fb_app_id")
+
+
         meta(name="msapplication-TileColor" content="#ffffff")
-        meta(name="msapplication-TileImage" content="/ms-icon-144x144.png")
+        meta(name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png")
         meta(name="theme-color" content="#ffffff")
-        link(rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png")
-        link(rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png")
-        link(rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png")
-        link(rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png")
-        link(rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png")
-        link(rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png")
-        link(rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png")
-        link(rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png")
-        link(rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png")
-        link(rel="icon" type="image/png" sizes="192x192"  href="favicon/android-icon-192x192.png")
-        link(rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png")
-        link(rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png")
-        link(rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png")
-        link(rel="manifest" href="favicon/manifest.json")
-        script(src='js/jquery.min.js')
-        script(src="js/bootstrap.min.js")
-        script(src="js/analytics.js")
-        script(src="js/trackingApis.js")
-        script(src="properties/app.properties.js")
-        title Polaris Share
+        link(rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png")
+        link(rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png")
+        link(rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png")
+        link(rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png")
+        link(rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png")
+        link(rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png")
+        link(rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png")
+        link(rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png")
+        link(rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png")
+        link(rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png")
+        link(rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png")
+        link(rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png")
+        link(rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png")
+        link(rel="manifest" href="/favicon/manifest.json")
+
+
+        script(src='/js/jquery.min.js')
+        script(src="/js/bootstrap.min.js")
+        script(src="/js/analytics.js")
+        script(src="/js/trackingApis.js")
+        title #{docTitle} - #{username} - Polaris Share
         block styles
             link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
+            link(href="/css/carousel.css", rel="stylesheet")
+            link(href="/css/notFoundPage.css", rel="stylesheet")
+            link(href="/css/email.css", rel="stylesheet")
 
-    body(data-spy="scroll", data-target=".scrollspy")
-        block body
 
-        block scripts
+        body(data-spy="scroll", data-target=".scrollspy")
+            block body
+
+            block scripts
 
 
