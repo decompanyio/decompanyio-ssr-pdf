@@ -5,10 +5,10 @@ let router = express.Router();
 let templatePath = require.resolve('../views/carousel.pug');
 let templateFn = pug.compileFile(templatePath);
 
-let apiUrl = process.env.NODE_ENV === 'prod' ? "https://api.polarishare.com/rest" : "https://api.share.decompany.io/rest";
-let imageUrl = process.env.NODE_ENV === 'prod' ? "https://res.polarishare.com" : "https://thumb.share.decompany.io";
-let mainHost = process.env.NODE_ENV === 'prod' ? "https://www.polarishare.com" : "https://share.decompany.io";
-let embedUrl = process.env.NODE_ENV === 'prod' ? "https://embed.polarishare.com" : "https://embed.share.decompany.io";
+let apiUrl = process.env.NODE_ENV_SUB === 'prod' ? "https://api.polarishare.com/rest" : "https://api.share.decompany.io/rest";
+let imageUrl = process.env.NODE_ENV_SUB === 'prod' ? "https://res.polarishare.com" : "https://thumb.share.decompany.io";
+let mainHost = process.env.NODE_ENV_SUB === 'prod' ? "https://www.polarishare.com" : "https://share.decompany.io";
+let embedUrl = process.env.NODE_ENV_SUB === 'prod' ? "https://embed.polarishare.com" : "https://embed.share.decompany.io";
 
 
 router.get('/', function (req, res, next) {
@@ -45,7 +45,7 @@ router.get('/', function (req, res, next) {
             // 렌더링
             res.status(404).render('notFoundPage', {
                 title: 'notFoundPage',
-                env: process.env.NODE_ENV
+                env: process.env.NODE_ENV_SUB
             });
         }
     }
@@ -73,10 +73,11 @@ router.get('/', function (req, res, next) {
             email: docList.author.email,
             docTitle: docList.title,
             desc: docList.desc || "",
-            forceTracking: docList.forceTracking || false,
+            forceTracking: docList.forceTracking,
+            useTracking: docList.useTracking,
             shortid: shortid.generate(),
             created : new Date(docList.created),
-            env: process.env.NODE_ENV,
+            env: process.env.NODE_ENV_SUB,
             mainHost: mainHost,
             embedUrl: embedUrl,
             apiUrl: apiUrl,

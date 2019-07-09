@@ -6,7 +6,7 @@ router.get('/', function (req, res, next) {
     console.log('callback 페이지 렌더링 시작 . . .');
     res.render('callback', {
         title: 'callback',
-        env: process.env.NODE_ENV
+        env: process.env.NODE_ENV_SUB
     });
 
 });

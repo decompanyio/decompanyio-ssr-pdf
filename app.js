@@ -1,9 +1,9 @@
 'use strict';
 
 // NODE_ENV 설정
-//process.env.NODE_ENV = ( process.env.NODE_ENV && ( process.env.NODE_ENV ).trim().toLowerCase() === 'production' ) ? 'prod' : 'dev';
-process.env.NODE_ENV = "prod";
+
 console.log("process.env.NODE_ENV : [" + ( process.env.NODE_ENV ).trim().toUpperCase() + "]");
+console.log("process.env.NODE_ENV_SUB : [" + ( process.env.NODE_ENV_SUB ).trim().toUpperCase() + "]");
 
 const path = require('path');
 const logger = require('morgan');

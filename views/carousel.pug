@@ -13,6 +13,7 @@ block body
 
 
     #email-wrapper
+        +icon("remove")
         .dialog-title Want to read more?
 
         .dialogSubject Please check sign-up link in your inbox. The author of this content can view the information you have entered.
@@ -29,6 +30,7 @@ block body
                     a(class="checkbox-policy-link" target="_blank" href=mainHost + "/legal/policy.html" rel="noopener noreferrer" title="Read decompany’s privacy policy.") Decompany’s privacy policy.
 
         .ok-btn Sign up
+        .cancel-btn Cancel
 
 
 
@@ -43,7 +45,8 @@ block scripts
         let seoTitle = '#{seoTitle}' || "";
         let username = '#{username}' || "";
         let docTitle = '#{docTitle}' || "";
-        let forceTracking = '#{forceTracking}';
+        let forceTracking = '#{forceTracking}' === "true";
+        let useTracking = '#{useTracking}' === "true";
         let cid = null;
         let sid = null;
         let clientEmail = null;
@@ -51,6 +54,7 @@ block scripts
         let optionFlag = false;
         let autoOption = false;
         let page = 1;
+        let useTrackingModalFlag = false;
 
         const carouselInner = $(".carousel-inner");
         const carouselViewer = $('#carousel-viewer');
@@ -167,6 +171,14 @@ block scripts
             })
         })
 
+        $(".cancel-btn").click(function () {
+            if (!forceTracking) {
+                $(".carouselImg").css("filter", "none");
+                useTrackingModalFlag = true;
+            }
+            $("#email-wrapper").css("display", "none");
+        })
+
 
         // 슬라이드 페이지 전환 직전 이벤트
         carouselViewer.on('slide.bs.carousel', (e) => {
@@ -210,6 +222,14 @@ block scripts
                             $("#email-wrapper").css("display", "block");
                             $(".carouselImg").css("filter", "blur(5px)");
                         }
+                    }else if(!forceTracking && useTracking && !useTrackingModalFlag) {
+                        if (res.user) {
+                            clientEmail = res.user.e;
+                            $("#email-wrapper").css("display", "none");
+                        } else {
+                            $("#email-wrapper").css("display", "block");
+                        }
+                        $(".carouselImg").css("filter", "none");
                     }
                 }
 
