@@ -136,6 +136,14 @@ body {
     }
 }
 
+@media (max-width: 575px) {
+    .glyphicon-home,
+    .glyphicon-fullscreen,
+    .glyphicon-option-vertical{
+        font-size: 18px !important;
+    }
+}
+
 .carousel-control.right,
 .carousel-control.left {
     background: none !important;

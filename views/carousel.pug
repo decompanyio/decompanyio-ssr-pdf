@@ -40,25 +40,25 @@ block body
 block scripts
     - console.log("카로셀 script SETTING . . .");
     script.
-        let shortId = '#{shortid}' || "";
-        let documentId = '#{documentId}' || "";
-        let seoTitle = '#{seoTitle}' || "";
-        let username = '#{username}' || "";
-        let docTitle = '#{docTitle}' || "";
-        let forceTracking = '#{forceTracking}' === "true";
-        let useTracking = '#{useTracking}' === "true";
-        let cid = null;
-        let sid = null;
-        let clientEmail = null;
-        let fullscreenFlag = false;
-        let optionFlag = false;
-        let autoOption = false;
-        let page = 1;
-        let useTrackingModalFlag = false;
+        let shortId = '#{shortid}' || "",
+            documentId = '#{documentId}' || "",
+            seoTitle = '#{seoTitle}' || "",
+            username = '#{username}' || "",
+            docTitle = '#{docTitle}' || "",
+            forceTracking = '#{forceTracking}' === "true",
+            useTracking = '#{useTracking}' === "true",
+            cid = null,
+            sid = null,
+            clientEmail = null,
+            fullscreenFlag = false,
+            optionFlag = false,
+            autoOption = false,
+            page = 1,
+            useTrackingModalFlag = false;
 
-        const carouselInner = $(".carousel-inner");
-        const carouselViewer = $('#carousel-viewer');
-        const carouselWrapper = $('#carousel-wrapper');
+        const carouselInner = $(".carousel-inner"),
+            carouselViewer = $('#carousel-viewer'),
+            carouselWrapper = $('#carousel-wrapper');
 
 
         $(document).ready(() => {
@@ -100,9 +100,11 @@ block scripts
             }
         });
 
+
         // 홈 버튼
         $(".glyphicon-home").click(() => {
-            location.href = '#{mainHost}' + "/" + username + "/" + seoTitle;
+            let url = '#{mainHost}' + "/" + username + "/" + seoTitle;
+            window.open(url, '_blank');
         });
 
 
@@ -126,9 +128,9 @@ block scripts
 
         // 이메일 모달 값 입력 체크
         $("#email-input").keyup(function () {
-            let value = $("#email-input").val();
-            let checkEmail = checkEmailForm(value);
-            let errMsg = checkEmail ? "" : "Email address does not fit the form .";
+            let value = $("#email-input").val(),
+                checkEmail = checkEmailForm(value),
+                errMsg = checkEmail ? "" : "Email address does not fit the form .";
             $(".emailError").text(errMsg);
         })
 
@@ -171,6 +173,8 @@ block scripts
             })
         })
 
+
+        // 취소 버튼 클릭
         $(".cancel-btn").click(function () {
             if (!forceTracking) {
                 $(".carouselImg").css("filter", "none");
@@ -194,11 +198,12 @@ block scripts
 
         // url에서 페이지 GET
         getPageFromUrl = () => {
-            const activeEl = $(".active")[0].firstChild
-            const splitArr = activeEl.src.split("/");
+            const activeEl = $(".active")[0].firstChild,
+                splitArr = activeEl.src.split("/");
             page = splitArr[splitArr.length - 1];
             postTracking();
         }
+
 
         // forceTracking, clientEmail, pageNum >2 이메일 모달 등장 조건
         // 트랙킹 진행
@@ -222,7 +227,7 @@ block scripts
                             $("#email-wrapper").css("display", "block");
                             $(".carouselImg").css("filter", "blur(5px)");
                         }
-                    }else if(!forceTracking && useTracking && !useTrackingModalFlag) {
+                    } else if (!forceTracking && useTracking && !useTrackingModalFlag) {
                         if (res.user) {
                             clientEmail = res.user.e;
                             $("#email-wrapper").css("display", "none");
@@ -274,12 +279,12 @@ block scripts
 
         // 해상도 별 이미지 CSS 설정
         setResolve = (e) => {
-            let icw = window.innerWidth;
-            let ich = window.innerHeight;
-            let inw = e.naturalWidth;
-            let inh = e.naturalHeight;
-            let ratioXForMargin = icw / inw;
-            let ratioYForMargin = ich / inh;
+            let icw = window.innerWidth,
+                ich = window.innerHeight,
+                inw = e.naturalWidth,
+                inh = e.naturalHeight,
+                ratioXForMargin = icw / inw,
+                ratioYForMargin = ich / inh;
 
             if ((ich / icw) >= (inh / inw)) {
                 let marginValue = Math.floor(Math.abs(ich - (inh * ratioXForMargin)) / 2);
