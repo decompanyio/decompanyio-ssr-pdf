@@ -12,7 +12,9 @@ let embedUrl = process.env.NODE_ENV_SUB === 'prod' ? "https://embed.polarishare.
 
 
 router.get('/', function (req, res, next) {
+    // 헤더 설정
     res.header("Content-Type", "text/html");
+    res.header("X-Robots-Tag", "noindex");
     console.log("original url : [" + req.originalUrl + "]");
 
 

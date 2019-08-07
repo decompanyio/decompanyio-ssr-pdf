@@ -1,7 +1,7 @@
 {
   "name": "decompanyio-embed",
   "version": "1.0.0",
-  "description": "Example application for running a Node Express app on AWS Lambda using Amazon API Gateway.",
+  "description": "polaris share embed project for embed",
   "main": "lambda.js",
   "config": {
     "s3BucketName": "YOUR_UNIQUE_BUCKET_NAME",
