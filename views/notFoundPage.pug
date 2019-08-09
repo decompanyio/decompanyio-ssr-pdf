@@ -25,7 +25,7 @@ block scripts
         setInterval(function () {
             --time
             if (time >= 0) {
-                $("#time-set").text(time);
+                document.getElementById("time-set").innerText(time);
                 if (time === 0) {
                     location.replace(appProperties().domain(env).mainHost)
                 }

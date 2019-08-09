@@ -1,7 +1,7 @@
 {
-  "name": "decompanyio-embed",
+  "name": "decompanyio-ssr-pdf",
   "version": "1.0.0",
-  "description": "polaris share embed project for embed",
+  "description": "polaris share embed project for pdf js",
   "main": "lambda.js",
   "config": {
     "s3BucketName": "YOUR_UNIQUE_BUCKET_NAME",
