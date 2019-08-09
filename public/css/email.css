@@ -1,0 +1,276 @@
+/*2019-06-27
+dean CSS*/
+
+#email-wrapper {
+    position: absolute;
+    top: calc(50% - 140px);
+    left: calc(50% - 300px);
+    background: white;
+    width: 100%;
+    z-index: 3;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 4px;
+    display: none;
+    box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+
+.dialog-title {
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: -0.3px;
+    color: white;
+    background-image: linear-gradient(90deg,#5494ff,#307eff);
+    margin: -20px -20px 20px -20px;
+    padding: 10px 20px;
+}
+
+.dialogSubject {
+    margin-bottom: 12px;
+    top: 0.35rem;
+    left: 0;
+    font-size: 14px;
+    font-weight: 500;
+    pointer-events: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.emailError {
+    color: red;
+    font-size: 11px;
+}
+
+
+/*input CSS*/
+#classic-modal-slide-policy {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+
+.custom-input {
+    background: no-repeat center bottom, center calc(100% - 1px);
+    background-size: 0 100%, 100% 100%;
+    border: 0;
+    height: 36px;
+    transition: background 0s ease-out;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 0;
+    font-size: 14px;
+    width: 100%;
+    outline: none;
+}
+
+.custom-input {
+    background-image: linear-gradient(to top, #3681fe 2px, rgba(156, 39, 176, 0) 2px),
+    linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px);
+}
+
+.custom-input:focus {
+    background-image: linear-gradient(to top, #3681fe 2px, rgba(156, 39, 176, 0) 2px),
+    linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px);
+    background-size: 100% 100%, 100% 100%;
+    transition-duration: 0.3s;
+    box-shadow: none
+}
+
+.custom-input::placeholder {
+    font-size: 14px;
+    color: #a5a5a5;
+}
+
+
+/*승인 버튼*/
+.ok-btn {
+    width: 95px;
+    float: right;
+    background: white;
+    color: #3681fe;
+    cursor: pointer;
+    border-radius: 2px;
+    border: 1px solid #3681fe;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s all ease-in-out;
+    font-size: 15px;
+    font-weight: 400;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.ok-btn:hover {
+    background: #3681fe;
+    color: white;
+}
+
+
+/*취소 버튼*/
+.cancel-btn {
+    width: 95px;
+    float: right;
+    color: #666;
+    cursor: pointer;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s all ease-in-out;
+    font-size: 15px;
+    font-weight: 400;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.cancel-btn:hover {
+    color: red;
+}
+
+
+/*체크박스 CSS*/
+.checkbox-explain {
+    display: inline-block;
+}
+
+.checkbox-policy-link {
+    display: contents;
+    font-weight: bold;
+    color: #3681fe !important;
+    cursor: pointer;
+}
+
+.checkbox-policy-link:hover {
+    text-decoration: underline !important;
+}
+
+
+/*체크박스 CSS
+이용법 :
+<input type="checkbox" v-model="checkbox" id="termsCheckbox"> //실제 체크박스
+<label for="termsCheckbox"><span><i class="material-icons">done</i></span>{{$str('termsLabel')}}</label> //스타일 체크박스
+   */
+input[type="checkbox"] {
+    display: none;
+}
+
+input[type="checkbox"] + label {
+    color: #666666;
+    font-size: 13px;
+    align-items: center;
+    display: flex;
+}
+
+input[type="checkbox"]:disabled + label {
+    color: #d0d0d0;
+    font-size: 13px;
+    align-items: center;
+    display: flex;
+}
+
+input[type="checkbox"] + label span {
+    display: inline-block;
+    position: relative;
+    min-width: 20px;
+    min-height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+    background: white;
+    border: 1px solid #8d8d8d;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+input[type="checkbox"]:checked + label span {
+    border: 1px solid #3681fe;
+    font-size: 13px;
+    color: #3681fe;
+    font-weight: bold;
+}
+
+input[type="checkbox"]:disabled + label span {
+    border: 1px solid #d0d0d0;
+    font-size: 13px;
+    color: #d0d0d0;
+    font-weight: bold;
+}
+
+input[type="checkbox"]:hover:not(:disabled) + label span {
+    border: 1px solid #3681fe;
+}
+
+input[type="checkbox"] + label span i {
+    display: none;
+}
+
+input[type="checkbox"]:checked + label span i {
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    padding-top: 1px;
+    padding-right: 2px;
+    font-size: 12px;
+    color: #3681fe;
+    font-weight: bold;
+    display: inline-block;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.glyphicon-remove {
+    font-size: 21px;
+    float: right;
+    font-weight: 100;
+    color: #636363;
+    cursor: pointer;
+}
+
+.glyphicon-remove:hover {
+    color: #3681fe;
+}
+
+@media (max-width: 575px) {
+    #email-wrapper {
+        top: 0;
+        left: 0;
+        max-width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+
+    .ok-btn {
+        width: calc(100% - 40px);
+        position: absolute;
+        bottom: 70px;
+    }
+
+    .cancel-btn {
+        width: calc(100% - 40px);
+        position: absolute;
+        bottom: 20px;
+        color: red !important;
+    }
+
+    .dialog-title {
+        margin-bottom: 30px;
+        font-size: 20px!important;
+    }
+
+    .dialogSubject {
+        margin-bottom: 20px;
+    }
+
+    .glyphicon-remove {
+        display: none;
+    }
+}

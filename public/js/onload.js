@@ -10,7 +10,6 @@ const pdfDataSet = () => {
     for (let i = 0; i < pdfData.length; i++) {
         uint8ArrayPdf[i] = pdfData.charCodeAt(i)
     }
-
     PDFViewerApplication.open(uint8ArrayPdf);
 };
 

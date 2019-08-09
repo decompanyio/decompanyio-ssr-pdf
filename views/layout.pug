@@ -52,6 +52,9 @@ html(lang="en", prefix="og: http://ogp.me/ns#")
         link(rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png")
         link(rel="manifest" href="/favicon/manifest.json")
 
+        script(src='/js/jquery.min.js')
+        script(src="/js/analytics.js")
+
         title #{docTitle} - #{username} - Polaris Share
         block styles
         block scripts
@@ -60,7 +63,7 @@ html(lang="en", prefix="og: http://ogp.me/ns#")
         body(tabindex="1" class="loadingInProgress")
             block body
             block script
-            script(src='/js/onload.js' data-pdfEncoded=pdfEncoded)
             script(src="/js/trackingApis.js")
+            script(src='/js/onload.js' data-pdfEncoded=pdfEncoded)
 
 

@@ -3,6 +3,7 @@ extends layout
 
 append styles
     link(rel = "stylesheet" href = "/css/viewer.css" )
+    link(rel = "stylesheet" href = "/css/email.css" )
 
 
 append scripts
@@ -306,12 +307,180 @@ block body
                 span(class="relative-progress") 0%
             .progress-actions
                 input(type="button" value="Cancel" class="mozPrintCallback-cancel")
+    #email-wrapper
+        .dialog-title Want to read more?
+
+        .dialogSubject Please check sign-up link in your inbox. The author of this content can view the information you have entered.
+        input(class="custom-input" type="text" placeholder="Email" autoComplete="off" id="email-input" )
+        .emailError
+
+
+        #classic-modal-slide-policy
+            input(type="checkbox" id="termsCheckbox")
+            label(for="termsCheckbox")
+                span
+                    +iconOk("ok")
+                .checkbox-explain I agree to submit this information, which will be collected and used according to &nbsp
+                    a(class="checkbox-policy-link" target="_blank" href=mainHost + "/legal/policy.html" rel="noopener noreferrer" title="Read decompany’s privacy policy.") Decompany’s privacy policy.
+
+        .ok-btn Sign up
+        .cancel-btn Cancel
 
 
 
 
 block script
     - console.log("뷰어 script SETTING . . .");
+    script.
+        let shortId = '#{shortid}' || "",
+            documentId = '#{documentId}' || "",
+            seoTitle = '#{seoTitle}' || "",
+            username = '#{username}' || "",
+            docTitle = '#{docTitle}' || "",
+            forceTracking = '#{forceTracking}' === "true",
+            useTracking = '#{useTracking}' === "true",
+            cid = null,
+            sid = null,
+            clientEmail = null,
+            page = 1,
+            useTrackingModalFlag = false;
+
+
+        $(document).ready(() => {
+            // 첫 페이지 트랙킹
+            postTracking();
+        })
+
+        // 이메일 모달 값 입력 체크
+        $("#email-input").keyup(function () {
+            let value = $("#email-input").val(),
+                checkEmail = checkEmailForm(value),
+                errMsg = checkEmail ? "" : "Email address does not fit the form .";
+            $(".emailError").text(errMsg);
+        })
+
+
+        // 이메일 모달 체크박스 클릭
+        $("#termsCheckbox").change(function () {
+            const termsCheckbox = document.getElementById("termsCheckbox").nextElementSibling.firstChild;
+            if ($("#termsCheckbox").is(":checked")) {
+                termsCheckbox.style.border = "1px solid #3681fe";
+            } else {
+                termsCheckbox.style.border = "1px solid #f92121";
+            }
+        })
+
+
+        // 이메일 sign up 버튼 클릭
+        $(".ok-btn").click(function () {
+            let emailError = $(".emailError").text();
+            if (emailError !== "" && !$("#termsCheckbox").is(":checked")) {
+                return;
+            }
+
+            let data = {
+                "cid": getId().cid,
+                "sid": getId().sid,
+                "email": $("#email-input").val(),
+                "documentId": seoTitle
+            }
+
+            $.ajax({
+                type: "POST",
+                accept: "application/json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                dataType: "json",
+                url: '#{apiUrl}' + "/api/tracking/confirm",
+                success: function (res) {
+                    postTracking();
+                }
+            })
+        })
+
+
+        // 취소 버튼 클릭
+        $(".cancel-btn").click(function () {
+            if (!forceTracking) {
+                $(".carouselImg").css("filter", "none");
+                useTrackingModalFlag = true;
+            }
+            $("#email-wrapper").css("display", "none");
+        })
+
+
+        // 페이지 체크 후 postTracking
+        // 문서 페이지 변화 체크 이벤트
+        document.addEventListener('pagechange', e => {
+            if (e.pageNumber !== e.previousPageNumber) {
+                page = e.pageNumber;
+                postTracking();
+            }
+        });
+
+
+
+        // forceTracking, clientEmail, pageNum >2 이메일 모달 등장 조건
+        // 트랙킹 진행
+        const postTracking = () => {
+            console.log(forceTracking);
+            console.log(useTracking);
+            console.log(useTrackingModalFlag);
+            tracking(shortId, {
+                id: documentId,
+                n: page,
+                ev: "view",
+                apiDomain: '#{apiUrl}'
+            }, true, false, function (res, params) {
+                if (Number(page) === 1) {
+                    $("#email-wrapper").css("display", "none");
+                    $(".page").css("filter", "none");
+                } else {
+                    if (forceTracking) {
+                        if (res.user) {
+                            clientEmail = res.user.e;
+                            $("#email-wrapper").css("display", "none");
+                            $(".page").css("filter", "none");
+                        } else {
+                            $("#email-wrapper").css("display", "block");
+                            $(".page").css("filter", "blur(5px)");
+                        }
+                    } else if (!forceTracking && useTracking && !useTrackingModalFlag) {
+                        console.log("어라..");
+                        if (res.user) {
+                            clientEmail = res.user.e;
+                            $("#email-wrapper").css("display", "none");
+                        } else {
+                            $("#email-wrapper").css("display", "block");
+                        }
+                        $(".page").css("filter", "none");
+                    }
+                }
+
+                setId(params);
+            });
+        }
+
+
+        // cid, sid 설정
+        const setId = (params) => {
+            cid = params.cid;
+            sid = params.sid;
+        }
+
+        // cid, sid GET
+        const getId = () => {
+            return {"cid": cid, "sid": sid};
+        }
+
+
+        // 이메일 양식 체크
+        const checkEmailForm = (email) => {
+            let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+            return email.match(regExp);
+        };
+
 
 
 
