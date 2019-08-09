@@ -423,9 +423,6 @@ block script
         // forceTracking, clientEmail, pageNum >2 이메일 모달 등장 조건
         // 트랙킹 진행
         const postTracking = () => {
-            console.log(forceTracking);
-            console.log(useTracking);
-            console.log(useTrackingModalFlag);
             tracking(shortId, {
                 id: documentId,
                 n: page,
@@ -446,7 +443,6 @@ block script
                             $(".page").css("filter", "blur(5px)");
                         }
                     } else if (!forceTracking && useTracking && !useTrackingModalFlag) {
-                        console.log("어라..");
                         if (res.user) {
                             clientEmail = res.user.e;
                             $("#email-wrapper").css("display", "none");
