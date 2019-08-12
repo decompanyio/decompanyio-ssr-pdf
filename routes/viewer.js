@@ -1,5 +1,6 @@
 let express = require('express');
 let shortid = require('shortid');
+let fs = require('fs');
 let pug = require('pug');
 let router = express.Router();
 let templatePath = require.resolve('../views/viewer.pug');
@@ -9,9 +10,12 @@ let apiUrl = process.env.NODE_ENV_SUB === 'prod' ? "https://api.polarishare.com/
 let viewerUrl = process.env.NODE_ENV_SUB === 'prod' ? "https://viewer.polarishare.com/rest" : "https://viewer.share.decompany.io/rest";
 let mainHost = process.env.NODE_ENV_SUB === 'prod' ? "https://www.polarishare.com" : "https://share.decompany.io";
 let getMetaUrl = "/api/document/meta?seoTitle=";
+let getPdfUrl = "/api/document/pdf?documentId=";
 
 
 router.get('/', (req, res, next) => {
+
+    let docData = {};
 
 
     // 초기화
@@ -27,16 +31,15 @@ router.get('/', (req, res, next) => {
 
 
     // Document 정보 GET
-    const getData = () => {
+    const getData = (url) => {
         return new Promise((resolve, reject) => {
             let XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
             let xhr = new XMLHttpRequest();
-            let seoTitle = req.originalUrl.split("/")[1];
 
-            xhr.open('GET', apiUrl + getMetaUrl + seoTitle, true);
+            xhr.open('GET', apiUrl + url, true);
 
             console.log('\nXMLHttpRequest 시작 . . .');
-            console.log("요청 URL : " + apiUrl + getMetaUrl + seoTitle);
+            console.log("요청 URL : " + apiUrl + url);
 
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4 && xhr.status === 200) resolve(JSON.parse(xhr.responseText));
@@ -45,6 +48,61 @@ router.get('/', (req, res, next) => {
             xhr.send(null);
         });
     };
+
+
+    // pdf 정보 GET
+    const getDocInfo = async () => await getData(getMetaUrl + req.originalUrl.split("/")[1]).then(res => docData = res);
+
+
+    // pdf url 정보 GET
+    const getPdfInfo = async () => await getData(getPdfUrl + docData.document.documentId);
+
+
+    // pdf 파일 read
+    const readPdfFile = (data) => {
+        return new Promise((resolve, reject) => {
+            let _data = setData(docData);
+            _data.pdfUrl = data.pdf;
+            docData = _data;
+            resolve();
+
+            // 2019-08-12, 서버에서 파일 읽을 시 ... 현재 미사용
+            /*
+                   console.log('\nPDF 파일 설치 시작 . . .');
+            let filename = "tmp_files/" + docData.document.documentId;
+            const file = fs.createWriteStream(filename);
+
+            const request = https.get(data.pdf, response => {
+                console.log('PDF 파일 unGzip 시작  . . .\n');
+                response.pipe(zlib.createGunzip()).pipe(file);
+
+                file.on('finish', () =>
+                    file.close(() =>
+                        fs.readFile(filename, 'utf8', (err, res) => {
+                            let _data = setData(docData);
+                            _data.pdfUrl = res;
+                            docData = _data;
+
+                            // 파일 삭제
+                            deletePdfFile(filename);
+                            resolve();
+                        })
+                    )
+                );
+            });*/
+        });
+    };
+    /*
+
+        // pdf 파일 삭제
+        const deletePdfFile = (name) => {
+            try {
+                fs.unlinkSync(name)
+                //file removed
+            } catch(err) {
+                console.error(err)
+            }
+        };*/
 
 
     // GET data 체크
@@ -58,7 +116,7 @@ router.get('/', (req, res, next) => {
 
 
     // 이미지 URL SET
-    const setData = (data) => {
+    const setData = data => {
 
         const document = data.document;
         const text = data.text;
@@ -81,7 +139,7 @@ router.get('/', (req, res, next) => {
             viewerPageUrl: mainHost + "/" + document.author.username + "/" + document.seoTitle,
             apiUrl: apiUrl,
             ogUrl: viewerUrl + "/" + document.seoTitle,
-            pdfEncoded : "JVBERi0xLjMNCiXi48/TDQoNCjEgMCBvYmoNCjw8DQovVHlwZSAvQ2F0YWxvZw0KL091dGxpbmVzIDIgMCBSDQovUGFnZXMgMyAwIFINCj4+DQplbmRvYmoNCg0KMiAwIG9iag0KPDwNCi9UeXBlIC9PdXRsaW5lcw0KL0NvdW50IDANCj4+DQplbmRvYmoNCg0KMyAwIG9iag0KPDwNCi9UeXBlIC9QYWdlcw0KL0NvdW50IDINCi9LaWRzIFsgNCAwIFIgNiAwIFIgXSANCj4+DQplbmRvYmoNCg0KNCAwIG9iag0KPDwNCi9UeXBlIC9QYWdlDQovUGFyZW50IDMgMCBSDQovUmVzb3VyY2VzIDw8DQovRm9udCA8PA0KL0YxIDkgMCBSIA0KPj4NCi9Qcm9jU2V0IDggMCBSDQo+Pg0KL01lZGlhQm94IFswIDAgNjEyLjAwMDAgNzkyLjAwMDBdDQovQ29udGVudHMgNSAwIFINCj4+DQplbmRvYmoNCg0KNSAwIG9iag0KPDwgL0xlbmd0aCAxMDc0ID4+DQpzdHJlYW0NCjIgSg0KQlQNCjAgMCAwIHJnDQovRjEgMDAyNyBUZg0KNTcuMzc1MCA3MjIuMjgwMCBUZA0KKCBBIFNpbXBsZSBQREYgRmlsZSApIFRqDQpFVA0KQlQNCi9GMSAwMDEwIFRmDQo2OS4yNTAwIDY4OC42MDgwIFRkDQooIFRoaXMgaXMgYSBzbWFsbCBkZW1vbnN0cmF0aW9uIC5wZGYgZmlsZSAtICkgVGoNCkVUDQpCVA0KL0YxIDAwMTAgVGYNCjY5LjI1MDAgNjY0LjcwNDAgVGQNCigganVzdCBmb3IgdXNlIGluIHRoZSBWaXJ0dWFsIE1lY2hhbmljcyB0dXRvcmlhbHMuIE1vcmUgdGV4dC4gQW5kIG1vcmUgKSBUag0KRVQNCkJUDQovRjEgMDAxMCBUZg0KNjkuMjUwMCA2NTIuNzUyMCBUZA0KKCB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiApIFRqDQpFVA0KQlQNCi9GMSAwMDEwIFRmDQo2OS4yNTAwIDYyOC44NDgwIFRkDQooIEFuZCBtb3JlIHRleHQuIEFuZCBtb3JlIHRleHQuIEFuZCBtb3JlIHRleHQuIEFuZCBtb3JlIHRleHQuIEFuZCBtb3JlICkgVGoNCkVUDQpCVA0KL0YxIDAwMTAgVGYNCjY5LjI1MDAgNjE2Ljg5NjAgVGQNCiggdGV4dC4gQW5kIG1vcmUgdGV4dC4gQm9yaW5nLCB6enp6ei4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gQW5kICkgVGoNCkVUDQpCVA0KL0YxIDAwMTAgVGYNCjY5LjI1MDAgNjA0Ljk0NDAgVGQNCiggbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiApIFRqDQpFVA0KQlQNCi9GMSAwMDEwIFRmDQo2OS4yNTAwIDU5Mi45OTIwIFRkDQooIEFuZCBtb3JlIHRleHQuIEFuZCBtb3JlIHRleHQuICkgVGoNCkVUDQpCVA0KL0YxIDAwMTAgVGYNCjY5LjI1MDAgNTY5LjA4ODAgVGQNCiggQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgKSBUag0KRVQNCkJUDQovRjEgMDAxMCBUZg0KNjkuMjUwMCA1NTcuMTM2MCBUZA0KKCB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBFdmVuIG1vcmUuIENvbnRpbnVlZCBvbiBwYWdlIDIgLi4uKSBUag0KRVQNCmVuZHN0cmVhbQ0KZW5kb2JqDQoNCjYgMCBvYmoNCjw8DQovVHlwZSAvUGFnZQ0KL1BhcmVudCAzIDAgUg0KL1Jlc291cmNlcyA8PA0KL0ZvbnQgPDwNCi9GMSA5IDAgUiANCj4+DQovUHJvY1NldCA4IDAgUg0KPj4NCi9NZWRpYUJveCBbMCAwIDYxMi4wMDAwIDc5Mi4wMDAwXQ0KL0NvbnRlbnRzIDcgMCBSDQo+Pg0KZW5kb2JqDQoNCjcgMCBvYmoNCjw8IC9MZW5ndGggNjc2ID4+DQpzdHJlYW0NCjIgSg0KQlQNCjAgMCAwIHJnDQovRjEgMDAyNyBUZg0KNTcuMzc1MCA3MjIuMjgwMCBUZA0KKCBTaW1wbGUgUERGIEZpbGUgMiApIFRqDQpFVA0KQlQNCi9GMSAwMDEwIFRmDQo2OS4yNTAwIDY4OC42MDgwIFRkDQooIC4uLmNvbnRpbnVlZCBmcm9tIHBhZ2UgMS4gWWV0IG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gKSBUag0KRVQNCkJUDQovRjEgMDAxMCBUZg0KNjkuMjUwMCA2NzYuNjU2MCBUZA0KKCBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSB0ZXh0LiBBbmQgbW9yZSApIFRqDQpFVA0KQlQNCi9GMSAwMDEwIFRmDQo2OS4yNTAwIDY2NC43MDQwIFRkDQooIHRleHQuIE9oLCBob3cgYm9yaW5nIHR5cGluZyB0aGlzIHN0dWZmLiBCdXQgbm90IGFzIGJvcmluZyBhcyB3YXRjaGluZyApIFRqDQpFVA0KQlQNCi9GMSAwMDEwIFRmDQo2OS4yNTAwIDY1Mi43NTIwIFRkDQooIHBhaW50IGRyeS4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gQW5kIG1vcmUgdGV4dC4gKSBUag0KRVQNCkJUDQovRjEgMDAxMCBUZg0KNjkuMjUwMCA2NDAuODAwMCBUZA0KKCBCb3JpbmcuICBNb3JlLCBhIGxpdHRsZSBtb3JlIHRleHQuIFRoZSBlbmQsIGFuZCBqdXN0IGFzIHdlbGwuICkgVGoNCkVUDQplbmRzdHJlYW0NCmVuZG9iag0KDQo4IDAgb2JqDQpbL1BERiAvVGV4dF0NCmVuZG9iag0KDQo5IDAgb2JqDQo8PA0KL1R5cGUgL0ZvbnQNCi9TdWJ0eXBlIC9UeXBlMQ0KL05hbWUgL0YxDQovQmFzZUZvbnQgL0hlbHZldGljYQ0KL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcNCj4+DQplbmRvYmoNCg0KMTAgMCBvYmoNCjw8DQovQ3JlYXRvciAoUmF2ZSBcKGh0dHA6Ly93d3cubmV2cm9uYS5jb20vcmF2ZVwpKQ0KL1Byb2R1Y2VyIChOZXZyb25hIERlc2lnbnMpDQovQ3JlYXRpb25EYXRlIChEOjIwMDYwMzAxMDcyODI2KQ0KPj4NCmVuZG9iag0KDQp4cmVmDQowIDExDQowMDAwMDAwMDAwIDY1NTM1IGYNCjAwMDAwMDAwMTkgMDAwMDAgbg0KMDAwMDAwMDA5MyAwMDAwMCBuDQowMDAwMDAwMTQ3IDAwMDAwIG4NCjAwMDAwMDAyMjIgMDAwMDAgbg0KMDAwMDAwMDM5MCAwMDAwMCBuDQowMDAwMDAxNTIyIDAwMDAwIG4NCjAwMDAwMDE2OTAgMDAwMDAgbg0KMDAwMDAwMjQyMyAwMDAwMCBuDQowMDAwMDAyNDU2IDAwMDAwIG4NCjAwMDAwMDI1NzQgMDAwMDAgbg0KDQp0cmFpbGVyDQo8PA0KL1NpemUgMTENCi9Sb290IDEgMCBSDQovSW5mbyAxMCAwIFINCj4+DQoNCnN0YXJ0eHJlZg0KMjcxNA0KJSVFT0YNCg=="
+            pdfUrl: ""
         };
     };
 
@@ -96,10 +154,12 @@ router.get('/', (req, res, next) => {
 
     Promise.resolve()
         .then(init)
-        .then(getData).catch(err => notFoundPageRender(err))
+        .then(() => getDocInfo()).catch(err => notFoundPageRender(err))
         .then(data => checkRes(data)).catch(err => notFoundPageRender(err))
-        .then(data => {
-            res.write(templateFn(setData(data)));
+        .then(data => getPdfInfo(data)).catch(err => notFoundPageRender(err))
+        .then(data => readPdfFile(data))
+        .then(() => {
+            res.write(templateFn(docData));
             res.end();
         })
 });

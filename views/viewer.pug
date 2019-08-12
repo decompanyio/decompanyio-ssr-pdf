@@ -8,6 +8,7 @@ append styles
 
 append scripts
     link(rel="resource" href="/locale/locale.properties" type="application/l10n" )
+    script(src='/js/trackingApis.js')
     script(src='/js/compatibility.js')
     script(src='/js/l10n.js')
     script(src='/build/pdf.js')
@@ -337,6 +338,7 @@ block script
             seoTitle = '#{seoTitle}' || "",
             username = '#{username}' || "",
             docTitle = '#{docTitle}' || "",
+            pdfUrl = '#{pdfUrl}' || "",
             forceTracking = '#{forceTracking}' === "true",
             useTracking = '#{useTracking}' === "true",
             cid = null,
@@ -346,9 +348,12 @@ block script
             useTrackingModalFlag = false;
 
 
+
         $(document).ready(() => {
             // 첫 페이지 트랙킹
             postTracking();
+            // pdf 정보 SET
+            pdfDataGet(pdfUrl);
         })
 
         // 이메일 모달 값 입력 체크
@@ -476,7 +481,6 @@ block script
 
             return email.match(regExp);
         };
-
 
 
 

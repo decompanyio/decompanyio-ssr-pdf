@@ -1,11 +1,6 @@
-window.onload = function () {
-    pdfDataSet();
-};
-
-
 // pdf data set
-const pdfDataSet = () => {
-    let pdfData = atob(pdfEncoded());
+const pdfDataSet = (pdfEncoded) => {
+    let pdfData = atob(pdfEncoded);
     let uint8ArrayPdf = new Uint8Array(pdfData.length);
     for (let i = 0; i < pdfData.length; i++) {
         uint8ArrayPdf[i] = pdfData.charCodeAt(i)
@@ -14,11 +9,20 @@ const pdfDataSet = () => {
 };
 
 
-// pdf encode GET
-const pdfEncoded = () => {
-    let scripts = document.getElementsByTagName('script');
-    let scriptName = scripts[scripts.length - 1];
-    return scriptName.getAttribute('data-pdfEncoded')
+// pdf data get
+const pdfDataGet = (pdfUrl) => {
+    let url = pdfUrl.replace(/&amp;/g, "&");
+    const txtFile = new XMLHttpRequest();
+    txtFile.open("GET", url, true);
+    txtFile.onreadystatechange = function() {
+        if (txtFile.readyState === 4) {  // Makes sure the document is ready to parse.
+            if (txtFile.status === 200) {  // Makes sure it's found the file.
+                let allText = txtFile.responseText;
+                pdfDataSet(allText);
+            }
+        }
+    };
+    txtFile.send(null);
 };
 
 

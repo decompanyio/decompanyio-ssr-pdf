@@ -12,8 +12,8 @@
   },
   "scripts": {
     "start": "node app.local.js",
-    "compress": "zip -r ../dev-ssr-embed.zip .",
-    "compress:production": "zip -r ../alpha-ssr-embed.zip .",
+    "compress": "zip -r ../dev-ssr-pdf.zip .",
+    "compress:production": "zip -r ../alpha-ssr-pdf.zip .",
     "package": "sam package --template-file ./cloudformation.yaml --output-template-file cloudformation-output.yaml --s3-bucket dev-ca-ssr-embed",
     "deploy": "sam deploy --template-file ./cloudformation-output.yaml --stack-name test-ssr-embed --capabilities CAPABILITY_IAM"
   },
@@ -22,6 +22,8 @@
     "aws-serverless-express": "^3.3.6",
     "compression": "^1.7.4",
     "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
     "morgan": "^1.9.1",
     "pug": "^2.0.4",
     "shortid": "^2.2.14",
