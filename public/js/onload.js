@@ -29,6 +29,5 @@ const pdfDataGet = (pdfUrl) => {
 // 뷰어 페이지 이동 링크 클릭
 const linkToViewerPage = () => {
     let url = document.getElementById("viewerPageLink").getAttribute('data-url');
-    console.log(url);
     window.location.href = url;
 };

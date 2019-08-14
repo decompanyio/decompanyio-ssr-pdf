@@ -2,7 +2,10 @@ extends layout
 
 
 append styles
-    link(rel = "stylesheet" href = "/css/viewer.css" )
+    if env !== 'prod'
+        link(rel = "stylesheet" href = "/css/viewer_dev.css" )
+    else
+        link(rel = "stylesheet" href = "/css/viewer.css" )
     link(rel = "stylesheet" href = "/css/email.css" )
 
 
@@ -58,7 +61,7 @@ block body
 
             #secondaryToolbar(class="secondaryToolbar hidden doorHangerRight")
                 #secondaryToolbarButtonContainer
-                    button(id="secondaryViewerPageLink" class="secondaryToolbarButton viewerPageLink visibleLargeView" title="Link to viewer page" tabindex="50" data-l10n-id="viewer_page_link")
+                    button(id="secondaryViewerPageLink" onclick="linkToViewerPage()" class="secondaryToolbarButton viewerPageLink visibleLargeView" title="Link to viewer page" tabindex="50" data-l10n-id="viewer_page_link")
                         span(data-l10n-id="viewer_page_link_label") Viewer Page Link
                     button(id="secondaryPresentationMode" class="secondaryToolbarButton presentationMode visibleLargeView" title="Switch to Presentation Mode" tabindex="51" data-l10n-id="presentation_mode")
                         span(data-l10n-id="presentation_mode_label") Presentation Mode
@@ -320,7 +323,7 @@ block body
             input(type="checkbox" id="termsCheckbox")
             label(for="termsCheckbox")
                 span
-                    +iconOk("ok")
+
                 .checkbox-explain I agree to submit this information, which will be collected and used according to &nbsp
                     a(class="checkbox-policy-link" target="_blank" href=mainHost + "/legal/policy.html" rel="noopener noreferrer" title="Read decompany’s privacy policy.") Decompany’s privacy policy.
 

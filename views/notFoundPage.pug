@@ -6,8 +6,6 @@ append styles
 block body
     - console.log("404 body 태그 읽기 완료");
     .no-data-icon
-        +icon("warning-sign")
-        br
         .explain Not Found Page
         br
         div
@@ -22,6 +20,12 @@ block scripts
         let time = 5;
         let env = '#{env}' || "dev";
 
-
+        setInterval(function () {
+            --time
+            if (time >= 0) {
+                document.getElementById("time-set").innerText = String(time);
+                if (time === 0) location.href = "https://www.polarishare.com";
+            }
+        }, 1000);
 
 

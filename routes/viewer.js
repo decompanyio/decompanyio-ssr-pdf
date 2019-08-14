@@ -1,6 +1,5 @@
 let express = require('express');
 let shortid = require('shortid');
-let fs = require('fs');
 let pug = require('pug');
 let router = express.Router();
 let templatePath = require.resolve('../views/viewer.pug');
@@ -11,7 +10,7 @@ let viewerUrl = process.env.NODE_ENV_SUB === 'prod' ? "https://viewer.polarishar
 let mainHost = process.env.NODE_ENV_SUB === 'prod' ? "https://www.polarishare.com" : "https://share.decompany.io";
 let getMetaUrl = "/api/document/meta?seoTitle=";
 let getPdfUrl = "/api/document/pdf?documentId=";
-let staticUrl = "http://dev-ca-ssr-pdf-static.s3-website-us-west-1.amazonaws.com";
+let staticUrl = process.env.NODE_ENV_SUB === 'prod'  ? "https://static.polarishare.com/viewer" : "https://static.share.decompany.io/viewer";
 
 
 router.get('/', (req, res, next) => {

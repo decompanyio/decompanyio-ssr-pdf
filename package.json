@@ -1,6 +1,6 @@
 {
   "name": "decompanyio-ssr-pdf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "polaris share embed project for pdf js",
   "main": "lambda.js",
   "config": {
@@ -12,10 +12,12 @@
   },
   "scripts": {
     "start": "node app.local.js",
-    "compress": "zip -r ../dev-ssr-pdf.zip .",
-    "compress:production": "zip -r ../alpha-ssr-pdf.zip .",
-    "package": "sam package --template-file ./cloudformation.yaml --output-template-file cloudformation-output.yaml --s3-bucket dev-ca-ssr-embed",
-    "deploy": "sam deploy --template-file ./cloudformation-output.yaml --stack-name test-ssr-embed --capabilities CAPABILITY_IAM"
+    "invaildate": "aws cloudfront create-invalidation --distribution-id EJH7TPASZE2SS --paths /* /*",
+    "deploy": "aws s3 sync static/ s3://dev-ca-static-ssr-viewer/viewer --cache-control max-age=60 --acl public-read && npm run invaildate",
+    "compress": "npm run deploy && zip -r ../dev-ssr-pdf.zip .",
+    "invaildate:production": "aws cloudfront create-invalidation --distribution-id E2OL7EULESF437  --paths /* /*",
+    "deploy:production": "aws s3 sync static/ s3://alpha-ca-static-ssr-viewer/viewer --cache-control max-age=60 --acl public-read && npm run invaildate:production",
+    "compress:production": "npm run deploy:production && zip -r ../alpha-ssr-pdf.zip ."
   },
   "license": "Apache-2.0",
   "dependencies": {
