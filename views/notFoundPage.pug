@@ -10,10 +10,10 @@ block body
         br
         .explain Not Found Page
         br
-
-        span(class='explain-sub') Go to Polaris Office after
-        #time-set 5
-        span(class='explain-sub') seconds.
+        div
+            span(class='explain-sub') Link to Polaris Office after
+            #time-set 5
+            span(class='explain-sub') seconds.
 
 block scripts
     - console.log("404 script 태그 읽기 완료");
@@ -22,14 +22,6 @@ block scripts
         let time = 5;
         let env = '#{env}' || "dev";
 
-        setInterval(function () {
-            --time
-            if (time >= 0) {
-                document.getElementById("time-set").innerText(time);
-                if (time === 0) {
-                    location.replace(appProperties().domain(env).mainHost)
-                }
-            }
-        }, 1000);
+
 
 

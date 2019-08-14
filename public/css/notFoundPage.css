@@ -17,14 +17,16 @@ dean
 
 .explain-sub {
     display: inline-block;
-    color: #909090;
+    color: #808080;
+    font-weight: bold;
     margin: 0 10px;
-
+    font-size: 25px;
 }
 
 .explain {
     font-weight: bold;
     color: #4d4d4d;
+    font-size: 100px;
 }
 
 #time-set {
@@ -42,5 +44,16 @@ dean
 @media all and (max-width: 575px) {
     .no-data-icon {
         margin-top: 40%;
+    }
+
+
+    .explain {
+        font-size: 30px !important;
+    }
+
+
+
+    .explain-sub {
+        font-size: 15px !important;
     }
 }

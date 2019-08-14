@@ -1,14 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7805649e-d1ca-4177-9d23-e02a3917af5c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/css/email.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/analytics.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery.min.js" afterDir="false" />
+    <list default="true" id="7805649e-d1ca-4177-9d23-e02a3917af5c" name="Default Changelist" comment="2019-08-12&#10;    dean">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/onload.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/onload.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/notFoundPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/notFoundPage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/viewer.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/viewer.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/android-icon-144x144.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/android-icon-192x192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/android-icon-36x36.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/android-icon-48x48.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/android-icon-72x72.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/android-icon-96x96.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/apple-icon-114x114.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/apple-icon-120x120.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/apple-icon-144x144.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/apple-icon-152x152.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/apple-icon-180x180.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/apple-icon-57x57.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/apple-icon-60x60.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/apple-icon-72x72.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/apple-icon-76x76.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/apple-icon-precomposed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/apple-icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/browserconfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/favicon-16x16.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/favicon-32x32.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/favicon-96x96.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/ms-icon-144x144.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/ms-icon-150x150.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/ms-icon-310x310.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon/ms-icon-70x70.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/annotation-check.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/annotation-comment.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/annotation-help.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/annotation-insert.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/annotation-key.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/annotation-newparagraph.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/annotation-noicon.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/annotation-note.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/annotation-paragraph.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/bg_document_area.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/findbarButton-next-rtl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/findbarButton-next-rtl@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/findbarButton-next.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/findbarButton-next@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/findbarButton-previous-rtl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/findbarButton-previous-rtl@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/findbarButton-previous.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/findbarButton-previous@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/grab.cur" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/grabbing.cur" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/homeButton.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/homeButton@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/loading-icon.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/loading-small.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/loading-small@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/secondaryToolbarButton-documentProperties.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/secondaryToolbarButton-documentProperties@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/secondaryToolbarButton-firstPage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/secondaryToolbarButton-firstPage@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/secondaryToolbarButton-handTool.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/secondaryToolbarButton-handTool@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/secondaryToolbarButton-lastPage.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/secondaryToolbarButton-lastPage@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/secondaryToolbarButton-rotateCcw.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/secondaryToolbarButton-rotateCcw@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/secondaryToolbarButton-rotateCw.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/secondaryToolbarButton-rotateCw@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-bookmark.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-bookmark@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-download.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-download@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-menuArrows.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-menuArrows@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-openFile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-openFile@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-pageDown-rtl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-pageDown-rtl@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-pageDown.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-pageDown@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-pageUp-rtl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-pageUp-rtl@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-pageUp.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-pageUp@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-presentationMode.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-presentationMode@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-print.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-print@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-search.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-search@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-secondaryToolbarToggle-rtl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-secondaryToolbarToggle-rtl@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-secondaryToolbarToggle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-secondaryToolbarToggle@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-sidebarToggle-rtl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-sidebarToggle-rtl@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-sidebarToggle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-sidebarToggle@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-viewAttachments.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-viewAttachments@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-viewOutline-rtl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-viewOutline-rtl@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-viewOutline.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-viewOutline@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-viewThumbnail.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-viewThumbnail@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-zoomIn.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-zoomIn@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-zoomOut.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/toolbarButton-zoomOut@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/treeitem-collapsed-rtl.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/treeitem-collapsed-rtl@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/treeitem-collapsed.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/treeitem-collapsed@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/treeitem-expanded.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/treeitem-expanded@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/viewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/viewer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/viewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/viewer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/layout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/layout.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewer.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewer.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/notFoundPage.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/notFoundPage.pug" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,7 +137,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -35,11 +148,11 @@
       <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-embed\public\properties" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public" />
       <recent name="C:\Users\dean.h.park\Downloads\decompanyio-ssr-pdf\public\js" />
       <recent name="C:\Users\dean.h.park\Downloads\decompanyio-ssr-pdf\public\css" />
       <recent name="C:\Users\dean.h.park\Downloads\decompanyio-ssr-pdf\public\images" />
       <recent name="C:\Users\dean.h.park\Downloads\decompanyio-ssr-pdf" />
-      <recent name="C:\Users\dean.h.park\Downloads\decompanyio-ssr-pdf\public" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -104,7 +217,12 @@
       <workItem from="1565171316794" duration="567000" />
       <workItem from="1565228385953" duration="7650000" />
       <workItem from="1565239012022" duration="16337000" />
-      <workItem from="1565310908893" duration="15884000" />
+      <workItem from="1565310908893" duration="16872000" />
+      <workItem from="1565580081594" duration="19749000" />
+      <workItem from="1565657763966" duration="406000" />
+      <workItem from="1565660463136" duration="97000" />
+      <workItem from="1565672078348" duration="9455000" />
+      <workItem from="1565742606706" duration="2042000" />
     </task>
     <task id="LOCAL-00001" summary="2019-06-24&#10;dean">
       <created>1561359680508</created>
@@ -204,7 +322,28 @@
       <option name="project" value="LOCAL" />
       <updated>1565334825531</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="2019-08-09&#10;dean&#10;- 트래킹 기능 추가">
+      <created>1565341028795</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1565341028795</updated>
+    </task>
+    <task id="LOCAL-00016" summary="2019-08-09&#10;dean">
+      <created>1565341073140</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1565341073140</updated>
+    </task>
+    <task id="LOCAL-00017" summary="2019-08-12&#10;    dean">
+      <created>1565602131445</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1565602131445</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">
@@ -257,6 +396,9 @@
     <MESSAGE value="2019-07-17&#10;dean" />
     <MESSAGE value="2019-08-07&#10;dean&#10;- 불필요한 스크립트 삭제&#10;- 패키지 설명 추가" />
     <MESSAGE value="2019-08-09&#10;dean&#10;- PDF js 프론트엔드 프로젝트" />
-    <option name="LAST_COMMIT_MESSAGE" value="2019-08-09&#10;dean&#10;- PDF js 프론트엔드 프로젝트" />
+    <MESSAGE value="2019-08-09&#10;dean&#10;- 트래킹 기능 추가" />
+    <MESSAGE value="2019-08-09&#10;dean" />
+    <MESSAGE value="2019-08-12&#10;    dean" />
+    <option name="LAST_COMMIT_MESSAGE" value="2019-08-12&#10;    dean" />
   </component>
 </project>

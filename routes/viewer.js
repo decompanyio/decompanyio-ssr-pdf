@@ -11,6 +11,7 @@ let viewerUrl = process.env.NODE_ENV_SUB === 'prod' ? "https://viewer.polarishar
 let mainHost = process.env.NODE_ENV_SUB === 'prod' ? "https://www.polarishare.com" : "https://share.decompany.io";
 let getMetaUrl = "/api/document/meta?seoTitle=";
 let getPdfUrl = "/api/document/pdf?documentId=";
+let staticUrl = "http://dev-ca-ssr-pdf-static.s3-website-us-west-1.amazonaws.com";
 
 
 router.get('/', (req, res, next) => {
@@ -23,6 +24,7 @@ router.get('/', (req, res, next) => {
         // 헤더 설정
         res.header("Content-Type", "text/html");
         res.header("X-Robots-Tag", "noindex");
+        res.header('Last-Modified', (new Date()).toUTCString());
 
         console.log("\noriginal url : [" + req.originalUrl + "]");
 
@@ -139,7 +141,8 @@ router.get('/', (req, res, next) => {
             viewerPageUrl: mainHost + "/" + document.author.username + "/" + document.seoTitle,
             apiUrl: apiUrl,
             ogUrl: viewerUrl + "/" + document.seoTitle,
-            pdfUrl: ""
+            pdfUrl: "",
+            staticUrl: staticUrl
         };
     };
 

@@ -2,9 +2,11 @@
 
 // NODE_ENV 설정
 
+if(process.env.NODE_ENV) {
+    console.log("process.env.NODE_ENV : [" + (process.env.NODE_ENV).trim().toUpperCase() + "]");
+    console.log("process.env.NODE_ENV_SUB : [" + (process.env.NODE_ENV_SUB).trim().toUpperCase() + "]");
+}
 
-console.log("process.env.NODE_ENV : [" + ( process.env.NODE_ENV ).trim().toUpperCase() + "]");
-console.log("process.env.NODE_ENV_SUB : [" + ( process.env.NODE_ENV_SUB ).trim().toUpperCase() + "]");
 
 const path = require('path');
 const logger = require('morgan');
@@ -31,9 +33,7 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
-
-
+app.use(express.static(path.join(__dirname, 'public')));      // s3 사용
 
 if (process.env.NODE_ENV === 'local')  router.use('/sam', compression());
 else router.use(compression());

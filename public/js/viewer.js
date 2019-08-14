@@ -7751,11 +7751,11 @@ let pdfjsWebLibs = {
                     self.metadata = metadata;
 
                     // Provides some basic debug information
-                    console.log('PDF ' + pdfDocument.fingerprint + ' [' +
+                /*    console.log('PDF ' + pdfDocument.fingerprint + ' [' +
                         info.PDFFormatVersion + ' ' + (info.Producer || '-').trim() +
                         ' / ' + (info.Creator || '-').trim() + ']' +
                         ' (PDF.js: ' + (pdfjsLib.version || '-') +
-                        (!pdfjsLib.PDFJS.disableWebGL ? ' [WebGL]' : '') + ')');
+                        (!pdfjsLib.PDFJS.disableWebGL ? ' [WebGL]' : '') + ')');*/
 
                     let pdfTitle;
                     if (metadata && metadata.has('dc:title')) {
