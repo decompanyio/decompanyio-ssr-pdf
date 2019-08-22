@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7805649e-d1ca-4177-9d23-e02a3917af5c" name="Default Changelist" comment="2019-08-22&#10;dean&#10;- 불필요">
-      <change afterPath="$PROJECT_DIR$/public/images/check.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/registerServiceWorker.js" afterDir="false" />
+    <list default="true" id="7805649e-d1ca-4177-9d23-e02a3917af5c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/email.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/email.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/viewer.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/viewer.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/viewer_dev.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/viewer_dev.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/viewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/viewer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/locale/en-US/viewer.properties" beforeDir="false" afterPath="$PROJECT_DIR$/public/locale/en-US/viewer.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/locale/ko/viewer.properties" beforeDir="false" afterPath="$PROJECT_DIR$/public/locale/ko/viewer.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/viewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/viewer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/layout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/layout.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewer.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewer.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/images/check.png" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -119,7 +113,7 @@
       <workItem from="1565763461882" duration="2261000" />
       <workItem from="1565772509675" duration="1537000" />
       <workItem from="1566353310071" duration="10000" />
-      <workItem from="1566434076792" duration="5566000" />
+      <workItem from="1566434076792" duration="8471000" />
     </task>
     <task id="LOCAL-00001" summary="2019-06-24&#10;dean">
       <created>1561359680508</created>
@@ -261,7 +255,14 @@
       <option name="project" value="LOCAL" />
       <updated>1565762872311</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="2019-08-22&#10;dean&#10;- 에러 코드 수정&#10;- 체크박스 체크 이미지 추가&#10;- 이메일 모달 css 수정">
+      <created>1566440272266</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1566440272266</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TodoView">
@@ -320,6 +321,7 @@
     <MESSAGE value="2019-08-14&#10;dean&#10;- ps viewer 업데이트&#10;- 404 페이지 수정&#10;- 이미지 파일 S3 연동" />
     <MESSAGE value="2019-08-14&#10;dean&#10;- S3 주소 개발계/운영계 분기 처리&#10;- package.json 수정" />
     <MESSAGE value="2019-08-14&#10;dean&#10;- 프린트 기능 주석" />
-    <option name="LAST_COMMIT_MESSAGE" value="2019-08-14&#10;dean&#10;- 프린트 기능 주석" />
+    <MESSAGE value="2019-08-22&#10;dean&#10;- 에러 코드 수정&#10;- 체크박스 체크 이미지 추가&#10;- 이메일 모달 css 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="2019-08-22&#10;dean&#10;- 에러 코드 수정&#10;- 체크박스 체크 이미지 추가&#10;- 이메일 모달 css 수정" />
   </component>
 </project>

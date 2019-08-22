@@ -2138,3 +2138,18 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
     display: none;
   }
 }
+
+
+
+
+input[type="checkbox"]:checked + label span div {
+  position: absolute;
+  background:url(https://static.share.decompany.io/viewer/images/check.png) left top no-repeat;
+  display: inline-block;
+  -ms-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  height: 20px;
+  width: 20px;
+}
