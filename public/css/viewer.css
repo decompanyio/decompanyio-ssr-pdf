@@ -701,6 +701,7 @@ html[dir='ltr'] #toolbarViewerRight > *,
 html[dir='ltr'] .findbar > * {
   position: relative;
   float: left;
+  color: white;
 }
 html[dir='rtl'] #toolbarViewerLeft > *,
 html[dir='rtl'] #toolbarViewerMiddle > *,

@@ -112,7 +112,10 @@ router.get('/', (req, res, next) => {
         if (data.success) {
             console.log('Document Data GET 성공 . . .');
             return Promise.resolve(data);
-        } else return Promise.reject(console.log('Document Data GET 실패 . . .'));
+        } else {
+            console.log('Document Data GET 실패 . . .');
+            return Promise.reject();
+        }
     };
 
 
@@ -147,7 +150,7 @@ router.get('/', (req, res, next) => {
 
 
     // 404 페이지 렌더
-    const notFoundPageRender = (err) => {
+    const notFoundPageRender = err => {
         console.log(err);
         console.log('404 페이지 이동 . . .');
         res.status(404).render('notFoundPage', {title: 'notFoundPage', env: process.env.NODE_ENV_SUB});
@@ -156,14 +159,15 @@ router.get('/', (req, res, next) => {
 
     Promise.resolve()
         .then(init)
-        .then(() => getDocInfo()).catch(err => notFoundPageRender(err))
-        .then(data => checkRes(data)).catch(err => notFoundPageRender(err))
-        .then(data => getPdfInfo(data)).catch(err => notFoundPageRender(err))
+        .then(() => getDocInfo())
+        .then(data => checkRes(data))
+        .then(data => getPdfInfo(data))
         .then(data => readPdfFile(data))
         .then(() => {
             res.write(templateFn(docData));
             res.end();
         })
+        .catch(err => notFoundPageRender(err))
 });
 
 

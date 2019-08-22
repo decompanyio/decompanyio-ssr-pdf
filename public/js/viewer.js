@@ -8136,9 +8136,6 @@ let pdfjsWebLibs = {
             appConfig.toolbar.presentationModeButton.addEventListener('click',
                 SecondaryToolbar.presentationModeClick.bind(SecondaryToolbar));
 
-            appConfig.toolbar.print.addEventListener('click',
-                SecondaryToolbar.printClick.bind(SecondaryToolbar));
-
 
             if (file && file.lastIndexOf('file:', 0) === 0) {
                 // file:-scheme. Load the contents in the main thread because QtWebKit

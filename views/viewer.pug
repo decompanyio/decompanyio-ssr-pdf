@@ -17,6 +17,7 @@ append scripts
     script(src='/build/pdf.js')
     script(src='/js/debugger.js')
     script(src='/js/viewer.js')
+    script(src='/js/registerServiceWorker.js')
 
 
 block body
@@ -323,7 +324,7 @@ block body
             input(type="checkbox" id="termsCheckbox")
             label(for="termsCheckbox")
                 span
-
+                    div
                 .checkbox-explain I agree to submit this information, which will be collected and used according to &nbsp
                     a(class="checkbox-policy-link" target="_blank" href=mainHost + "/legal/policy.html" rel="noopener noreferrer" title="Read decompany’s privacy policy.") Decompany’s privacy policy.
 
@@ -342,6 +343,7 @@ block script
             username = '#{username}' || "",
             docTitle = '#{docTitle}' || "",
             pdfUrl = '#{pdfUrl}' || "",
+            env = '#{env}' || "",
             forceTracking = '#{forceTracking}' === "true",
             useTracking = '#{useTracking}' === "true",
             cid = null,
@@ -357,6 +359,8 @@ block script
             postTracking();
             // pdf 정보 SET
             pdfDataGet(pdfUrl);
+            // 서비스 워커 시작
+            register(env);
         })
 
         // 이메일 모달 값 입력 체크
