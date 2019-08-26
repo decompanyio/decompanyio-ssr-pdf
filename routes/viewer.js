@@ -60,58 +60,31 @@ router.get('/', (req, res, next) => {
 
 
     // pdf 파일 read
-    const readPdfFile = (data) => {
+    const readPdfFile = data => {
         return new Promise((resolve, reject) => {
             let _data = setData(docData);
             _data.pdfUrl = data.pdf;
             docData = _data;
             resolve();
-
-            // 2019-08-12, 서버에서 파일 읽을 시 ... 현재 미사용
-            /*
-                   console.log('\nPDF 파일 설치 시작 . . .');
-            let filename = "tmp_files/" + docData.document.documentId;
-            const file = fs.createWriteStream(filename);
-
-            const request = https.get(data.pdf, response => {
-                console.log('PDF 파일 unGzip 시작  . . .\n');
-                response.pipe(zlib.createGunzip()).pipe(file);
-
-                file.on('finish', () =>
-                    file.close(() =>
-                        fs.readFile(filename, 'utf8', (err, res) => {
-                            let _data = setData(docData);
-                            _data.pdfUrl = res;
-                            docData = _data;
-
-                            // 파일 삭제
-                            deletePdfFile(filename);
-                            resolve();
-                        })
-                    )
-                );
-            });*/
         });
     };
-    /*
-
-        // pdf 파일 삭제
-        const deletePdfFile = (name) => {
-            try {
-                fs.unlinkSync(name)
-                //file removed
-            } catch(err) {
-                console.error(err)
-            }
-        };*/
 
 
     // GET data 체크
-    const checkRes = (data) => {
+    const checkRes = data => {
         console.log('Document Data 유효성 체크 시작 . . .\n');
+
+
         if (data.success) {
             console.log('Document Data GET 성공 . . .');
-            return Promise.resolve(data);
+            const document = data.document;
+
+            if(document.status !== "CONVERT_COMPLETE" || document.isPublish) {
+                console.log('Document Data 유효하지 않음 . . .');
+                return Promise.reject();
+            }else {
+                return Promise.resolve(data);
+            }
         } else {
             console.log('Document Data GET 실패 . . .');
             return Promise.reject();

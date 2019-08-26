@@ -26,9 +26,8 @@ let pdfjsWebLibs = {
 
 
     (function (root, factory) {
-        {
             factory((root.pdfjsWebGrabToPan = {}));
-        }
+
     }(this, function (exports) {
         /**
          * Construct a GrabToPan instance for a given HTML element.
@@ -237,138 +236,6 @@ let pdfjsWebLibs = {
 
     (function (root, factory) {
         {
-            factory((root.pdfjsWebMozPrintCallbackPolyfill = {}));
-        }
-    }(this, function (exports) {
-        if ('mozPrintCallback' in document.createElement('canvas')) {
-            return;
-        }
-
-        // Cause positive result on feature-detection:
-        HTMLCanvasElement.prototype.mozPrintCallback = undefined;
-
-        let canvases;   // During print task: non-live NodeList of <canvas> elements
-        let index;      // Index of <canvas> element that is being processed
-
-        let print = window.print;
-        window.print = function print() {
-            if (canvases) {
-                console.warn('Ignored window.print() because of a pending print job.');
-                return;
-            }
-            try {
-                dispatchEvent('beforeprint');
-            } finally {
-                canvases = document.querySelectorAll('canvas');
-                index = -1;
-                next();
-            }
-        };
-
-        function dispatchEvent(eventType) {
-            let event = document.createEvent('CustomEvent');
-            event.initCustomEvent(eventType, false, false, 'custom');
-            window.dispatchEvent(event);
-        }
-
-        function next() {
-            if (!canvases) {
-                return; // Print task cancelled by user (state reset in abort())
-            }
-
-            renderProgress();
-            if (++index < canvases.length) {
-                let canvas = canvases[index];
-                if (typeof canvas.mozPrintCallback === 'function') {
-                    canvas.mozPrintCallback({
-                        context: canvas.getContext('2d'),
-                        abort: abort,
-                        done: next
-                    });
-                } else {
-                    next();
-                }
-            } else {
-                renderProgress();
-                print.call(window);
-                setTimeout(abort, 20); // Tidy-up
-            }
-        }
-
-        function abort() {
-            if (canvases) {
-                canvases = null;
-                renderProgress();
-                dispatchEvent('afterprint');
-            }
-        }
-
-        function renderProgress() {
-            let progressContainer = document.getElementById('mozPrintCallback-shim');
-            if (canvases && canvases.length) {
-                let progress = Math.round(100 * index / canvases.length);
-                let progressBar = progressContainer.querySelector('progress');
-                let progressPerc = progressContainer.querySelector('.relative-progress');
-                progressBar.value = progress;
-                progressPerc.textContent = progress + '%';
-                progressContainer.removeAttribute('hidden');
-                progressContainer.onclick = abort;
-            } else {
-                progressContainer.setAttribute('hidden', '');
-            }
-        }
-
-        let hasAttachEvent = !!document.attachEvent;
-
-        window.addEventListener('keydown', function (event) {
-            // Intercept Cmd/Ctrl + P in all browsers.
-            // Also intercept Cmd/Ctrl + Shift + P in Chrome and Opera
-            if (event.keyCode === 80/*P*/ && (event.ctrlKey || event.metaKey) &&
-                !event.altKey && (!event.shiftKey || window.chrome || window.opera)) {
-                window.print();
-                if (hasAttachEvent) {
-                    // Only attachEvent can cancel Ctrl + P dialog in IE <=10
-                    // attachEvent is gone in IE11, so the dialog will re-appear in IE11.
-                    return;
-                }
-                event.preventDefault();
-                if (event.stopImmediatePropagation) {
-                    event.stopImmediatePropagation();
-                } else {
-                    event.stopPropagation();
-                }
-                return;
-            }
-            if (event.keyCode === 27 && canvases) { // Esc
-                abort();
-            }
-        }, true);
-        if (hasAttachEvent) {
-            document.attachEvent('onkeydown', function (event) {
-                event = event || window.event;
-                if (event.keyCode === 80/*P*/ && event.ctrlKey) {
-                    event.keyCode = 0;
-                    return false;
-                }
-            });
-        }
-
-        if ('onbeforeprint' in window) {
-            // Do not propagate before/afterprint events when they are not triggered
-            // from within this polyfill. (FF/IE).
-            let stopPropagationIfNeeded = function (event) {
-                if (event.detail !== 'custom' && event.stopImmediatePropagation) {
-                    event.stopImmediatePropagation();
-                }
-            };
-            window.addEventListener('beforeprint', stopPropagationIfNeeded, false);
-            window.addEventListener('afterprint', stopPropagationIfNeeded, false);
-        }
-    }));
-
-
-    (function (root, factory) {
-        {
             factory((root.pdfjsWebOverlayManager = {}));
         }
     }(this, function (exports) {
@@ -515,8 +382,6 @@ let pdfjsWebLibs = {
             this.linkService = options.linkService;
 
             this.initialized = false;
-            this.initialDestination = null;
-            this.initialBookmark = null;
         }
 
         PDFHistory.prototype = {
@@ -532,10 +397,7 @@ let pdfjsWebLibs = {
                 this.isViewerInPresentationMode = false;
 
                 this.previousHash = window.location.hash.substring(1);
-                this.currentBookmark = '';
                 this.currentPage = 0;
-                this.updatePreviousBookmark = false;
-                this.previousBookmark = '';
                 this.previousPage = 0;
                 this.nextHashParam = '';
 
@@ -549,8 +411,6 @@ let pdfjsWebLibs = {
                     // from another page in the browser history.
                     if (state.target.dest) {
                         this.initialDestination = state.target.dest;
-                    } else {
-                        this.initialBookmark = state.target.hash;
                     }
                     this.currentUid = state.uid;
                     this.uid = state.uid + 1;
@@ -588,10 +448,7 @@ let pdfjsWebLibs = {
 
                     if (self.uid === 0) {
                         // Replace the previous state if it was not explicitly set.
-                        let previousParams = (self.previousHash && self.currentBookmark &&
-                            self.previousHash !== self.currentBookmark) ?
-                            {hash: self.currentBookmark, page: self.currentPage} :
-                            {page: 1};
+                        let previousParams = {page: 1};
                         replacePreviousHistoryState(previousParams, function () {
                             updateHistoryWithCurrentHash();
                         });
@@ -604,7 +461,6 @@ let pdfjsWebLibs = {
                 function updateHistoryWithCurrentHash() {
                     self.previousHash = window.location.hash.slice(1);
                     self._pushToHistory({hash: self.previousHash}, false, true);
-                    self._updatePreviousBookmark();
                 }
 
                 function replacePreviousHistoryState(params, callback) {
@@ -643,7 +499,6 @@ let pdfjsWebLibs = {
                         let replacePrevious = (!self.current.dest &&
                             self.current.hash !== self.previousHash);
                         self._pushToHistory(previousParams, false, replacePrevious);
-                        self._updatePreviousBookmark();
                     }
                     // Remove the event listener when navigating away from the document,
                     // since 'beforeunload' prevents Firefox from caching the document.
@@ -670,9 +525,9 @@ let pdfjsWebLibs = {
             },
 
             _isStateObjectDefined: function pdfHistory_isStateObjectDefined(state) {
-                return (state && state.uid >= 0 &&
+                return !!(state && state.uid >= 0 &&
                     state.fingerprint && this.fingerprint === state.fingerprint &&
-                    state.target && state.target.hash) ? true : false;
+                    state.target && state.target.hash);
             },
 
             _pushOrReplaceState: function pdfHistory_pushOrReplaceState(stateObj,
@@ -691,31 +546,13 @@ let pdfjsWebLibs = {
                 return this.allowHashChange;
             },
 
-            _updatePreviousBookmark: function pdfHistory_updatePreviousBookmark() {
-                if (this.updatePreviousBookmark &&
-                    this.currentBookmark && this.currentPage) {
-                    this.previousBookmark = this.currentBookmark;
-                    this.previousPage = this.currentPage;
-                    this.updatePreviousBookmark = false;
-                }
-            },
-
-            updateCurrentBookmark: function pdfHistoryUpdateCurrentBookmark(bookmark,
-                                                                            pageNum) {
-                if (this.initialized) {
-                    this.currentBookmark = bookmark.substring(1);
-                    this.currentPage = pageNum | 0;
-                    this._updatePreviousBookmark();
-                }
-            },
-
             updateNextHashParam: function pdfHistoryUpdateNextHashParam(param) {
                 if (this.initialized) {
                     this.nextHashParam = param;
                 }
             },
 
-            push: function pdfHistoryPush(params, isInitialBookmark) {
+            push: function pdfHistoryPush(params) {
                 if (!(this.initialized && this.historyUnlocked)) {
                     return;
                 }
@@ -728,26 +565,10 @@ let pdfjsWebLibs = {
                 if (params.page) {
                     params.page |= 0;
                 }
-                if (isInitialBookmark) {
-                    let target = window.history.state.target;
-                    if (!target) {
-                        // Invoked when the user specifies an initial bookmark,
-                        // thus setting initialBookmark, when the document is loaded.
-                        this._pushToHistory(params, false);
-                        this.previousHash = window.location.hash.substring(1);
-                    }
-                    this.updatePreviousBookmark = this.nextHashParam ? false : true;
-                    if (target) {
-                        // If the current document is reloaded,
-                        // avoid creating duplicate entries in the history.
-                        this._updatePreviousBookmark();
-                    }
-                    return;
-                }
+
                 if (this.nextHashParam) {
                     if (this.nextHashParam === params.hash) {
                         this.nextHashParam = null;
-                        this.updatePreviousBookmark = true;
                         return;
                     } else {
                         this.nextHashParam = null;
@@ -762,7 +583,6 @@ let pdfjsWebLibs = {
                             if (!this.current.page && params.page) {
                                 this._pushToHistory(params, false, true);
                             }
-                            this.updatePreviousBookmark = true;
                         }
                     } else {
                         this._pushToHistory(params, true);
@@ -775,39 +595,14 @@ let pdfjsWebLibs = {
 
             _getPreviousParams: function pdfHistory_getPreviousParams(onlyCheckPage,
                                                                       beforeUnload) {
-                if (!(this.currentBookmark && this.currentPage)) {
-                    return null;
-                } else if (this.updatePreviousBookmark) {
-                    this.updatePreviousBookmark = false;
-                }
-                if (this.uid > 0 && !(this.previousBookmark && this.previousPage)) {
-                    // Prevent the history from getting stuck in the current state,
-                    // effectively preventing the user from going back/forward in
-                    // the history.
-                    //
-                    // This happens if the current position in the document didn't change
-                    // when the history was previously updated. The reasons for this are
-                    // either:
-                    // 1. The current zoom value is such that the document does not need to,
-                    //    or cannot, be scrolled to display the destination.
-                    // 2. The previous destination is broken, and doesn't actally point to a
-                    //    position within the document.
-                    //    (This is either due to a bad PDF generator, or the user making a
-                    //     mistake when entering a destination in the hash parameters.)
-                    return null;
-                }
-                if ((!this.current.dest && !onlyCheckPage) || beforeUnload) {
-                    if (this.previousBookmark === this.currentBookmark) {
-                        return null;
-                    }
-                } else if (this.current.page || onlyCheckPage) {
+                if (this.current.page || onlyCheckPage) {
                     if (this.previousPage === this.currentPage) {
                         return null;
                     }
                 } else {
                     return null;
                 }
-                let params = {hash: this.currentBookmark, page: this.currentPage};
+                let params = {page: this.currentPage};
                 if (this.isViewerInPresentationMode) {
                     params.hash = null;
                 }
@@ -838,7 +633,6 @@ let pdfjsWebLibs = {
                     (overwrite || this.uid === 0));
                 this.currentUid = this.uid++;
                 this.current = params;
-                this.updatePreviousBookmark = true;
             },
 
             _goTo: function pdfHistory_goTo(state) {
@@ -868,7 +662,6 @@ let pdfjsWebLibs = {
                     this.uid = state.uid;
                 }
                 this.current = state.target;
-                this.updatePreviousBookmark = true;
 
                 let currentHash = window.location.hash.substring(1);
                 if (this.previousHash !== currentHash) {
@@ -1311,10 +1104,6 @@ let pdfjsWebLibs = {
                 this.pdfViewer = null;
                 this.pdfThumbnailViewer = null;
                 this.onIdle = null;
-
-                this.highestPriorityPage = null;
-                this.idleTimeout = null;
-                this.printing = false;
                 this.isThumbnailViewEnabled = false;
             }
 
@@ -1358,11 +1147,6 @@ let pdfjsWebLibs = {
                         if (this.pdfThumbnailViewer.forceRendering()) {
                             return;
                         }
-                    }
-
-                    if (this.printing) {
-                        // If printing is currently ongoing do not reschedule cleanup.
-                        return;
                     }
 
                     if (this.onIdle) {
@@ -1734,413 +1518,10 @@ let pdfjsWebLibs = {
 
     (function (root, factory) {
         {
-            factory((root.pdfjsWebDownloadManager = {}), root.pdfjsWebPDFJS);
-        }
-    }(this, function (exports, pdfjsLib) {
-        function download(blobUrl, filename) {
-            let a = document.createElement('a');
-            if (a.click) {
-                // Use a.click() if available. Otherwise, Chrome might show
-                // "Unsafe JavaScript attempt to initiate a navigation change
-                //  for frame with URL" and not open the PDF at all.
-                // Supported by (not mentioned = untested):
-                // - Firefox 6 - 19 (4- does not support a.click, 5 ignores a.click)
-                // - Chrome 19 - 26 (18- does not support a.click)
-                // - Opera 9 - 12.15
-                // - Internet Explorer 6 - 10
-                // - Safari 6 (5.1- does not support a.click)
-                a.href = blobUrl;
-                a.target = '_parent';
-                // Use a.download if available. This increases the likelihood that
-                // the file is downloaded instead of opened by another PDF plugin.
-                if ('download' in a) {
-                    a.download = filename;
-                }
-                // <a> must be in the document for IE and recent Firefox versions.
-                // (otherwise .click() is ignored)
-                (document.body || document.documentElement).appendChild(a);
-                a.click();
-                a.parentNode.removeChild(a);
-            } else {
-                if (window.top === window &&
-                    blobUrl.split('#')[0] === window.location.href.split('#')[0]) {
-                    // If _parent == self, then opening an identical URL with different
-                    // location hash will only cause a navigation, not a download.
-                    let padCharacter = blobUrl.indexOf('?') === -1 ? '?' : '&';
-                    blobUrl = blobUrl.replace(/#|$/, padCharacter + '$&');
-                }
-                window.open(blobUrl, '_parent');
-            }
-        }
-
-        function DownloadManager() {
-        }
-
-        DownloadManager.prototype = {
-            downloadUrl: function DownloadManager_downloadUrl(url, filename) {
-                if (!pdfjsLib.isValidUrl(url, true)) {
-                    return; // restricted/invalid URL
-                }
-
-                download(url + '#pdfjs.action=download', filename);
-            },
-
-            downloadData: function DownloadManager_downloadData(data, filename,
-                                                                contentType) {
-                if (navigator.msSaveBlob) { // IE10 and above
-                    return navigator.msSaveBlob(new Blob([data], {type: contentType}),
-                        filename);
-                }
-
-                let blobUrl = pdfjsLib.createObjectURL(data, contentType,
-                    pdfjsLib.PDFJS.disableCreateObjectURL);
-                download(blobUrl, filename);
-            },
-
-            download: function DownloadManager_download(blob, url, filename) {
-                if (!URL) {
-                    // URL.createObjectURL is not supported
-                    this.downloadUrl(url, filename);
-                    return;
-                }
-
-                if (navigator.msSaveBlob) {
-                    // IE10 / IE11
-                    if (!navigator.msSaveBlob(blob, filename)) {
-                        this.downloadUrl(url, filename);
-                    }
-                    return;
-                }
-
-                let blobUrl = URL.createObjectURL(blob);
-                download(blobUrl, filename);
-            }
-        };
-
-        exports.DownloadManager = DownloadManager;
-    }));
-
-
-    (function (root, factory) {
-        {
             factory((root.pdfjsWebFirefoxCom = {}), root.pdfjsWebPreferences,
                 root.pdfjsWebPDFJS);
         }
     }(this, function (exports, preferences, pdfjsLib) {
-    }));
-
-
-    (function (root, factory) {
-        {
-            factory((root.pdfjsWebPDFAttachmentViewer = {}), root.pdfjsWebPDFJS);
-        }
-    }(this, function (exports, pdfjsLib) {
-
-        /**
-         * @typedef {Object} PDFAttachmentViewerOptions
-         * @property {HTMLDivElement} container - The viewer element.
-         * @property {DownloadManager} downloadManager - The download manager.
-         */
-
-        /**
-         * @typedef {Object} PDFAttachmentViewerRenderParameters
-         * @property {Array|null} attachments - An array of attachment objects.
-         */
-
-        /**
-         * @class
-         */
-        let PDFAttachmentViewer = (function PDFAttachmentViewerClosure() {
-            /**
-             * @constructs PDFAttachmentViewer
-             * @param {PDFAttachmentViewerOptions} options
-             */
-            function PDFAttachmentViewer(options) {
-                this.attachments = null;
-                this.container = options.container;
-                this.downloadManager = options.downloadManager;
-            }
-
-            PDFAttachmentViewer.prototype = {
-                reset: function PDFAttachmentViewer_reset() {
-                    this.attachments = null;
-
-                    let container = this.container;
-                    while (container.firstChild) {
-                        container.removeChild(container.firstChild);
-                    }
-                },
-
-                /**
-                 * @private
-                 */
-                _dispatchEvent:
-                    function PDFAttachmentViewer_dispatchEvent(attachmentsCount) {
-                        let event = document.createEvent('CustomEvent');
-                        event.initCustomEvent('attachmentsloaded', true, true, {
-                            attachmentsCount: attachmentsCount
-                        });
-                        this.container.dispatchEvent(event);
-                    },
-
-                /**
-                 * @private
-                 */
-                _bindLink:
-                    function PDFAttachmentViewer_bindLink(button, content, filename) {
-                        button.onclick = function downloadFile(e) {
-                            this.downloadManager.downloadData(content, filename, '');
-                            return false;
-                        }.bind(this);
-                    },
-
-                /**
-                 * @param {PDFAttachmentViewerRenderParameters} params
-                 */
-                render: function PDFAttachmentViewer_render(params) {
-                    let attachments = (params && params.attachments) || null;
-                    let attachmentsCount = 0;
-
-                    if (this.attachments) {
-                        this.reset();
-                    }
-                    this.attachments = attachments;
-
-                    if (!attachments) {
-                        this._dispatchEvent(attachmentsCount);
-                        return;
-                    }
-
-                    let names = Object.keys(attachments).sort(function (a, b) {
-                        return a.toLowerCase().localeCompare(b.toLowerCase());
-                    });
-                    attachmentsCount = names.length;
-
-                    for (let i = 0; i < attachmentsCount; i++) {
-                        let item = attachments[names[i]];
-                        let filename = pdfjsLib.getFilenameFromUrl(item.filename);
-                        let div = document.createElement('div');
-                        div.className = 'attachmentsItem';
-                        let button = document.createElement('button');
-                        this._bindLink(button, item.content, filename);
-                        button.textContent = pdfjsLib.removeNullCharacters(filename);
-                        div.appendChild(button);
-                        this.container.appendChild(div);
-                    }
-
-                    this._dispatchEvent(attachmentsCount);
-                }
-            };
-
-            return PDFAttachmentViewer;
-        })();
-
-        exports.PDFAttachmentViewer = PDFAttachmentViewer;
-    }));
-
-
-    (function (root, factory) {
-        {
-            factory((root.pdfjsWebPDFOutlineViewer = {}), root.pdfjsWebPDFJS);
-        }
-    }(this, function (exports, pdfjsLib) {
-
-        let DEFAULT_TITLE = '\u2013';
-
-        /**
-         * @typedef {Object} PDFOutlineViewerOptions
-         * @property {HTMLDivElement} container - The viewer element.
-         * @property {IPDFLinkService} linkService - The navigation/linking service.
-         */
-
-        /**
-         * @typedef {Object} PDFOutlineViewerRenderParameters
-         * @property {Array|null} outline - An array of outline objects.
-         */
-
-        /**
-         * @class
-         */
-        let PDFOutlineViewer = (function PDFOutlineViewerClosure() {
-            /**
-             * @constructs PDFOutlineViewer
-             * @param {PDFOutlineViewerOptions} options
-             */
-            function PDFOutlineViewer(options) {
-                this.outline = null;
-                this.lastToggleIsShow = true;
-                this.container = options.container;
-                this.linkService = options.linkService;
-            }
-
-            PDFOutlineViewer.prototype = {
-                reset: function PDFOutlineViewer_reset() {
-                    this.outline = null;
-                    this.lastToggleIsShow = true;
-
-                    let container = this.container;
-                    while (container.firstChild) {
-                        container.removeChild(container.firstChild);
-                    }
-                },
-
-                /**
-                 * @private
-                 */
-                _dispatchEvent: function PDFOutlineViewer_dispatchEvent(outlineCount) {
-                    let event = document.createEvent('CustomEvent');
-                    event.initCustomEvent('outlineloaded', true, true, {
-                        outlineCount: outlineCount
-                    });
-                    this.container.dispatchEvent(event);
-                },
-
-                /**
-                 * @private
-                 */
-                _bindLink: function PDFOutlineViewer_bindLink(element, item) {
-                    if (item.url) {
-                        pdfjsLib.addLinkAttributes(element, {url: item.url});
-                        return;
-                    }
-                    let linkService = this.linkService;
-                    element.href = linkService.getDestinationHash(item.dest);
-                    element.onclick = function goToDestination(e) {
-                        linkService.navigateTo(item.dest);
-                        return false;
-                    };
-                },
-
-                /**
-                 * @private
-                 */
-                _setStyles: function PDFOutlineViewer_setStyles(element, item) {
-                    let styleStr = '';
-                    if (item.bold) {
-                        styleStr += 'font-weight: bold;';
-                    }
-                    if (item.italic) {
-                        styleStr += 'font-style: italic;';
-                    }
-
-                    if (styleStr) {
-                        element.setAttribute('style', styleStr);
-                    }
-                },
-
-                /**
-                 * Prepend a button before an outline item which allows the user to toggle
-                 * the visibility of all outline items at that level.
-                 *
-                 * @private
-                 */
-                _addToggleButton: function PDFOutlineViewer_addToggleButton(div) {
-                    let toggler = document.createElement('div');
-                    toggler.className = 'outlineItemToggler';
-                    toggler.onclick = function (event) {
-                        event.stopPropagation();
-                        toggler.classList.toggle('outlineItemsHidden');
-
-                        if (event.shiftKey) {
-                            let shouldShowAll = !toggler.classList.contains('outlineItemsHidden');
-                            this._toggleOutlineItem(div, shouldShowAll);
-                        }
-                    }.bind(this);
-                    div.insertBefore(toggler, div.firstChild);
-                },
-
-                /**
-                 * Toggle the visibility of the subtree of an outline item.
-                 *
-                 * @param {Element} root - the root of the outline (sub)tree.
-                 * @param {boolean} state - whether to show the outline (sub)tree. If false,
-                 *   the outline subtree rooted at |root| will be collapsed.
-                 *
-                 * @private
-                 */
-                _toggleOutlineItem:
-                    function PDFOutlineViewer_toggleOutlineItem(root, show) {
-                        this.lastToggleIsShow = show;
-                        let togglers = root.querySelectorAll('.outlineItemToggler');
-                        for (let i = 0, ii = togglers.length; i < ii; ++i) {
-                            togglers[i].classList[show ? 'remove' : 'add']('outlineItemsHidden');
-                        }
-                    },
-
-                /**
-                 * Collapse or expand all subtrees of the outline.
-                 */
-                toggleOutlineTree: function PDFOutlineViewer_toggleOutlineTree() {
-                    if (!this.outline) {
-                        return;
-                    }
-                    this._toggleOutlineItem(this.container, !this.lastToggleIsShow);
-                },
-
-                /**
-                 * @param {PDFOutlineViewerRenderParameters} params
-                 */
-                render: function PDFOutlineViewer_render(params) {
-                    let outline = (params && params.outline) || null;
-                    let outlineCount = 0;
-
-                    if (this.outline) {
-                        this.reset();
-                    }
-                    this.outline = outline;
-
-                    if (!outline) {
-                        this._dispatchEvent(outlineCount);
-                        return;
-                    }
-
-                    let fragment = document.createDocumentFragment();
-                    let queue = [{parent: fragment, items: this.outline}];
-                    let hasAnyNesting = false;
-                    while (queue.length > 0) {
-                        let levelData = queue.shift();
-                        for (let i = 0, len = levelData.items.length; i < len; i++) {
-                            let item = levelData.items[i];
-
-                            let div = document.createElement('div');
-                            div.className = 'outlineItem';
-
-                            let element = document.createElement('a');
-                            this._bindLink(element, item);
-                            this._setStyles(element, item);
-                            element.textContent =
-                                pdfjsLib.removeNullCharacters(item.title) || DEFAULT_TITLE;
-
-                            div.appendChild(element);
-
-                            if (item.items.length > 0) {
-                                hasAnyNesting = true;
-                                this._addToggleButton(div);
-
-                                let itemsDiv = document.createElement('div');
-                                itemsDiv.className = 'outlineItems';
-                                div.appendChild(itemsDiv);
-                                queue.push({parent: itemsDiv, items: item.items});
-                            }
-
-                            levelData.parent.appendChild(div);
-                            outlineCount++;
-                        }
-                    }
-                    if (hasAnyNesting) {
-                        this.container.classList.add('outlineWithDeepNesting');
-                    }
-
-                    this.container.appendChild(fragment);
-
-                    this._dispatchEvent(outlineCount);
-                }
-            };
-
-            return PDFOutlineViewer;
-        })();
-
-        exports.PDFOutlineViewer = PDFOutlineViewer;
     }));
 
 
@@ -2155,15 +1536,12 @@ let pdfjsWebLibs = {
         let SidebarView = {
             NONE: 0,
             THUMBS: 1,
-            OUTLINE: 2,
-            ATTACHMENTS: 3
         };
 
         /**
          * @typedef {Object} PDFSidebarOptions
          * @property {PDFViewer} pdfViewer - The document viewer.
          * @property {PDFThumbnailViewer} pdfThumbnailViewer - The thumbnail viewer.
-         * @property {PDFOutlineViewer} pdfOutlineViewer - The outline viewer.
          * @property {HTMLDivElement} mainContainer - The main container
          *   (in which the viewer element is placed).
          * @property {HTMLDivElement} outerContainer - The outer container
@@ -2172,16 +1550,8 @@ let pdfjsWebLibs = {
          *   opening/closing the sidebar.
          * @property {HTMLButtonElement} thumbnailButton - The button used to show
          *   the thumbnail view.
-         * @property {HTMLButtonElement} outlineButton - The button used to show
-         *   the outline view.
-         * @property {HTMLButtonElement} attachmentsButton - The button used to show
-         *   the attachments view.
          * @property {HTMLDivElement} thumbnailView - The container in which
          *   the thumbnails are placed.
-         * @property {HTMLDivElement} outlineView - The container in which
-         *   the outline is placed.
-         * @property {HTMLDivElement} attachmentsView - The container in which
-         *   the attachments are placed.
          */
 
         /**
@@ -2205,19 +1575,14 @@ let pdfjsWebLibs = {
 
                 this.pdfViewer = options.pdfViewer;
                 this.pdfThumbnailViewer = options.pdfThumbnailViewer;
-                this.pdfOutlineViewer = options.pdfOutlineViewer;
 
                 this.mainContainer = options.mainContainer;
                 this.outerContainer = options.outerContainer;
                 this.toggleButton = options.toggleButton;
 
                 this.thumbnailButton = options.thumbnailButton;
-                this.outlineButton = options.outlineButton;
-                this.attachmentsButton = options.attachmentsButton;
 
                 this.thumbnailView = options.thumbnailView;
-                this.outlineView = options.outlineView;
-                this.attachmentsView = options.attachmentsView;
 
                 this._addEventListeners();
             }
@@ -2228,9 +1593,6 @@ let pdfjsWebLibs = {
 
                     this.close();
                     this.switchView(SidebarView.THUMBS);
-
-                    this.outlineButton.disabled = false;
-                    this.attachmentsButton.disabled = false;
                 },
 
                 /**
@@ -2242,14 +1604,6 @@ let pdfjsWebLibs = {
 
                 get isThumbnailViewVisible() {
                     return (this.isOpen && this.active === SidebarView.THUMBS);
-                },
-
-                get isOutlineViewVisible() {
-                    return (this.isOpen && this.active === SidebarView.OUTLINE);
-                },
-
-                get isAttachmentsViewVisible() {
-                    return (this.isOpen && this.active === SidebarView.ATTACHMENTS);
                 },
 
                 /**
@@ -2295,41 +1649,13 @@ let pdfjsWebLibs = {
                     switch (view) {
                         case SidebarView.THUMBS:
                             this.thumbnailButton.classList.add('toggled');
-                            this.outlineButton.classList.remove('toggled');
-                            this.attachmentsButton.classList.remove('toggled');
 
                             this.thumbnailView.classList.remove('hidden');
-                            this.outlineView.classList.add('hidden');
-                            this.attachmentsView.classList.add('hidden');
 
                             if (this.isOpen && isViewChanged) {
                                 this._updateThumbnailViewer();
                                 shouldForceRendering = true;
                             }
-                            break;
-                        case SidebarView.OUTLINE:
-                            if (this.outlineButton.disabled) {
-                                return;
-                            }
-                            this.thumbnailButton.classList.remove('toggled');
-                            this.outlineButton.classList.add('toggled');
-                            this.attachmentsButton.classList.remove('toggled');
-
-                            this.thumbnailView.classList.add('hidden');
-                            this.outlineView.classList.remove('hidden');
-                            this.attachmentsView.classList.add('hidden');
-                            break;
-                        case SidebarView.ATTACHMENTS:
-                            if (this.attachmentsButton.disabled) {
-                                return;
-                            }
-                            this.thumbnailButton.classList.remove('toggled');
-                            this.outlineButton.classList.remove('toggled');
-                            this.attachmentsButton.classList.add('toggled');
-
-                            this.thumbnailView.classList.add('hidden');
-                            this.outlineView.classList.add('hidden');
-                            this.attachmentsView.classList.remove('hidden');
                             break;
                         default:
                             console.error('PDFSidebar_switchView: "' + view +
@@ -2451,36 +1777,6 @@ let pdfjsWebLibs = {
                         self.switchView(SidebarView.THUMBS);
                     });
 
-                    self.outlineButton.addEventListener('click', function () {
-                        self.switchView(SidebarView.OUTLINE);
-                    });
-                    self.outlineButton.addEventListener('dblclick', function () {
-                        self.pdfOutlineViewer.toggleOutlineTree();
-                    });
-
-                    self.attachmentsButton.addEventListener('click', function () {
-                        self.switchView(SidebarView.ATTACHMENTS);
-                    });
-
-                    // Disable/enable views.
-                    self.outlineView.addEventListener('outlineloaded', function (evt) {
-                        let outlineCount = evt.detail.outlineCount;
-
-                        self.outlineButton.disabled = !outlineCount;
-                        if (!outlineCount && self.active === SidebarView.OUTLINE) {
-                            self.switchView(SidebarView.THUMBS);
-                        }
-                    });
-
-                    self.attachmentsView.addEventListener('attachmentsloaded', function (evt) {
-                        let attachmentsCount = evt.detail.attachmentsCount;
-
-                        self.attachmentsButton.disabled = !attachmentsCount;
-                        if (!attachmentsCount && self.active === SidebarView.ATTACHMENTS) {
-                            self.switchView(SidebarView.THUMBS);
-                        }
-                    });
-
                     // Update the thumbnailViewer, if visible, when exiting presentation mode.
                     window.addEventListener('presentationmodechanged', function (evt) {
                         if (!evt.detail.active && !evt.detail.switchInProgress &&
@@ -2510,7 +1806,6 @@ let pdfjsWebLibs = {
          * @property {HTMLDivElement} textLayerDiv - The text layer container.
          * @property {number} pageIndex - The page index.
          * @property {PageViewport} viewport - The viewport of the text layer.
-         * @property {PDFFindController} findController
          */
 
         /**
@@ -2577,7 +1872,6 @@ let pdfjsWebLibs = {
                     this.textLayerRenderTask.promise.then(function () {
                         this.textLayerDiv.appendChild(textLayerFrag);
                         this._finishRendering();
-                        this.updateMatches();
                     }.bind(this), function (reason) {
                         // canceled or failed to render text layer -- skipping errors
                     });
@@ -2590,184 +1884,6 @@ let pdfjsWebLibs = {
                     }
                     this.textContent = textContent;
                     this.divContentDone = true;
-                },
-
-                convertMatches: function TextLayerBuilder_convertMatches(matches) {
-                    let i = 0;
-                    let iIndex = 0;
-                    let bidiTexts = this.textContent.items;
-                    let end = bidiTexts.length - 1;
-                    let queryLen = (this.findController === null ?
-                        0 : this.findController.state.query.length);
-                    let ret = [];
-
-                    for (let m = 0, len = matches.length; m < len; m++) {
-                        // Calculate the start position.
-                        let matchIdx = matches[m];
-
-                        // Loop over the divIdxs.
-                        while (i !== end && matchIdx >= (iIndex + bidiTexts[i].str.length)) {
-                            iIndex += bidiTexts[i].str.length;
-                            i++;
-                        }
-
-                        if (i === bidiTexts.length) {
-                            console.error('Could not find a matching mapping');
-                        }
-
-                        let match = {
-                            begin: {
-                                divIdx: i,
-                                offset: matchIdx - iIndex
-                            }
-                        };
-
-                        // Calculate the end position.
-                        matchIdx += queryLen;
-
-                        // Somewhat the same array as above, but use > instead of >= to get
-                        // the end position right.
-                        while (i !== end && matchIdx > (iIndex + bidiTexts[i].str.length)) {
-                            iIndex += bidiTexts[i].str.length;
-                            i++;
-                        }
-
-                        match.end = {
-                            divIdx: i,
-                            offset: matchIdx - iIndex
-                        };
-                        ret.push(match);
-                    }
-
-                    return ret;
-                },
-
-                renderMatches: function TextLayerBuilder_renderMatches(matches) {
-                    // Early exit if there is nothing to render.
-                    if (matches.length === 0) {
-                        return;
-                    }
-
-                    let bidiTexts = this.textContent.items;
-                    let textDivs = this.textDivs;
-                    let prevEnd = null;
-                    let pageIdx = this.pageIdx;
-                    let isSelectedPage = (this.findController === null ?
-                        false : (pageIdx === this.findController.selected.pageIdx));
-                    let selectedMatchIdx = (this.findController === null ?
-                        -1 : this.findController.selected.matchIdx);
-                    let highlightAll = (this.findController === null ?
-                        false : this.findController.state.highlightAll);
-                    let infinity = {
-                        divIdx: -1,
-                        offset: undefined
-                    };
-
-                    function beginText(begin, className) {
-                        let divIdx = begin.divIdx;
-                        textDivs[divIdx].textContent = '';
-                        appendTextToDiv(divIdx, 0, begin.offset, className);
-                    }
-
-                    function appendTextToDiv(divIdx, fromOffset, toOffset, className) {
-                        let div = textDivs[divIdx];
-                        let content = bidiTexts[divIdx].str.substring(fromOffset, toOffset);
-                        let node = document.createTextNode(content);
-                        if (className) {
-                            let span = document.createElement('span');
-                            span.className = className;
-                            span.appendChild(node);
-                            div.appendChild(span);
-                            return;
-                        }
-                        div.appendChild(node);
-                    }
-
-                    let i0 = selectedMatchIdx, i1 = i0 + 1;
-                    if (highlightAll) {
-                        i0 = 0;
-                        i1 = matches.length;
-                    } else if (!isSelectedPage) {
-                        // Not highlighting all and this isn't the selected page, so do nothing.
-                        return;
-                    }
-
-                    for (let i = i0; i < i1; i++) {
-                        let match = matches[i];
-                        let begin = match.begin;
-                        let end = match.end;
-                        let isSelected = (isSelectedPage && i === selectedMatchIdx);
-                        let highlightSuffix = (isSelected ? ' selected' : '');
-
-                        if (this.findController) {
-                            this.findController.updateMatchPosition(pageIdx, i, textDivs,
-                                begin.divIdx, end.divIdx);
-                        }
-
-                        // Match inside new div.
-                        if (!prevEnd || begin.divIdx !== prevEnd.divIdx) {
-                            // If there was a previous div, then add the text at the end.
-                            if (prevEnd !== null) {
-                                appendTextToDiv(prevEnd.divIdx, prevEnd.offset, infinity.offset);
-                            }
-                            // Clear the divs and set the content until the starting point.
-                            beginText(begin);
-                        } else {
-                            appendTextToDiv(prevEnd.divIdx, prevEnd.offset, begin.offset);
-                        }
-
-                        if (begin.divIdx === end.divIdx) {
-                            appendTextToDiv(begin.divIdx, begin.offset, end.offset,
-                                'highlight' + highlightSuffix);
-                        } else {
-                            appendTextToDiv(begin.divIdx, begin.offset, infinity.offset,
-                                'highlight begin' + highlightSuffix);
-                            for (let n0 = begin.divIdx + 1, n1 = end.divIdx; n0 < n1; n0++) {
-                                textDivs[n0].className = 'highlight middle' + highlightSuffix;
-                            }
-                            beginText(end, 'highlight end' + highlightSuffix);
-                        }
-                        prevEnd = end;
-                    }
-
-                    if (prevEnd) {
-                        appendTextToDiv(prevEnd.divIdx, prevEnd.offset, infinity.offset);
-                    }
-                },
-
-                updateMatches: function TextLayerBuilder_updateMatches() {
-                    // Only show matches when all rendering is done.
-                    if (!this.renderingDone) {
-                        return;
-                    }
-
-                    // Clear all matches.
-                    let matches = this.matches;
-                    let textDivs = this.textDivs;
-                    let bidiTexts = this.textContent.items;
-                    let clearedUntilDivIdx = -1;
-
-                    // Clear all current matches.
-                    for (let i = 0, len = matches.length; i < len; i++) {
-                        let match = matches[i];
-                        let begin = Math.max(clearedUntilDivIdx, match.begin.divIdx);
-                        for (let n = begin, end = match.end.divIdx; n <= end; n++) {
-                            let div = textDivs[n];
-                            div.textContent = bidiTexts[n].str;
-                            div.className = '';
-                        }
-                        clearedUntilDivIdx = match.end.divIdx + 1;
-                    }
-
-                    if (this.findController === null || !this.findController.active) {
-                        return;
-                    }
-
-                    // Convert the matches on the page controller into the match format
-                    // used for the textLayer.
-                    this.matches = this.convertMatches(this.findController === null ?
-                        [] : (this.findController.pageMatches[this.pageIdx] || []));
-                    this.renderMatches(this.matches);
                 },
 
                 /**
@@ -3202,88 +2318,6 @@ let pdfjsWebLibs = {
             return suggestedFilename || 'document.pdf';
         }
 
-        let ProgressBar = (function ProgressBarClosure() {
-
-            function clamp(v, min, max) {
-                return Math.min(Math.max(v, min), max);
-            }
-
-            function ProgressBar(id, opts) {
-                this.visible = true;
-
-                // Fetch the sub-elements for later.
-                this.div = document.querySelector(id + ' .progress');
-
-                // Get the loading bar element, so it can be resized to fit the viewer.
-                this.bar = this.div.parentNode;
-
-                // Get options, with sensible defaults.
-                this.height = opts.height || 100;
-                this.width = opts.width || 100;
-                this.units = opts.units || '%';
-
-                // Initialize heights.
-                this.div.style.height = this.height + this.units;
-                this.percent = 0;
-            }
-
-            ProgressBar.prototype = {
-
-                updateBar: function ProgressBar_updateBar() {
-                    if (this._indeterminate) {
-                        this.div.classList.add('indeterminate');
-                        this.div.style.width = this.width + this.units;
-                        return;
-                    }
-
-                    this.div.classList.remove('indeterminate');
-                    let progressSize = this.width * this._percent / 100;
-                    this.div.style.width = progressSize + this.units;
-                },
-
-                get percent() {
-                    return this._percent;
-                },
-
-                set percent(val) {
-                    this._indeterminate = isNaN(val);
-                    this._percent = clamp(val, 0, 100);
-                    this.updateBar();
-                },
-
-                setWidth: function ProgressBar_setWidth(viewer) {
-                    if (viewer) {
-                        let container = viewer.parentNode;
-                        let scrollbarWidth = container.offsetWidth - viewer.offsetWidth;
-                        if (scrollbarWidth > 0) {
-                            this.bar.setAttribute('style', 'width: calc(100% - ' +
-                                scrollbarWidth + 'px);');
-                        }
-                    }
-                },
-
-                hide: function ProgressBar_hide() {
-                    if (!this.visible) {
-                        return;
-                    }
-                    this.visible = false;
-                    this.bar.classList.add('hidden');
-                    document.body.classList.remove('loadingInProgress');
-                },
-
-                show: function ProgressBar_show() {
-                    if (this.visible) {
-                        return;
-                    }
-                    this.visible = true;
-                    document.body.classList.add('loadingInProgress');
-                    this.bar.classList.remove('hidden');
-                }
-            };
-
-            return ProgressBar;
-        })();
-
         exports.CSS_UNITS = CSS_UNITS;
         exports.DEFAULT_SCALE_VALUE = DEFAULT_SCALE_VALUE;
         exports.DEFAULT_SCALE = DEFAULT_SCALE;
@@ -3292,7 +2326,6 @@ let pdfjsWebLibs = {
         exports.SCROLLBAR_PADDING = SCROLLBAR_PADDING;
         exports.VERTICAL_PADDING = VERTICAL_PADDING;
         exports.mozL10n = mozL10n;
-        exports.ProgressBar = ProgressBar;
         exports.getPDFFileNameFromURL = getPDFFileNameFromURL;
         exports.noContextMenuHandler = noContextMenuHandler;
         exports.parseQueryString = parseQueryString;
@@ -3303,108 +2336,6 @@ let pdfjsWebLibs = {
         exports.scrollIntoView = scrollIntoView;
         exports.watchScroll = watchScroll;
         exports.binarySearchFirstItem = binarySearchFirstItem;
-    }));
-
-
-    (function (root, factory) {
-        {
-            factory((root.pdfjsWebPasswordPrompt = {}), root.pdfjsWebUIUtils,
-                root.pdfjsWebOverlayManager, root.pdfjsWebPDFJS);
-        }
-    }(this, function (exports, uiUtils, overlayManager, pdfjsLib) {
-
-        let mozL10n = uiUtils.mozL10n;
-        let OverlayManager = overlayManager.OverlayManager;
-
-        /**
-         * @typedef {Object} PasswordPromptOptions
-         * @property {string} overlayName - Name of the overlay for the overlay manager.
-         * @property {HTMLDivElement} container - Div container for the overlay.
-         * @property {HTMLParagraphElement} label - Label containing instructions for
-         *                                          entering the password.
-         * @property {HTMLInputElement} input - Input field for entering the password.
-         * @property {HTMLButtonElement} submitButton - Button for submitting the
-         *                                              password.
-         * @property {HTMLButtonElement} cancelButton - Button for cancelling password
-         *                                              entry.
-         */
-
-        /**
-         * @class
-         */
-        let PasswordPrompt = (function PasswordPromptClosure() {
-            /**
-             * @constructs PasswordPrompt
-             * @param {PasswordPromptOptions} options
-             */
-            function PasswordPrompt(options) {
-                this.overlayName = options.overlayName;
-                this.container = options.container;
-                this.label = options.label;
-                this.input = options.input;
-                this.submitButton = options.submitButton;
-                this.cancelButton = options.cancelButton;
-
-                this.updateCallback = null;
-                this.reason = null;
-
-                // Attach the event listeners.
-                this.submitButton.addEventListener('click', this.verify.bind(this));
-                this.cancelButton.addEventListener('click', this.close.bind(this));
-                this.input.addEventListener('keydown', function (e) {
-                    if (e.keyCode === 13) { // Enter key
-                        this.verify();
-                    }
-                }.bind(this));
-
-                OverlayManager.register(this.overlayName, this.container,
-                    this.close.bind(this), true);
-            }
-
-            PasswordPrompt.prototype = {
-                open: function PasswordPrompt_open() {
-                    OverlayManager.open(this.overlayName).then(function () {
-                        this.input.type = 'password';
-                        this.input.focus();
-
-                        let promptString = mozL10n.get('password_label', null,
-                            'Enter the password to open this PDF file.');
-
-                        if (this.reason === pdfjsLib.PasswordResponses.INCORRECT_PASSWORD) {
-                            promptString = mozL10n.get('password_invalid', null,
-                                'Invalid password. Please try again.');
-                        }
-
-                        this.label.textContent = promptString;
-                    }.bind(this));
-                },
-
-                close: function PasswordPrompt_close() {
-                    OverlayManager.close(this.overlayName).then(function () {
-                        this.input.value = '';
-                        this.input.type = '';
-                    }.bind(this));
-                },
-
-                verify: function PasswordPrompt_verify() {
-                    let password = this.input.value;
-                    if (password && password.length > 0) {
-                        this.close();
-                        return this.updateCallback(password);
-                    }
-                },
-
-                setUpdateCallback:
-                    function PasswordPrompt_setUpdateCallback(updateCallback, reason) {
-                        this.updateCallback = updateCallback;
-                        this.reason = reason;
-                    }
-            };
-
-            return PasswordPrompt;
-        })();
-
-        exports.PasswordPrompt = PasswordPrompt;
     }));
 
 
@@ -3629,424 +2560,6 @@ let pdfjsWebLibs = {
         })();
 
         exports.PDFDocumentProperties = PDFDocumentProperties;
-    }));
-
-
-    (function (root, factory) {
-        {
-            factory((root.pdfjsWebPDFFindController = {}), root.pdfjsWebUIUtils,
-                root.pdfjsWebFirefoxCom);
-        }
-    }(this, function (exports, uiUtils, firefoxCom) {
-
-        let scrollIntoView = uiUtils.scrollIntoView;
-        let FirefoxCom = firefoxCom.FirefoxCom;
-
-        let FindStates = {
-            FIND_FOUND: 0,
-            FIND_NOTFOUND: 1,
-            FIND_WRAPPED: 2,
-            FIND_PENDING: 3
-        };
-
-        let FIND_SCROLL_OFFSET_TOP = -50;
-        let FIND_SCROLL_OFFSET_LEFT = -400;
-
-        let CHARACTERS_TO_NORMALIZE = {
-            '\u2018': '\'', // Left single quotation mark
-            '\u2019': '\'', // Right single quotation mark
-            '\u201A': '\'', // Single low-9 quotation mark
-            '\u201B': '\'', // Single high-reversed-9 quotation mark
-            '\u201C': '"', // Left double quotation mark
-            '\u201D': '"', // Right double quotation mark
-            '\u201E': '"', // Double low-9 quotation mark
-            '\u201F': '"', // Double high-reversed-9 quotation mark
-            '\u00BC': '1/4', // Vulgar fraction one quarter
-            '\u00BD': '1/2', // Vulgar fraction one half
-            '\u00BE': '3/4', // Vulgar fraction three quarters
-        };
-
-        /**
-         * Provides "search" or "find" functionality for the PDF.
-         * This object actually performs the search for a given string.
-         */
-        let PDFFindController = (function PDFFindControllerClosure() {
-            function PDFFindController(options) {
-                this.pdfViewer = options.pdfViewer || null;
-                this.integratedFind = options.integratedFind || false;
-                this.findBar = options.findBar || null;
-
-                this.reset();
-
-                // Compile the regular expression for text normalization once.
-                let replace = Object.keys(CHARACTERS_TO_NORMALIZE).join('');
-                this.normalizationRegex = new RegExp('[' + replace + ']', 'g');
-
-                let events = [
-                    'find',
-                    'findagain',
-                    'findhighlightallchange',
-                    'findcasesensitivitychange'
-                ];
-                this.handleEvent = this.handleEvent.bind(this);
-
-                for (let i = 0, len = events.length; i < len; i++) {
-                    window.addEventListener(events[i], this.handleEvent);
-                }
-            }
-
-            PDFFindController.prototype = {
-                setFindBar: function PDFFindController_setFindBar(findBar) {
-                    this.findBar = findBar;
-                },
-
-                reset: function PDFFindController_reset() {
-                    this.startedTextExtraction = false;
-                    this.extractTextPromises = [];
-                    this.pendingFindMatches = Object.create(null);
-                    this.active = false; // If active, find results will be highlighted.
-                    this.pageContents = []; // Stores the text for each page.
-                    this.pageMatches = [];
-                    this.matchCount = 0;
-                    this.selected = { // Currently selected match.
-                        pageIdx: -1,
-                        matchIdx: -1
-                    };
-                    this.offset = { // Where the find algorithm currently is in the document.
-                        pageIdx: null,
-                        matchIdx: null
-                    };
-                    this.pagesToSearch = null;
-                    this.resumePageIdx = null;
-                    this.state = null;
-                    this.dirtyMatch = false;
-                    this.findTimeout = null;
-
-                    this.firstPagePromise = new Promise(function (resolve) {
-                        this.resolveFirstPage = resolve;
-                    }.bind(this));
-                },
-
-                normalize: function PDFFindController_normalize(text) {
-                    return text.replace(this.normalizationRegex, function (ch) {
-                        return CHARACTERS_TO_NORMALIZE[ch];
-                    });
-                },
-
-                calcFindMatch: function PDFFindController_calcFindMatch(pageIndex) {
-                    let pageContent = this.normalize(this.pageContents[pageIndex]);
-                    let query = this.normalize(this.state.query);
-                    let caseSensitive = this.state.caseSensitive;
-                    let queryLen = query.length;
-
-                    if (queryLen === 0) {
-                        // Do nothing: the matches should be wiped out already.
-                        return;
-                    }
-
-                    if (!caseSensitive) {
-                        pageContent = pageContent.toLowerCase();
-                        query = query.toLowerCase();
-                    }
-
-                    let matches = [];
-                    let matchIdx = -queryLen;
-                    while (true) {
-                        matchIdx = pageContent.indexOf(query, matchIdx + queryLen);
-                        if (matchIdx === -1) {
-                            break;
-                        }
-                        matches.push(matchIdx);
-                    }
-                    this.pageMatches[pageIndex] = matches;
-                    this.updatePage(pageIndex);
-                    if (this.resumePageIdx === pageIndex) {
-                        this.resumePageIdx = null;
-                        this.nextPageMatch();
-                    }
-
-                    // Update the matches count
-                    if (matches.length > 0) {
-                        this.matchCount += matches.length;
-                        this.updateUIResultsCount();
-                    }
-                },
-
-                extractText: function PDFFindController_extractText() {
-                    if (this.startedTextExtraction) {
-                        return;
-                    }
-                    this.startedTextExtraction = true;
-
-                    this.pageContents = [];
-                    let extractTextPromisesResolves = [];
-                    let numPages = this.pdfViewer.pagesCount;
-                    for (let i = 0; i < numPages; i++) {
-                        this.extractTextPromises.push(new Promise(function (resolve) {
-                            extractTextPromisesResolves.push(resolve);
-                        }));
-                    }
-
-                    let self = this;
-
-                    function extractPageText(pageIndex) {
-                        self.pdfViewer.getPageTextContent(pageIndex).then(
-                            function textContentResolved(textContent) {
-                                let textItems = textContent.items;
-                                let str = [];
-
-                                for (let i = 0, len = textItems.length; i < len; i++) {
-                                    str.push(textItems[i].str);
-                                }
-
-                                // Store the pageContent as a string.
-                                self.pageContents.push(str.join(''));
-
-                                extractTextPromisesResolves[pageIndex](pageIndex);
-                                if ((pageIndex + 1) < self.pdfViewer.pagesCount) {
-                                    extractPageText(pageIndex + 1);
-                                }
-                            }
-                        );
-                    }
-
-                    extractPageText(0);
-                },
-
-                handleEvent: function PDFFindController_handleEvent(e) {
-                    if (this.state === null || e.type !== 'findagain') {
-                        this.dirtyMatch = true;
-                    }
-                    this.state = e.detail;
-                    this.updateUIState(FindStates.FIND_PENDING);
-
-                    this.firstPagePromise.then(function () {
-                        this.extractText();
-
-                        clearTimeout(this.findTimeout);
-                        if (e.type === 'find') {
-                            // Only trigger the find action after 250ms of silence.
-                            this.findTimeout = setTimeout(this.nextMatch.bind(this), 250);
-                        } else {
-                            this.nextMatch();
-                        }
-                    }.bind(this));
-                },
-
-                updatePage: function PDFFindController_updatePage(index) {
-                    if (this.selected.pageIdx === index) {
-                        // If the page is selected, scroll the page into view, which triggers
-                        // rendering the page, which adds the textLayer. Once the textLayer is
-                        // build, it will scroll onto the selected match.
-                        this.pdfViewer.scrollPageIntoView(index + 1);
-                    }
-
-                    let page = this.pdfViewer.getPageView(index);
-                    if (page.textLayer) {
-                        page.textLayer.updateMatches();
-                    }
-                },
-
-                nextMatch: function PDFFindController_nextMatch() {
-                    let previous = this.state.findPrevious;
-                    let currentPageIndex = this.pdfViewer.currentPageNumber - 1;
-                    let numPages = this.pdfViewer.pagesCount;
-
-                    this.active = true;
-
-                    if (this.dirtyMatch) {
-                        // Need to recalculate the matches, reset everything.
-                        this.dirtyMatch = false;
-                        this.selected.pageIdx = this.selected.matchIdx = -1;
-                        this.offset.pageIdx = currentPageIndex;
-                        this.offset.matchIdx = null;
-                        this.hadMatch = false;
-                        this.resumePageIdx = null;
-                        this.pageMatches = [];
-                        this.matchCount = 0;
-                        let self = this;
-
-                        for (let i = 0; i < numPages; i++) {
-                            // Wipe out any previous highlighted matches.
-                            this.updatePage(i);
-
-                            // As soon as the text is extracted start finding the matches.
-                            if (!(i in this.pendingFindMatches)) {
-                                this.pendingFindMatches[i] = true;
-                                this.extractTextPromises[i].then(function (pageIdx) {
-                                    delete self.pendingFindMatches[pageIdx];
-                                    self.calcFindMatch(pageIdx);
-                                });
-                            }
-                        }
-                    }
-
-                    // If there's no query there's no point in searching.
-                    if (this.state.query === '') {
-                        this.updateUIState(FindStates.FIND_FOUND);
-                        return;
-                    }
-
-                    // If we're waiting on a page, we return since we can't do anything else.
-                    if (this.resumePageIdx) {
-                        return;
-                    }
-
-                    let offset = this.offset;
-                    // Keep track of how many pages we should maximally iterate through.
-                    this.pagesToSearch = numPages;
-                    // If there's already a matchIdx that means we are iterating through a
-                    // page's matches.
-                    if (offset.matchIdx !== null) {
-                        let numPageMatches = this.pageMatches[offset.pageIdx].length;
-                        if ((!previous && offset.matchIdx + 1 < numPageMatches) ||
-                            (previous && offset.matchIdx > 0)) {
-                            // The simple case; we just have advance the matchIdx to select
-                            // the next match on the page.
-                            this.hadMatch = true;
-                            offset.matchIdx = (previous ? offset.matchIdx - 1 :
-                                offset.matchIdx + 1);
-                            this.updateMatch(true);
-                            return;
-                        }
-                        // We went beyond the current page's matches, so we advance to
-                        // the next page.
-                        this.advanceOffsetPage(previous);
-                    }
-                    // Start searching through the page.
-                    this.nextPageMatch();
-                },
-
-                matchesReady: function PDFFindController_matchesReady(matches) {
-                    let offset = this.offset;
-                    let numMatches = matches.length;
-                    let previous = this.state.findPrevious;
-
-                    if (numMatches) {
-                        // There were matches for the page, so initialize the matchIdx.
-                        this.hadMatch = true;
-                        offset.matchIdx = (previous ? numMatches - 1 : 0);
-                        this.updateMatch(true);
-                        return true;
-                    } else {
-                        // No matches, so attempt to search the next page.
-                        this.advanceOffsetPage(previous);
-                        if (offset.wrapped) {
-                            offset.matchIdx = null;
-                            if (this.pagesToSearch < 0) {
-                                // No point in wrapping again, there were no matches.
-                                this.updateMatch(false);
-                                // while matches were not found, searching for a page
-                                // with matches should nevertheless halt.
-                                return true;
-                            }
-                        }
-                        // Matches were not found (and searching is not done).
-                        return false;
-                    }
-                },
-
-                /**
-                 * The method is called back from the text layer when match presentation
-                 * is updated.
-                 * @param {number} pageIndex - page index.
-                 * @param {number} index - match index.
-                 * @param {Array} elements - text layer div elements array.
-                 * @param {number} beginIdx - start index of the div array for the match.
-                 * @param {number} endIdx - end index of the div array for the match.
-                 */
-                updateMatchPosition: function PDFFindController_updateMatchPosition(
-                    pageIndex, index, elements, beginIdx, endIdx) {
-                    if (this.selected.matchIdx === index &&
-                        this.selected.pageIdx === pageIndex) {
-                        let spot = {
-                            top: FIND_SCROLL_OFFSET_TOP,
-                            left: FIND_SCROLL_OFFSET_LEFT
-                        };
-                        scrollIntoView(elements[beginIdx], spot,
-                            /* skipOverflowHiddenElements = */ true);
-                    }
-                },
-
-                nextPageMatch: function PDFFindController_nextPageMatch() {
-                    if (this.resumePageIdx !== null) {
-                        console.error('There can only be one pending page.');
-                    }
-                    do {
-                        let pageIdx = this.offset.pageIdx;
-                        let matches = this.pageMatches[pageIdx];
-                        if (!matches) {
-                            // The matches don't exist yet for processing by "matchesReady",
-                            // so set a resume point for when they do exist.
-                            this.resumePageIdx = pageIdx;
-                            break;
-                        }
-                    } while (!this.matchesReady(matches));
-                },
-
-                advanceOffsetPage: function PDFFindController_advanceOffsetPage(previous) {
-                    let offset = this.offset;
-                    let numPages = this.extractTextPromises.length;
-                    offset.pageIdx = (previous ? offset.pageIdx - 1 : offset.pageIdx + 1);
-                    offset.matchIdx = null;
-
-                    this.pagesToSearch--;
-
-                    if (offset.pageIdx >= numPages || offset.pageIdx < 0) {
-                        offset.pageIdx = (previous ? numPages - 1 : 0);
-                        offset.wrapped = true;
-                    }
-                },
-
-                updateMatch: function PDFFindController_updateMatch(found) {
-                    let state = FindStates.FIND_NOTFOUND;
-                    let wrapped = this.offset.wrapped;
-                    this.offset.wrapped = false;
-
-                    if (found) {
-                        let previousPage = this.selected.pageIdx;
-                        this.selected.pageIdx = this.offset.pageIdx;
-                        this.selected.matchIdx = this.offset.matchIdx;
-                        state = (wrapped ? FindStates.FIND_WRAPPED : FindStates.FIND_FOUND);
-                        // Update the currently selected page to wipe out any selected matches.
-                        if (previousPage !== -1 && previousPage !== this.selected.pageIdx) {
-                            this.updatePage(previousPage);
-                        }
-                    }
-
-                    this.updateUIState(state, this.state.findPrevious);
-                    if (this.selected.pageIdx !== -1) {
-                        this.updatePage(this.selected.pageIdx);
-                    }
-                },
-
-                updateUIResultsCount:
-                    function PDFFindController_updateUIResultsCount() {
-                        if (this.findBar === null) {
-                            throw new Error('PDFFindController is not initialized with a ' +
-                                'PDFFindBar instance.');
-                        }
-                        this.findBar.updateResultsCount(this.matchCount);
-                    },
-
-                updateUIState: function PDFFindController_updateUIState(state, previous) {
-                    if (this.integratedFind) {
-                        FirefoxCom.request('updateFindControlState',
-                            {result: state, findPrevious: previous});
-                        return;
-                    }
-                    if (this.findBar === null) {
-                        throw new Error('PDFFindController is not initialized with a ' +
-                            'PDFFindBar instance.');
-                    }
-                    this.findBar.updateUIState(state, previous, this.matchCount);
-                }
-            };
-            return PDFFindController;
-        })();
-
-        exports.FindStates = FindStates;
-        exports.PDFFindController = PDFFindController;
     }));
 
 
@@ -4903,66 +3416,6 @@ let pdfjsWebLibs = {
                     }
                     return promise;
                 },
-
-                beforePrint: function PDFPageView_beforePrint(printContainer) {
-                    let CustomStyle = pdfjsLib.CustomStyle;
-                    let pdfPage = this.pdfPage;
-
-                    let viewport = pdfPage.getViewport(1);
-                    // Use the same hack we use for high dpi displays for printing to get
-                    // better output until bug 811002 is fixed in FF.
-                    let PRINT_OUTPUT_SCALE = 2;
-                    let canvas = document.createElement('canvas');
-
-                    // The logical size of the canvas.
-                    canvas.width = Math.floor(viewport.width) * PRINT_OUTPUT_SCALE;
-                    canvas.height = Math.floor(viewport.height) * PRINT_OUTPUT_SCALE;
-
-                    // The rendered size of the canvas, relative to the size of canvasWrapper.
-                    canvas.style.width = (PRINT_OUTPUT_SCALE * 100) + '%';
-
-                    let cssScale = 'scale(' + (1 / PRINT_OUTPUT_SCALE) + ', ' +
-                        (1 / PRINT_OUTPUT_SCALE) + ')';
-                    CustomStyle.setProp('transform', canvas, cssScale);
-                    CustomStyle.setProp('transformOrigin', canvas, '0% 0%');
-
-                    let canvasWrapper = document.createElement('div');
-                    canvasWrapper.appendChild(canvas);
-                    printContainer.appendChild(canvasWrapper);
-
-                    canvas.mozPrintCallback = function (obj) {
-                        let ctx = obj.context;
-
-                        ctx.save();
-                        ctx.fillStyle = 'rgb(255, 255, 255)';
-                        ctx.fillRect(0, 0, canvas.width, canvas.height);
-                        ctx.restore();
-                        // Used by the mozCurrentTransform polyfill in src/display/canvas.js.
-                        ctx._transformMatrix =
-                            [PRINT_OUTPUT_SCALE, 0, 0, PRINT_OUTPUT_SCALE, 0, 0];
-                        ctx.scale(PRINT_OUTPUT_SCALE, PRINT_OUTPUT_SCALE);
-
-                        let renderContext = {
-                            canvasContext: ctx,
-                            viewport: viewport,
-                            intent: 'print'
-                        };
-
-                        pdfPage.render(renderContext).promise.then(function () {
-                            // Tell the printEngine that rendering this canvas/page has finished.
-                            obj.done();
-                        }, function (error) {
-                            console.error(error);
-                            // Tell the printEngine that rendering this canvas/page has failed.
-                            // This will make the print proces stop.
-                            if ('abort' in obj) {
-                                obj.abort();
-                            } else {
-                                obj.done();
-                            }
-                        });
-                    };
-                },
             };
 
             return PDFPageView;
@@ -5154,7 +3607,6 @@ let pdfjsWebLibs = {
                 _getPageDrawContext:
                     function PDFThumbnailView_getPageDrawContext(noCtxScale) {
                         let canvas = document.createElement('canvas');
-                        // Keep the no-thumbnail outline visible, i.e. `data-loaded === false`,
                         // until rendering/image conversion is complete, to avoid display issues.
                         this.canvas = canvas;
 
@@ -5369,10 +3821,6 @@ let pdfjsWebLibs = {
                 // Define the toolbar buttons.
                 this.toggleButton = options.toggleButton;
                 this.presentationModeButton = options.presentationModeButton;
-                this.openFile = options.openFile;
-                this.print = options.print;
-                this.download = options.download;
-                this.viewBookmark = options.viewBookmark;
                 this.firstPage = options.firstPage;
                 this.lastPage = options.lastPage;
                 this.pageRotateCw = options.pageRotateCw;
@@ -5389,10 +3837,6 @@ let pdfjsWebLibs = {
                         element: this.presentationModeButton,
                         handler: this.presentationModeClick
                     },
-                    {element: this.openFile, handler: this.openFileClick},
-                    {element: this.print, handler: this.printClick},
-                    {element: this.download, handler: this.downloadClick},
-                    {element: this.viewBookmark, handler: this.viewBookmarkClick},
                     {element: this.firstPage, handler: this.firstPageClick},
                     {element: this.lastPage, handler: this.lastPageClick},
                     {element: this.pageRotateCw, handler: this.pageRotateCwClick},
@@ -5414,20 +3858,6 @@ let pdfjsWebLibs = {
             // Event handling functions.
             presentationModeClick: function secondaryToolbarPresentationModeClick(evt) {
                 PDFViewerApplication.requestPresentationMode();
-                this.close();
-            },
-
-            printClick: function secondaryToolbarPrintClick(evt) {
-                window.print();
-                this.close();
-            },
-
-            downloadClick: function secondaryToolbarDownloadClick(evt) {
-                PDFViewerApplication.download();
-                this.close();
-            },
-
-            viewBookmarkClick: function secondaryToolbarViewBookmarkClick(evt) {
                 this.close();
             },
 
@@ -5524,7 +3954,6 @@ let pdfjsWebLibs = {
          * @property {HTMLDivElement} pageDiv
          * @property {PDFPage} pdfPage
          * @property {IPDFLinkService} linkService
-         * @property {DownloadManager} downloadManager
          */
 
         /**
@@ -5539,7 +3968,6 @@ let pdfjsWebLibs = {
                 this.pageDiv = options.pageDiv;
                 this.pdfPage = options.pdfPage;
                 this.linkService = options.linkService;
-                this.downloadManager = options.downloadManager;
 
                 this.div = null;
             }
@@ -5565,7 +3993,6 @@ let pdfjsWebLibs = {
                             annotations: annotations,
                             page: self.pdfPage,
                             linkService: self.linkService,
-                            downloadManager: self.downloadManager
                         };
 
                         if (self.div) {
@@ -5603,30 +4030,7 @@ let pdfjsWebLibs = {
             return AnnotationLayerBuilder;
         })();
 
-        /**
-         * @constructor
-         * @implements IPDFAnnotationLayerFactory
-         */
-        function DefaultAnnotationLayerFactory() {
-        }
-
-        DefaultAnnotationLayerFactory.prototype = {
-            /**
-             * @param {HTMLDivElement} pageDiv
-             * @param {PDFPage} pdfPage
-             * @returns {AnnotationLayerBuilder}
-             */
-            createAnnotationLayerBuilder: function (pageDiv, pdfPage) {
-                return new AnnotationLayerBuilder({
-                    pageDiv: pageDiv,
-                    pdfPage: pdfPage,
-                    linkService: new SimpleLinkService(),
-                });
-            }
-        };
-
         exports.AnnotationLayerBuilder = AnnotationLayerBuilder;
-        exports.DefaultAnnotationLayerFactory = DefaultAnnotationLayerFactory;
     }));
 
 
@@ -5741,193 +4145,6 @@ let pdfjsWebLibs = {
         })();
 
         exports.HandTool = HandTool;
-    }));
-
-
-    (function (root, factory) {
-        {
-            factory((root.pdfjsWebPDFFindBar = {}), root.pdfjsWebUIUtils,
-                root.pdfjsWebPDFFindController);
-        }
-    }(this, function (exports, uiUtils, pdfFindController) {
-
-        let mozL10n = uiUtils.mozL10n;
-        let FindStates = pdfFindController.FindStates;
-
-        /**
-         * Creates a "search bar" given a set of DOM elements that act as controls
-         * for searching or for setting search preferences in the UI. This object
-         * also sets up the appropriate events for the controls. Actual searching
-         * is done by PDFFindController.
-         */
-        let PDFFindBar = (function PDFFindBarClosure() {
-            function PDFFindBar(options) {
-                this.opened = false;
-                this.bar = options.bar || null;
-                this.toggleButton = options.toggleButton || null;
-                this.findField = options.findField || null;
-                this.highlightAll = options.highlightAllCheckbox || null;
-                this.caseSensitive = options.caseSensitiveCheckbox || null;
-                this.findMsg = options.findMsg || null;
-                this.findResultsCount = options.findResultsCount || null;
-                this.findStatusIcon = options.findStatusIcon || null;
-                this.findPreviousButton = options.findPreviousButton || null;
-                this.findNextButton = options.findNextButton || null;
-                this.findController = options.findController || null;
-
-                if (this.findController === null) {
-                    throw new Error('PDFFindBar cannot be used without a ' +
-                        'PDFFindController instance.');
-                }
-
-                // Add event listeners to the DOM elements.
-                let self = this;
-                this.toggleButton.addEventListener('click', function () {
-                    self.toggle();
-                });
-
-                this.findField.addEventListener('input', function () {
-                    self.dispatchEvent('');
-                });
-
-                this.bar.addEventListener('keydown', function (evt) {
-                    switch (evt.keyCode) {
-                        case 13: // Enter
-                            if (evt.target === self.findField) {
-                                self.dispatchEvent('again', evt.shiftKey);
-                            }
-                            break;
-                        case 27: // Escape
-                            self.close();
-                            break;
-                    }
-                });
-
-                this.findPreviousButton.addEventListener('click', function () {
-                    self.dispatchEvent('again', true);
-                });
-
-                this.findNextButton.addEventListener('click', function () {
-                    self.dispatchEvent('again', false);
-                });
-
-                this.highlightAll.addEventListener('click', function () {
-                    self.dispatchEvent('highlightallchange');
-                });
-
-                this.caseSensitive.addEventListener('click', function () {
-                    self.dispatchEvent('casesensitivitychange');
-                });
-            }
-
-            PDFFindBar.prototype = {
-                reset: function PDFFindBar_reset() {
-                    this.updateUIState();
-                },
-
-                dispatchEvent: function PDFFindBar_dispatchEvent(type, findPrev) {
-                    let event = document.createEvent('CustomEvent');
-                    event.initCustomEvent('find' + type, true, true, {
-                        query: this.findField.value,
-                        caseSensitive: this.caseSensitive.checked,
-                        highlightAll: this.highlightAll.checked,
-                        findPrevious: findPrev
-                    });
-                    return window.dispatchEvent(event);
-                },
-
-                updateUIState:
-                    function PDFFindBar_updateUIState(state, previous, matchCount) {
-                        let notFound = false;
-                        let findMsg = '';
-                        let status = '';
-
-                        switch (state) {
-                            case FindStates.FIND_FOUND:
-                                break;
-
-                            case FindStates.FIND_PENDING:
-                                status = 'pending';
-                                break;
-
-                            case FindStates.FIND_NOTFOUND:
-                                findMsg = mozL10n.get('find_not_found', null, 'Phrase not found');
-                                notFound = true;
-                                break;
-
-                            case FindStates.FIND_WRAPPED:
-                                if (previous) {
-                                    findMsg = mozL10n.get('find_reached_top', null,
-                                        'Reached top of document, continued from bottom');
-                                } else {
-                                    findMsg = mozL10n.get('find_reached_bottom', null,
-                                        'Reached end of document, continued from top');
-                                }
-                                break;
-                        }
-
-                        if (notFound) {
-                            this.findField.classList.add('notFound');
-                        } else {
-                            this.findField.classList.remove('notFound');
-                        }
-
-                        this.findField.setAttribute('data-status', status);
-                        this.findMsg.textContent = findMsg;
-
-                        this.updateResultsCount(matchCount);
-                    },
-
-                updateResultsCount: function (matchCount) {
-                    if (!this.findResultsCount) {
-                        return; // no UI control is provided
-                    }
-
-                    // If there are no matches, hide the counter
-                    if (!matchCount) {
-                        this.findResultsCount.classList.add('hidden');
-                        return;
-                    }
-
-                    // Create the match counter
-                    this.findResultsCount.textContent = matchCount.toLocaleString();
-
-                    // Show the counter
-                    this.findResultsCount.classList.remove('hidden');
-                },
-
-                open: function PDFFindBar_open() {
-                    if (!this.opened) {
-                        this.opened = true;
-                        this.toggleButton.classList.add('toggled');
-                        this.bar.classList.remove('hidden');
-                    }
-                    this.findField.select();
-                    this.findField.focus();
-                },
-
-                close: function PDFFindBar_close() {
-                    if (!this.opened) {
-                        return;
-                    }
-                    this.opened = false;
-                    this.toggleButton.classList.remove('toggled');
-                    this.bar.classList.add('hidden');
-                    this.findController.active = false;
-                },
-
-                toggle: function PDFFindBar_toggle() {
-                    if (this.opened) {
-                        this.close();
-                    } else {
-                        this.open();
-                    }
-                }
-            };
-            return PDFFindBar;
-        })();
-
-        exports.PDFFindBar = PDFFindBar;
     }));
 
 
@@ -6167,7 +4384,6 @@ let pdfjsWebLibs = {
          * @property {HTMLDivElement} container - The container for the viewer element.
          * @property {HTMLDivElement} viewer - (optional) The viewer element.
          * @property {IPDFLinkService} linkService - The navigation/linking service.
-         * @property {DownloadManager} downloadManager - (optional) The download
          *   manager component.
          * @property {PDFRenderingQueue} renderingQueue - (optional) The rendering
          *   queue object.
@@ -6221,7 +4437,6 @@ let pdfjsWebLibs = {
                 this.container = options.container;
                 this.viewer = options.viewer || options.container.firstElementChild;
                 this.linkService = options.linkService || new SimpleLinkService();
-                this.downloadManager = options.downloadManager || null;
                 this.removePageBorders = options.removePageBorders || false;
 
                 this.defaultRenderingQueue = !options.renderingQueue;
@@ -6888,7 +5103,6 @@ let pdfjsWebLibs = {
                         pageDiv: pageDiv,
                         pdfPage: pdfPage,
                         linkService: this.linkService,
-                        downloadManager: this.downloadManager
                     });
                 },
 
@@ -6908,37 +5122,28 @@ let pdfjsWebLibs = {
     (function (root, factory) {
         {
             factory((root.pdfjsWebApp = {}), root.pdfjsWebUIUtils,
-                root.pdfjsWebFirefoxCom, root.pdfjsWebDownloadManager,
+                root.pdfjsWebFirefoxCom,
                 root.pdfjsWebPDFHistory, root.pdfjsWebPreferences,
                 root.pdfjsWebPDFSidebar, root.pdfjsWebViewHistory,
                 root.pdfjsWebPDFThumbnailViewer, root.pdfjsWebSecondaryToolbar,
-                root.pdfjsWebPasswordPrompt, root.pdfjsWebPDFPresentationMode,
+                root.pdfjsWebPDFPresentationMode,
                 root.pdfjsWebPDFDocumentProperties, root.pdfjsWebHandTool,
                 root.pdfjsWebPDFViewer, root.pdfjsWebPDFRenderingQueue,
-                root.pdfjsWebPDFLinkService, root.pdfjsWebPDFOutlineViewer,
-                root.pdfjsWebOverlayManager, root.pdfjsWebPDFAttachmentViewer,
-                root.pdfjsWebPDFFindController, root.pdfjsWebPDFFindBar,
-                root.pdfjsWebMozPrintCallbackPolyfill, root.pdfjsWebPDFJS);
+                root.pdfjsWebPDFLinkService,
+                root.pdfjsWebOverlayManager, root.pdfjsWebPDFJS);
         }
-    }(this, function (exports, uiUtilsLib, firefoxComLib, downloadManagerLib,
+    }(this, function (exports, uiUtilsLib, firefoxComLib,
                       pdfHistoryLib, preferencesLib, pdfSidebarLib, viewHistoryLib,
-                      pdfThumbnailViewerLib, secondaryToolbarLib, passwordPromptLib,
+                      pdfThumbnailViewerLib, secondaryToolbarLib,
                       pdfPresentationModeLib, pdfDocumentPropertiesLib, handToolLib,
                       pdfViewerLib, pdfRenderingQueueLib, pdfLinkServiceLib,
-                      pdfOutlineViewerLib, overlayManagerLib,
-                      pdfAttachmentViewerLib, pdfFindControllerLib, pdfFindBarLib,
-                      mozPrintCallbackPolyfillLib, pdfjsLib) {
+                      overlayManagerLib, pdfjsLib) {
 
-        let FirefoxCom = firefoxComLib.FirefoxCom;
         let UNKNOWN_SCALE = uiUtilsLib.UNKNOWN_SCALE;
         let DEFAULT_SCALE_VALUE = uiUtilsLib.DEFAULT_SCALE_VALUE;
-        let ProgressBar = uiUtilsLib.ProgressBar;
-        let getPDFFileNameFromURL = uiUtilsLib.getPDFFileNameFromURL;
         let noContextMenuHandler = uiUtilsLib.noContextMenuHandler;
         let mozL10n = uiUtilsLib.mozL10n;
         let parseQueryString = uiUtilsLib.parseQueryString;
-        let DownloadManager = downloadManagerLib.DownloadManager ||
-            firefoxComLib.DownloadManager;
         let PDFHistory = pdfHistoryLib.PDFHistory;
         let Preferences = preferencesLib.Preferences;
         let SidebarView = pdfSidebarLib.SidebarView;
@@ -6946,7 +5151,6 @@ let pdfjsWebLibs = {
         let ViewHistory = viewHistoryLib.ViewHistory;
         let PDFThumbnailViewer = pdfThumbnailViewerLib.PDFThumbnailViewer;
         let SecondaryToolbar = secondaryToolbarLib.SecondaryToolbar;
-        let PasswordPrompt = passwordPromptLib.PasswordPrompt;
         let PDFPresentationMode = pdfPresentationModeLib.PDFPresentationMode;
         let PDFDocumentProperties = pdfDocumentPropertiesLib.PDFDocumentProperties;
         let HandTool = handToolLib.HandTool;
@@ -6955,11 +5159,7 @@ let pdfjsWebLibs = {
         let RenderingStates = pdfRenderingQueueLib.RenderingStates;
         let PDFRenderingQueue = pdfRenderingQueueLib.PDFRenderingQueue;
         let PDFLinkService = pdfLinkServiceLib.PDFLinkService;
-        let PDFOutlineViewer = pdfOutlineViewerLib.PDFOutlineViewer;
         let OverlayManager = overlayManagerLib.OverlayManager;
-        let PDFAttachmentViewer = pdfAttachmentViewerLib.PDFAttachmentViewer;
-        let PDFFindController = pdfFindControllerLib.PDFFindController;
-        let PDFFindBar = pdfFindBarLib.PDFFindBar;
 
         let DEFAULT_SCALE_DELTA = 1.1;
         let MIN_SCALE = 0.25;
@@ -6977,14 +5177,12 @@ let pdfjsWebLibs = {
         }
 
         let PDFViewerApplication = {
-            initialBookmark: document.location.hash.substring(1),
             initialDestination: null,
             initialized: false,
             fellback: false,
             appConfig: null,
             pdfDocument: null,
             pdfLoadingTask: null,
-            printing: false,
             /** @type {PDFViewer} */
             pdfViewer: null,
             /** @type {PDFThumbnailViewer} */
@@ -7001,10 +5199,6 @@ let pdfjsWebLibs = {
             pdfHistory: null,
             /** @type {PDFSidebar} */
             pdfSidebar: null,
-            /** @type {PDFOutlineViewer} */
-            pdfOutlineViewer: null,
-            /** @type {PDFAttachmentViewer} */
-            pdfAttachmentViewer: null,
             /** @type {ViewHistory} */
             store: null,
             pageRotation: 0,
@@ -7036,7 +5230,6 @@ let pdfjsWebLibs = {
                     viewer: viewer,
                     renderingQueue: pdfRenderingQueue,
                     linkService: pdfLinkService,
-                    downloadManager: new DownloadManager()
                 });
                 pdfRenderingQueue.setViewer(this.pdfViewer);
                 pdfLinkService.setViewer(this.pdfViewer);
@@ -7056,21 +5249,6 @@ let pdfjsWebLibs = {
                     linkService: pdfLinkService
                 });
                 pdfLinkService.setHistory(this.pdfHistory);
-
-                this.findController = new PDFFindController({
-                    pdfViewer: this.pdfViewer,
-                    integratedFind: this.supportsIntegratedFind
-                });
-                this.pdfViewer.setFindController(this.findController);
-
-                // FIXME better PDFFindBar constructor parameters
-                let findBarConfig = Object.create(appConfig.findBar);
-                findBarConfig.findController = this.findController;
-                this.findBar = new PDFFindBar(findBarConfig);
-
-                this.findController.setFindBar(this.findBar);
-
-                this.overlayManager = OverlayManager;
 
                 this.handTool = new HandTool({
                     container: container,
@@ -7110,23 +5288,10 @@ let pdfjsWebLibs = {
                     });
                 }
 
-                this.passwordPrompt = new PasswordPrompt(appConfig.passwordOverlay);
-
-                this.pdfOutlineViewer = new PDFOutlineViewer({
-                    container: appConfig.sidebar.outlineView,
-                    linkService: pdfLinkService,
-                });
-
-                this.pdfAttachmentViewer = new PDFAttachmentViewer({
-                    container: appConfig.sidebar.attachmentsView,
-                    downloadManager: new DownloadManager(),
-                });
-
                 // FIXME better PDFSidebar constructor parameters
                 let sidebarConfig = Object.create(appConfig.sidebar);
                 sidebarConfig.pdfViewer = this.pdfViewer;
                 sidebarConfig.pdfThumbnailViewer = this.pdfThumbnailViewer;
-                sidebarConfig.pdfOutlineViewer = this.pdfOutlineViewer;
                 this.pdfSidebar = new PDFSidebar(sidebarConfig);
                 this.pdfSidebar.onToggled = this.forceRendering.bind(this);
 
@@ -7235,13 +5400,6 @@ let pdfjsWebLibs = {
                 return this.pdfLinkService.page;
             },
 
-            get supportsPrinting() {
-                let canvas = document.createElement('canvas');
-                let value = 'mozPrintCallback' in canvas;
-
-                return pdfjsLib.shadow(this, 'supportsPrinting', value);
-            },
-
             get supportsFullscreen() {
                 let doc = document.documentElement;
                 let support = !!(doc.requestFullscreen || doc.mozRequestFullScreen ||
@@ -7258,30 +5416,6 @@ let pdfjsWebLibs = {
                 }
 
                 return pdfjsLib.shadow(this, 'supportsFullscreen', support);
-            },
-
-            get supportsIntegratedFind() {
-                let support = false;
-
-                return pdfjsLib.shadow(this, 'supportsIntegratedFind', support);
-            },
-
-            get supportsDocumentFonts() {
-                let support = true;
-
-                return pdfjsLib.shadow(this, 'supportsDocumentFonts', support);
-            },
-
-            get supportsDocumentColors() {
-                let support = true;
-
-                return pdfjsLib.shadow(this, 'supportsDocumentColors', support);
-            },
-
-            get loadingBar() {
-                let bar = new ProgressBar('#loadingBar', {});
-
-                return pdfjsLib.shadow(this, 'loadingBar', bar);
             },
 
             get supportedMouseWheelZoomModifierKeys() {
@@ -7342,11 +5476,6 @@ let pdfjsWebLibs = {
                 this.isInitialViewSet = false;
 
                 this.pdfSidebar.reset();
-                this.pdfOutlineViewer.reset();
-                this.pdfAttachmentViewer.reset();
-
-                this.findController.reset();
-                this.findBar.reset();
 
                 if (typeof PDFBug !== 'undefined') {
                     PDFBug.cleanup();
@@ -7375,11 +5504,6 @@ let pdfjsWebLibs = {
                         // The pdfDataRangeTransport argument is present.
                         args = Object.create(args);
                         args.range = arguments[3];
-                    }
-                    if (typeof arguments[2] === 'string') {
-                        // The password argument is present.
-                        args = Object.create(args);
-                        args.password = arguments[2];
                     }
                 }
 
@@ -7410,15 +5534,9 @@ let pdfjsWebLibs = {
                 }
 
                 let self = this;
-                self.downloadComplete = false;
 
                 let loadingTask = pdfjsLib.getDocument(parameters);
                 this.pdfLoadingTask = loadingTask;
-
-                loadingTask.onPassword = function passwordNeeded(updateCallback, reason) {
-                    self.passwordPrompt.setUpdateCallback(updateCallback, reason);
-                    self.passwordPrompt.open();
-                };
 
                 loadingTask.onProgress = function getDocumentProgress(progressData) {
                     self.progress(progressData.loaded / progressData.total);
@@ -7462,39 +5580,6 @@ let pdfjsWebLibs = {
                     PDFViewerApplication.pdfDocumentProperties.setFileSize(args.length);
                 }
                 return result;
-            },
-
-            download: function pdfViewDownload() {
-                function downloadByUrl() {
-                    downloadManager.downloadUrl(url, filename);
-                }
-
-                let url = this.url.split('#')[0];
-                let filename = getPDFFileNameFromURL(url);
-                let downloadManager = new DownloadManager();
-                downloadManager.onerror = function (err) {
-                    // This error won't really be helpful because it's likely the
-                    // fallback won't work either (or is already open).
-                    PDFViewerApplication.error('PDF failed to download.');
-                };
-
-                if (!this.pdfDocument) { // the PDF is not ready yet
-                    downloadByUrl();
-                    return;
-                }
-
-                if (!this.downloadComplete) { // the PDF is still downloading
-                    downloadByUrl();
-                    return;
-                }
-
-                this.pdfDocument.getData().then(
-                    function getDataSuccess(data) {
-                        let blob = pdfjsLib.createBlob(data, 'application/pdf');
-                        downloadManager.download(blob, url, filename);
-                    },
-                    downloadByUrl // Error occurred try downloading with just the url.
-                ).then(null, downloadByUrl);
             },
 
             fallback: function pdfViewFallback(featureId) {
@@ -7567,34 +5652,6 @@ let pdfjsWebLibs = {
                 errorMoreInfo.value = moreInfoText;
             },
 
-            progress: function pdfViewProgress(level) {
-                let percent = Math.round(level * 100);
-                // When we transition from full request to range requests, it's possible
-                // that we discard some of the loaded data. This can cause the loading
-                // bar to move backwards. So prevent this by only updating the bar if it
-                // increases.
-                if (percent > this.loadingBar.percent || isNaN(percent)) {
-                    this.loadingBar.percent = percent;
-
-                    // When disableAutoFetch is enabled, it's not uncommon for the entire file
-                    // to never be fetched (depends on e.g. the file structure). In this case
-                    // the loading bar will not be completely filled, nor will it be hidden.
-                    // To prevent displaying a partially filled loading bar permanently, we
-                    // hide it when no data has been loaded during a certain amount of time.
-                    if (pdfjsLib.PDFJS.disableAutoFetch && percent) {
-                        if (this.disableAutoFetchLoadingBarTimeout) {
-                            clearTimeout(this.disableAutoFetchLoadingBarTimeout);
-                            this.disableAutoFetchLoadingBarTimeout = null;
-                        }
-                        this.loadingBar.show();
-
-                        this.disableAutoFetchLoadingBarTimeout = setTimeout(function () {
-                            this.loadingBar.hide();
-                            this.disableAutoFetchLoadingBarTimeout = null;
-                        }.bind(this), DISABLE_AUTO_FETCH_LOADING_BAR_TIMEOUT);
-                    }
-                }
-            },
 
             load: function pdfViewLoad(pdfDocument, scale) {
                 let self = this;
@@ -7603,11 +5660,6 @@ let pdfjsWebLibs = {
                 this.pdfDocument = pdfDocument;
 
                 this.pdfDocumentProperties.setDocumentAndUrl(pdfDocument, this.url);
-
-                let downloadedPromise = pdfDocument.getDownloadInfo().then(function () {
-                    self.downloadComplete = true;
-                    self.loadingBar.hide();
-                });
 
                 let pagesCount = pdfDocument.numPages;
                 let toolbarConfig = this.appConfig.toolbar;
@@ -7626,20 +5678,12 @@ let pdfjsWebLibs = {
                 pdfViewer.setDocument(pdfDocument);
                 let firstPagePromise = pdfViewer.firstPagePromise;
                 let pagesPromise = pdfViewer.pagesPromise;
-                let onePageRendered = pdfViewer.onePageRendered;
 
                 this.pageRotation = 0;
 
                 this.pdfThumbnailViewer.setDocument(pdfDocument);
 
                 firstPagePromise.then(function (pdfPage) {
-                    downloadedPromise.then(function () {
-                        let event = document.createEvent('CustomEvent');
-                        event.initCustomEvent('documentload', true, true, {});
-                        window.dispatchEvent(event);
-                    });
-
-                    self.loadingBar.setWidth(self.appConfig.viewerContainer);
 
                     if (!pdfjsLib.PDFJS.disableHistory && !self.isViewerEmbedded) {
                         // The browsing history is only enabled when the viewer is standalone,
@@ -7651,14 +5695,11 @@ let pdfjsWebLibs = {
 
                         if (self.pdfHistory.initialDestination) {
                             self.initialDestination = self.pdfHistory.initialDestination;
-                        } else if (self.pdfHistory.initialBookmark) {
-                            self.initialBookmark = self.pdfHistory.initialBookmark;
                         }
                     }
 
                     let initialParams = {
                         destination: self.initialDestination,
-                        bookmark: self.initialBookmark,
                         hash: null,
                     };
 
@@ -7697,51 +5738,13 @@ let pdfjsWebLibs = {
                     // For documents with different page sizes,
                     // ensure that the correct location becomes visible on load.
                     pagesPromise.then(function resolved() {
-                        if (!initialParams.destination && !initialParams.bookmark &&
-                            !initialParams.hash) {
-                            return;
-                        }
                         if (self.hasEqualPageSizes) {
                             return;
                         }
                         self.initialDestination = initialParams.destination;
-                        self.initialBookmark = initialParams.bookmark;
 
                         self.pdfViewer.currentScaleValue = self.pdfViewer.currentScaleValue;
                         self.setInitialView(initialParams.hash);
-                    });
-                });
-
-                pagesPromise.then(function () {
-                    if (self.supportsPrinting) {
-                        pdfDocument.getJavaScript().then(function (javaScript) {
-                            if (javaScript.length) {
-                                console.warn('Warning: JavaScript is not supported');
-                                self.fallback(pdfjsLib.UNSUPPORTED_FEATURES.javaScript);
-                            }
-                            // Hack to support auto printing.
-                            let regex = /\bprint\s*\(/;
-                            for (let i = 0, ii = javaScript.length; i < ii; i++) {
-                                let js = javaScript[i];
-                                if (js && regex.test(js)) {
-                                    setTimeout(function () {
-                                        window.print();
-                                    });
-                                    return;
-                                }
-                            }
-                        });
-                    }
-                });
-
-                // outline depends on pagesRefMap
-                let promises = [pagesPromise, this.animationStartedPromise];
-                Promise.all(promises).then(function () {
-                    pdfDocument.getOutline().then(function (outline) {
-                        self.pdfOutlineViewer.render({outline: outline});
-                    });
-                    pdfDocument.getAttachments().then(function (attachments) {
-                        self.pdfAttachmentViewer.render({attachments: attachments});
                     });
                 });
 
@@ -7751,11 +5754,11 @@ let pdfjsWebLibs = {
                     self.metadata = metadata;
 
                     // Provides some basic debug information
-                /*    console.log('PDF ' + pdfDocument.fingerprint + ' [' +
-                        info.PDFFormatVersion + ' ' + (info.Producer || '-').trim() +
-                        ' / ' + (info.Creator || '-').trim() + ']' +
-                        ' (PDF.js: ' + (pdfjsLib.version || '-') +
-                        (!pdfjsLib.PDFJS.disableWebGL ? ' [WebGL]' : '') + ')');*/
+                    /*    console.log('PDF ' + pdfDocument.fingerprint + ' [' +
+                            info.PDFFormatVersion + ' ' + (info.Producer || '-').trim() +
+                            ' / ' + (info.Creator || '-').trim() + ']' +
+                            ' (PDF.js: ' + (pdfjsLib.version || '-') +
+                            (!pdfjsLib.PDFJS.disableWebGL ? ' [WebGL]' : '') + ')');*/
 
                     let pdfTitle;
                     if (metadata && metadata.has('dc:title')) {
@@ -7798,10 +5801,6 @@ let pdfjsWebLibs = {
                 if (this.initialDestination) {
                     this.pdfLinkService.navigateTo(this.initialDestination);
                     this.initialDestination = null;
-                } else if (this.initialBookmark) {
-                    this.pdfLinkService.setHash(this.initialBookmark);
-                    this.pdfHistory.push({hash: this.initialBookmark}, true);
-                    this.initialBookmark = null;
                 } else if (storedHash) {
                     this.pdfLinkService.setHash(storedHash);
                 } else if (scale) {
@@ -7810,7 +5809,6 @@ let pdfjsWebLibs = {
                 }
 
                 if (!this.pdfViewer.currentScaleValue) {
-                    // Scale was not initialized: invalid bookmark or scale was not specified.
                     // Setting the default one.
                     this.pdfViewer.currentScaleValue = DEFAULT_SCALE_VALUE;
                 }
@@ -7826,74 +5824,9 @@ let pdfjsWebLibs = {
             },
 
             forceRendering: function pdfViewForceRendering() {
-                this.pdfRenderingQueue.printing = this.printing;
                 this.pdfRenderingQueue.isThumbnailViewEnabled =
                     this.pdfSidebar.isThumbnailViewVisible;
                 this.pdfRenderingQueue.renderHighestPriority();
-            },
-
-            beforePrint: function pdfViewSetupBeforePrint() {
-                if (!this.supportsPrinting) {
-                    let printMessage = mozL10n.get('printing_not_supported', null,
-                        'Warning: Printing is not fully supported by this browser.');
-                    this.error(printMessage);
-                    return;
-                }
-
-                let alertNotReady = false;
-                let i, ii;
-                if (!this.pdfDocument || !this.pagesCount) {
-                    alertNotReady = true;
-                } else {
-                    for (i = 0, ii = this.pagesCount; i < ii; ++i) {
-                        if (!this.pdfViewer.getPageView(i).pdfPage) {
-                            alertNotReady = true;
-                            break;
-                        }
-                    }
-                }
-                if (alertNotReady) {
-                    let notReadyMessage = mozL10n.get('printing_not_ready', null,
-                        'Warning: The PDF is not fully loaded for printing.');
-                    window.alert(notReadyMessage);
-                    return;
-                }
-
-                this.printing = true;
-                this.forceRendering();
-
-                let printContainer = this.appConfig.printContainer;
-                let body = document.querySelector('body');
-                body.setAttribute('data-mozPrintCallback', true);
-
-                if (!this.hasEqualPageSizes) {
-                    console.warn('Not all pages have the same size. The printed result ' +
-                        'may be incorrect!');
-                }
-
-                // Insert a @page + size rule to make sure that the page size is correctly
-                // set. Note that we assume that all pages have the same size, because
-                // variable-size pages are not supported yet (at least in Chrome & Firefox).
-                // TODO(robwu): Use named pages when size calculation bugs get resolved
-                // (e.g. https://crbug.com/355116) AND when support for named pages is
-                // added (http://www.w3.org/TR/css3-page/#using-named-pages).
-                // In browsers where @page + size is not supported (such as Firefox,
-                // https://bugzil.la/851441), the next stylesheet will be ignored and the
-                // user has to select the correct paper size in the UI if wanted.
-                this.pageStyleSheet = document.createElement('style');
-                let pageSize = this.pdfViewer.getPageView(0).pdfPage.getViewport(1);
-                this.pageStyleSheet.textContent =
-                    // "size:<width> <height>" is what we need. But also add "A4" because
-                    // Firefox incorrectly reports support for the other value.
-                    '@supports ((size:A4) and (size:1pt 1pt)) {' +
-                    '@page { size: ' + pageSize.width + 'pt ' + pageSize.height + 'pt;}' +
-                    '}';
-                body.appendChild(this.pageStyleSheet);
-
-                for (i = 0, ii = this.pagesCount; i < ii; ++i) {
-                    this.pdfViewer.getPageView(i).beforePrint(printContainer);
-                }
-
             },
 
             // Whether all pages of the PDF have the same width and height.
@@ -7907,21 +5840,6 @@ let pdfjsWebLibs = {
                     }
                 }
                 return true;
-            },
-
-            afterPrint: function pdfViewSetupAfterPrint() {
-                let div = this.appConfig.printContainer;
-                while (div.hasChildNodes()) {
-                    div.removeChild(div.lastChild);
-                }
-
-                if (this.pageStyleSheet && this.pageStyleSheet.parentNode) {
-                    this.pageStyleSheet.parentNode.removeChild(this.pageStyleSheet);
-                    this.pageStyleSheet = null;
-                }
-
-                this.printing = false;
-                this.forceRendering();
             },
 
             rotatePages: function pdfViewRotatePages(delta) {
@@ -7991,11 +5909,6 @@ let pdfjsWebLibs = {
 
             let appConfig = PDFViewerApplication.appConfig;
 
-            if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-                appConfig.toolbar.openFile.setAttribute('hidden', 'true');
-                appConfig.secondaryToolbar.openFile.setAttribute('hidden', 'true');
-            }
-
 
             let PDFJS = pdfjsLib.PDFJS;
 
@@ -8062,18 +5975,9 @@ let pdfjsWebLibs = {
 
             mozL10n.setLanguage(PDFJS.locale);
 
-            if (!PDFViewerApplication.supportsPrinting) {
-                appConfig.toolbar.print.classList.add('hidden');
-                appConfig.secondaryToolbar.print.classList.add('hidden');
-            }
-
             if (!PDFViewerApplication.supportsFullscreen) {
                 appConfig.toolbar.presentationModeButton.classList.add('hidden');
                 appConfig.secondaryToolbar.presentationModeButton.classList.add('hidden');
-            }
-
-            if (PDFViewerApplication.supportsIntegratedFind) {
-                appConfig.toolbar.viewFind.classList.add('hidden');
             }
 
             // Suppress context menus for some controls
@@ -8207,13 +6111,6 @@ let pdfjsWebLibs = {
                 case 'thumbs':
                     view = SidebarView.THUMBS;
                     break;
-                case 'bookmarks':
-                case 'outline':
-                    view = SidebarView.OUTLINE;
-                    break;
-                case 'attachments':
-                    view = SidebarView.ATTACHMENTS;
-                    break;
                 case 'none':
                     view = SidebarView.NONE;
                     break;
@@ -8234,12 +6131,6 @@ let pdfjsWebLibs = {
             switch (action) {
                 case 'GoToPage':
                     PDFViewerApplication.appConfig.toolbar.pageNumber.focus();
-                    break;
-
-                case 'Find':
-                    if (!PDFViewerApplication.supportsIntegratedFind) {
-                        PDFViewerApplication.findBar.toggle();
-                    }
                     break;
             }
         }, true);
@@ -8288,12 +6179,6 @@ let pdfjsWebLibs = {
                     });
                 });
             }
-            let href =
-                PDFViewerApplication.pdfLinkService.getAnchorUrl(location.pdfOpenParams);
-
-            // Update the current bookmark in the browsing history.
-            PDFViewerApplication.pdfHistory.updateCurrentBookmark(location.pdfOpenParams,
-                location.pageNumber);
 
             // Show/hide the loading indicator in the page number input element.
             let pageNumberInput = PDFViewerApplication.appConfig.toolbar.pageNumber;
@@ -8334,9 +6219,7 @@ let pdfjsWebLibs = {
                 if (!hash) {
                     return;
                 }
-                if (!PDFViewerApplication.isInitialViewSet) {
-                    PDFViewerApplication.initialBookmark = hash;
-                } else {
+                if (PDFViewerApplication.isInitialViewSet) {
                     PDFViewerApplication.pdfLinkService.setHash(hash);
                 }
             }
@@ -8367,10 +6250,6 @@ let pdfjsWebLibs = {
 
             // URL does not reflect proper document location - hiding some icons.
             let appConfig = PDFViewerApplication.appConfig;
-            appConfig.toolbar.viewBookmark.setAttribute('hidden', 'true');
-            appConfig.secondaryToolbar.viewBookmark.setAttribute('hidden', 'true');
-            appConfig.toolbar.download.setAttribute('hidden', 'true');
-            appConfig.secondaryToolbar.download.setAttribute('hidden', 'true');
         }, true);
 
         function selectScaleOption(value) {
@@ -8541,19 +6420,6 @@ let pdfjsWebLibs = {
             if (cmd === 1 || cmd === 8 || cmd === 5 || cmd === 12) {
                 // either CTRL or META key with optional SHIFT.
                 switch (evt.keyCode) {
-                    case 70: // f
-                        if (!PDFViewerApplication.supportsIntegratedFind) {
-                            PDFViewerApplication.findBar.open();
-                            handled = true;
-                        }
-                        break;
-                    case 71: // g
-                        if (!PDFViewerApplication.supportsIntegratedFind) {
-                            PDFViewerApplication.findBar.dispatchEvent('again',
-                                cmd === 5 || cmd === 12);
-                            handled = true;
-                        }
-                        break;
                     case 61: // FF/Mac '='
                     case 107: // FF '+' and '='
                     case 187: // Chrome '+'
@@ -8589,7 +6455,6 @@ let pdfjsWebLibs = {
             if (cmd === 1 || cmd === 8) {
                 switch (evt.keyCode) {
                     case 83: // s
-                        PDFViewerApplication.download();
                         handled = true;
                         break;
                 }
@@ -8654,11 +6519,6 @@ let pdfjsWebLibs = {
                     case 27: // esc key
                         if (SecondaryToolbar.opened) {
                             SecondaryToolbar.close();
-                            handled = true;
-                        }
-                        if (!PDFViewerApplication.supportsIntegratedFind &&
-                            PDFViewerApplication.findBar.opened) {
-                            PDFViewerApplication.findBar.close();
                             handled = true;
                         }
                         break;
@@ -8765,14 +6625,6 @@ let pdfjsWebLibs = {
             }
         });
 
-        window.addEventListener('beforeprint', function beforePrint(evt) {
-            PDFViewerApplication.beforePrint();
-        });
-
-        window.addEventListener('afterprint', function afterPrint(evt) {
-            PDFViewerApplication.afterPrint();
-        });
-
         (function animationStartedClosure() {
             // The offsetParent is not set until the pdf.js iframe or object is visible.
             // Waiting for first animation.
@@ -8809,20 +6661,13 @@ function getViewerConfiguration() {
             lastPage: document.getElementById('lastPage'),
             zoomIn: document.getElementById('zoomIn'),
             zoomOut: document.getElementById('zoomOut'),
-            viewFind: document.getElementById('viewFind'),
-            print: document.getElementById('print'),
             presentationModeButton: document.getElementById('presentationMode'),
-            download: document.getElementById('download'),
-            viewBookmark: document.getElementById('viewBookmark'),
         },
         secondaryToolbar: {
             toolbar: document.getElementById('secondaryToolbar'),
             toggleButton: document.getElementById('secondaryToolbarToggle'),
             presentationModeButton:
                 document.getElementById('secondaryPresentationMode'),
-            print: document.getElementById('secondaryPrint'),
-            download: document.getElementById('secondaryDownload'),
-            viewBookmark: document.getElementById('secondaryViewBookmark'),
             firstPage: document.getElementById('firstPage'),
             lastPage: document.getElementById('lastPage'),
             pageRotateCw: document.getElementById('pageRotateCw'),
@@ -8843,32 +6688,8 @@ function getViewerConfiguration() {
             toggleButton: document.getElementById('sidebarToggle'),
             // Buttons
             thumbnailButton: document.getElementById('viewThumbnail'),
-            outlineButton: document.getElementById('viewOutline'),
-            attachmentsButton: document.getElementById('viewAttachments'),
             // Views
             thumbnailView: document.getElementById('thumbnailView'),
-            outlineView: document.getElementById('outlineView'),
-            attachmentsView: document.getElementById('attachmentsView'),
-        },
-        findBar: {
-            bar: document.getElementById('findbar'),
-            toggleButton: document.getElementById('viewFind'),
-            findField: document.getElementById('findInput'),
-            highlightAllCheckbox: document.getElementById('findHighlightAll'),
-            caseSensitiveCheckbox: document.getElementById('findMatchCase'),
-            findMsg: document.getElementById('findMsg'),
-            findResultsCount: document.getElementById('findResultsCount'),
-            findStatusIcon: document.getElementById('findStatusIcon'),
-            findPreviousButton: document.getElementById('findPrevious'),
-            findNextButton: document.getElementById('findNext')
-        },
-        passwordOverlay: {
-            overlayName: 'passwordOverlay',
-            container: document.getElementById('passwordOverlay'),
-            label: document.getElementById('passwordText'),
-            input: document.getElementById('password'),
-            submitButton: document.getElementById('passwordSubmit'),
-            cancelButton: document.getElementById('passwordCancel')
         },
         documentProperties: {
             overlayName: 'documentPropertiesOverlay',
@@ -8896,8 +6717,7 @@ function getViewerConfiguration() {
             errorMoreInfo: document.getElementById('errorMoreInfo'),
             moreInfoButton: document.getElementById('errorShowMore'),
             lessInfoButton: document.getElementById('errorShowLess'),
-        },
-        printContainer: document.getElementById('printContainer'),
+        }
     };
 }
 

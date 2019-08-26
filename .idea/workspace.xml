@@ -3,11 +3,18 @@
   <component name="ChangeListManager">
     <list default="true" id="7805649e-d1ca-4177-9d23-e02a3917af5c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/email.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/email.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/viewer.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/viewer.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/viewer_dev.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/viewer_dev.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/images/check.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/analytics.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/analytics.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/compatibility.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/compatibility.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/debugger.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/debugger.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/jquery.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/jquery.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/l10n.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/l10n.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/onload.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/onload.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/registerServiceWorker.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/registerServiceWorker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/trackingApis.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/trackingApis.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/viewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/viewer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/viewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/viewer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/layout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/layout.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/viewer.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewer.pug" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,18 +34,20 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="MTConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\dean.h.park\Downloads\decompanyio-ssr-pdf\public" />
-      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-embed\public\properties" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\images" />
       <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\js" />
       <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\css" />
       <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\static" />
       <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\apis" />
+      <recent name="C:\Users\dean.h.park\Downloads\decompanyio-ssr-pdf\public" />
+      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-embed\public\properties" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -113,7 +122,11 @@
       <workItem from="1565763461882" duration="2261000" />
       <workItem from="1565772509675" duration="1537000" />
       <workItem from="1566353310071" duration="10000" />
-      <workItem from="1566434076792" duration="8471000" />
+      <workItem from="1566434076792" duration="8587000" />
+      <workItem from="1566542322237" duration="10801000" />
+      <workItem from="1566779600763" duration="27000" />
+      <workItem from="1566779684247" duration="19000" />
+      <workItem from="1566779716459" duration="8540000" />
     </task>
     <task id="LOCAL-00001" summary="2019-06-24&#10;dean">
       <created>1561359680508</created>
@@ -262,7 +275,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566440272266</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="- 체크박스 이미지 404 에러 수정&#10;- 체크박스 이미지 url 수정&#10;- zip script 수정&#10;- 버전 1.0.2 수정">
+      <created>1566443402964</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1566443402964</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TodoView">
@@ -322,6 +342,8 @@
     <MESSAGE value="2019-08-14&#10;dean&#10;- S3 주소 개발계/운영계 분기 처리&#10;- package.json 수정" />
     <MESSAGE value="2019-08-14&#10;dean&#10;- 프린트 기능 주석" />
     <MESSAGE value="2019-08-22&#10;dean&#10;- 에러 코드 수정&#10;- 체크박스 체크 이미지 추가&#10;- 이메일 모달 css 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="2019-08-22&#10;dean&#10;- 에러 코드 수정&#10;- 체크박스 체크 이미지 추가&#10;- 이메일 모달 css 수정" />
+    <MESSAGE value="2019-08-22&#10;dean&#10;- 체크박스 이미지 404 에러 수정&#10;- 체크박스 이미지 url 수정&#10;- zip script 수정" />
+    <MESSAGE value="- 체크박스 이미지 404 에러 수정&#10;- 체크박스 이미지 url 수정&#10;- zip script 수정&#10;- 버전 1.0.2 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="- 체크박스 이미지 404 에러 수정&#10;- 체크박스 이미지 url 수정&#10;- zip script 수정&#10;- 버전 1.0.2 수정" />
   </component>
 </project>
