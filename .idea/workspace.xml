@@ -3,15 +3,180 @@
   <component name="ChangeListManager">
     <list default="true" id="7805649e-d1ca-4177-9d23-e02a3917af5c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/analytics.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/analytics.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/compatibility.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/compatibility.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/debugger.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/debugger.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/jquery.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/jquery.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/l10n.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/l10n.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/78-EUC-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/78-EUC-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/78-EUC-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/78-EUC-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/78-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/78-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/78-RKSJ-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/78-RKSJ-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/78-RKSJ-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/78-RKSJ-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/78-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/78-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/78ms-RKSJ-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/78ms-RKSJ-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/78ms-RKSJ-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/78ms-RKSJ-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/83pv-RKSJ-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/83pv-RKSJ-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/90ms-RKSJ-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/90ms-RKSJ-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/90ms-RKSJ-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/90ms-RKSJ-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/90msp-RKSJ-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/90msp-RKSJ-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/90msp-RKSJ-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/90msp-RKSJ-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/90pv-RKSJ-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/90pv-RKSJ-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/90pv-RKSJ-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/90pv-RKSJ-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Add-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Add-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Add-RKSJ-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Add-RKSJ-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Add-RKSJ-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Add-RKSJ-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Add-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Add-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-CNS1-0.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-CNS1-0.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-CNS1-1.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-CNS1-1.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-CNS1-2.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-CNS1-2.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-CNS1-3.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-CNS1-3.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-CNS1-4.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-CNS1-4.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-CNS1-5.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-CNS1-5.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-CNS1-6.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-CNS1-6.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-CNS1-UCS2.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-CNS1-UCS2.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-GB1-0.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-GB1-0.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-GB1-1.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-GB1-1.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-GB1-2.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-GB1-2.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-GB1-3.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-GB1-3.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-GB1-4.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-GB1-4.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-GB1-5.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-GB1-5.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-GB1-UCS2.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-GB1-UCS2.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-Japan1-0.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-Japan1-0.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-Japan1-1.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-Japan1-1.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-Japan1-2.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-Japan1-2.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-Japan1-3.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-Japan1-3.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-Japan1-4.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-Japan1-4.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-Japan1-5.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-Japan1-5.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-Japan1-6.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-Japan1-6.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-Japan1-UCS2.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-Japan1-UCS2.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-Korea1-0.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-Korea1-0.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-Korea1-1.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-Korea1-1.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-Korea1-2.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-Korea1-2.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Adobe-Korea1-UCS2.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Adobe-Korea1-UCS2.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/B5-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/B5-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/B5-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/B5-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/B5pc-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/B5pc-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/B5pc-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/B5pc-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/CNS-EUC-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/CNS-EUC-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/CNS-EUC-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/CNS-EUC-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/CNS1-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/CNS1-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/CNS1-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/CNS1-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/CNS2-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/CNS2-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/CNS2-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/CNS2-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/ETHK-B5-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/ETHK-B5-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/ETHK-B5-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/ETHK-B5-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/ETen-B5-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/ETen-B5-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/ETen-B5-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/ETen-B5-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/ETenms-B5-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/ETenms-B5-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/ETenms-B5-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/ETenms-B5-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/EUC-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/EUC-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/EUC-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/EUC-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Ext-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Ext-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Ext-RKSJ-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Ext-RKSJ-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Ext-RKSJ-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Ext-RKSJ-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Ext-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Ext-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GB-EUC-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GB-EUC-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GB-EUC-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GB-EUC-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GB-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GB-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GB-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GB-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GBK-EUC-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GBK-EUC-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GBK-EUC-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GBK-EUC-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GBK2K-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GBK2K-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GBK2K-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GBK2K-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GBKp-EUC-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GBKp-EUC-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GBKp-EUC-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GBKp-EUC-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GBT-EUC-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GBT-EUC-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GBT-EUC-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GBT-EUC-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GBT-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GBT-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GBT-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GBT-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GBTpc-EUC-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GBTpc-EUC-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GBTpc-EUC-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GBTpc-EUC-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GBpc-EUC-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GBpc-EUC-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/GBpc-EUC-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/GBpc-EUC-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/HKdla-B5-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/HKdla-B5-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/HKdla-B5-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/HKdla-B5-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/HKdlb-B5-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/HKdlb-B5-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/HKdlb-B5-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/HKdlb-B5-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/HKgccs-B5-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/HKgccs-B5-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/HKgccs-B5-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/HKgccs-B5-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/HKm314-B5-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/HKm314-B5-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/HKm314-B5-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/HKm314-B5-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/HKm471-B5-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/HKm471-B5-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/HKm471-B5-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/HKm471-B5-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/HKscs-B5-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/HKscs-B5-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/HKscs-B5-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/HKscs-B5-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Hankaku.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Hankaku.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Hiragana.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Hiragana.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/KSC-EUC-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/KSC-EUC-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/KSC-EUC-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/KSC-EUC-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/KSC-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/KSC-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/KSC-Johab-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/KSC-Johab-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/KSC-Johab-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/KSC-Johab-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/KSC-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/KSC-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/KSCms-UHC-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/KSCms-UHC-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/KSCms-UHC-HW-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/KSCms-UHC-HW-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/KSCms-UHC-HW-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/KSCms-UHC-HW-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/KSCms-UHC-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/KSCms-UHC-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/KSCpc-EUC-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/KSCpc-EUC-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/KSCpc-EUC-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/KSCpc-EUC-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Katakana.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Katakana.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/NWP-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/NWP-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/NWP-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/NWP-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/RKSJ-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/RKSJ-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/RKSJ-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/RKSJ-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/Roman.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/Roman.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniCNS-UCS2-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniCNS-UCS2-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniCNS-UCS2-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniCNS-UCS2-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniCNS-UTF16-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniCNS-UTF16-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniCNS-UTF16-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniCNS-UTF16-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniCNS-UTF32-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniCNS-UTF32-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniCNS-UTF32-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniCNS-UTF32-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniCNS-UTF8-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniCNS-UTF8-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniCNS-UTF8-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniCNS-UTF8-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniGB-UCS2-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniGB-UCS2-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniGB-UCS2-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniGB-UCS2-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniGB-UTF16-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniGB-UTF16-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniGB-UTF16-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniGB-UTF16-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniGB-UTF32-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniGB-UTF32-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniGB-UTF32-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniGB-UTF32-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniGB-UTF8-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniGB-UTF8-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniGB-UTF8-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniGB-UTF8-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS-UCS2-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS-UCS2-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS-UCS2-HW-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS-UCS2-HW-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS-UCS2-HW-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS-UCS2-HW-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS-UCS2-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS-UCS2-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS-UTF16-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS-UTF16-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS-UTF16-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS-UTF16-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS-UTF32-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS-UTF32-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS-UTF32-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS-UTF32-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS-UTF8-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS-UTF8-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS-UTF8-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS-UTF8-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS2004-UTF16-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS2004-UTF16-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS2004-UTF16-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS2004-UTF16-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS2004-UTF32-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS2004-UTF32-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS2004-UTF32-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS2004-UTF32-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS2004-UTF8-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS2004-UTF8-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJIS2004-UTF8-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJIS2004-UTF8-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJISPro-UCS2-HW-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJISPro-UCS2-HW-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJISPro-UCS2-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJISPro-UCS2-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJISPro-UTF8-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJISPro-UTF8-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJISX0213-UTF32-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJISX0213-UTF32-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJISX0213-UTF32-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJISX0213-UTF32-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJISX02132004-UTF32-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJISX02132004-UTF32-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniJISX02132004-UTF32-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniJISX02132004-UTF32-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniKS-UCS2-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniKS-UCS2-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniKS-UCS2-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniKS-UCS2-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniKS-UTF16-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniKS-UTF16-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniKS-UTF16-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniKS-UTF16-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniKS-UTF32-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniKS-UTF32-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniKS-UTF32-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniKS-UTF32-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniKS-UTF8-H.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniKS-UTF8-H.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/UniKS-UTF8-V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/UniKS-UTF8-V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/V.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/V.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmaps/WP-Symbol.bcmap" beforeDir="false" afterPath="$PROJECT_DIR$/public/cmaps/WP-Symbol.bcmap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/apis/viewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/viewer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/viewer.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/viewer.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/viewer_dev.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/viewer_dev.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/onload.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/onload.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/registerServiceWorker.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/registerServiceWorker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/trackingApis.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/trackingApis.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/viewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/apis/viewer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/viewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/viewer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/layout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/layout.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/viewer.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewer.pug" afterDir="false" />
@@ -25,12 +190,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
   <component name="ProjectId" id="1OrB5sfjjXxjcQ7ftjhuoxte9UO" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/images" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -38,16 +209,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public" />
+      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\static\images" />
       <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\images" />
       <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\js" />
       <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\css" />
-      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\static" />
-      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public" />
+      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf" />
+      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\static\gif" />
       <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\apis" />
       <recent name="C:\Users\dean.h.park\Downloads\decompanyio-ssr-pdf\public" />
-      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-embed\public\properties" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -126,7 +299,7 @@
       <workItem from="1566542322237" duration="10801000" />
       <workItem from="1566779600763" duration="27000" />
       <workItem from="1566779684247" duration="19000" />
-      <workItem from="1566779716459" duration="8540000" />
+      <workItem from="1566779716459" duration="21695000" />
     </task>
     <task id="LOCAL-00001" summary="2019-06-24&#10;dean">
       <created>1561359680508</created>
@@ -282,7 +455,14 @@
       <option name="project" value="LOCAL" />
       <updated>1566443402964</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="- 불필요한 viewer 코드 제거&#10;- 404 페이지 css 에러 수정&#10;- doc title, 따옴표 관련 에러 수정">
+      <created>1566789991506</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1566789991506</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TodoView">
@@ -344,6 +524,7 @@
     <MESSAGE value="2019-08-22&#10;dean&#10;- 에러 코드 수정&#10;- 체크박스 체크 이미지 추가&#10;- 이메일 모달 css 수정" />
     <MESSAGE value="2019-08-22&#10;dean&#10;- 체크박스 이미지 404 에러 수정&#10;- 체크박스 이미지 url 수정&#10;- zip script 수정" />
     <MESSAGE value="- 체크박스 이미지 404 에러 수정&#10;- 체크박스 이미지 url 수정&#10;- zip script 수정&#10;- 버전 1.0.2 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="- 체크박스 이미지 404 에러 수정&#10;- 체크박스 이미지 url 수정&#10;- zip script 수정&#10;- 버전 1.0.2 수정" />
+    <MESSAGE value="- 불필요한 viewer 코드 제거&#10;- 404 페이지 css 에러 수정&#10;- doc title, 따옴표 관련 에러 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="- 불필요한 viewer 코드 제거&#10;- 404 페이지 css 에러 수정&#10;- doc title, 따옴표 관련 에러 수정" />
   </component>
 </project>

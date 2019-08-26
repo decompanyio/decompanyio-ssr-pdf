@@ -35,8 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));      // s3 사용
 
-if (process.env.NODE_ENV === 'local')  router.use('/sam', compression());
-else router.use(compression());
+router.use(compression());
 
 
 

@@ -17,6 +17,7 @@ const getPdfData = pdfUrl => {
             }
         }
     };
+
     txtFile.send(null);
 };
 
@@ -28,6 +29,9 @@ const setPdfData = pdfEncoded => {
     for (let i = 0; i < pdfData.length; i++) {
         uint8ArrayPdf[i] = pdfData.charCodeAt(i)
     }
+
+    $("#loadingWrapper").display = "none";
+    $('#toolbarViewer').css('display','block');
     PDFViewerApplication.open(uint8ArrayPdf);
 };
 
@@ -41,9 +45,7 @@ const linkToViewerPage = () => {
 
 // 이메일 양식 체크
 const checkEmailForm = email => {
-    let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-
-    return email.match(regExp);
+    return email.match(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i);
 };
 
 
@@ -55,10 +57,7 @@ const setId = params => {
 
 
 // cid, sid GET
-const getId = () => ({
-    "cid": cid,
-    "sid": sid
-});
+const getId = () => ({"cid": cid, "sid": sid});
 
 
 // forceTracking, clientEmail, pageNum >2 이메일 모달 등장 조건
@@ -87,9 +86,9 @@ const postTracking = ({shortId, documentId, forceTracking, useTracking, apiUrl, 
                 if (res.user) {
                     clientEmail = res.user.e;
                     $("#email-wrapper").css("display", "none");
-                } else {
+                } else
                     $("#email-wrapper").css("display", "block");
-                }
+
                 $(".page").css("filter", "none");
             }
         }

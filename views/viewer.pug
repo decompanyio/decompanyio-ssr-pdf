@@ -65,7 +65,7 @@ block body
 
             .toolbar
                 #toolbarContainer
-                    #toolbarViewer
+                    #toolbarViewer(style="display:none")
                         #toolbarViewerLeft
                             button(id="sidebarToggle" class="toolbarButton" title="Toggle Sidebar" tabindex="11" data-l10n-id="toggle_sidebar")
                                 span(data-l10n-id="toggle_sidebar_label") Toggle Sidebar
@@ -122,8 +122,11 @@ block body
                 menuitem(id="contextPageRotateCcw" label="Rotate Counter-Clockwise" data-l10n-id="page_rotate_ccw")
 
 
+            #loadingWrapper
+                img(src=staticUrl + "/gif/loading.gif")
             #viewerContainer(tabindex="0")
                 #viewer(class="pdfViewer")
+
             #errorWrapper(hidden='true')
                 #errorMessageLeft
                     span(id="errorMessage")
@@ -296,7 +299,8 @@ block script
             apiUrl : '#{apiUrl}' || "",
             forceTracking : '#{forceTracking}' === "true",
             useTracking : '#{useTracking}' === "true",
-            page : 1};
+            page : 1
+        };
 
 
         $(document).ready(() => {
@@ -307,6 +311,7 @@ block script
             // 서비스 워커 시작
             register(resData.env);
         })
+
 
         // 이메일 모달 값 입력 체크
         $("#email-input").keyup( () => {
@@ -360,8 +365,11 @@ block script
         $(".cancel-btn").click(() => {
             if (!resData.forceTracking) {
                 $(".carouselImg").css("filter", "none");
-                resData.useTrackingModalFlag = true;
+                useTrackingModalFlag = true;
+                $("#email-wrapper").css("display", "none");
+                return true;
             }
+            setCookie("dpv", false, 1000);
             $("#email-wrapper").css("display", "none");
         })
 

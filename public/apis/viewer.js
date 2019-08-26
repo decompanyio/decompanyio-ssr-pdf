@@ -5167,12 +5167,11 @@ let pdfjsWebLibs = {
         let SCALE_SELECT_CONTAINER_PADDING = 8;
         let SCALE_SELECT_PADDING = 22;
         let PAGE_NUMBER_LOADING_INDICATOR = 'visiblePageIsLoading';
-        let DISABLE_AUTO_FETCH_LOADING_BAR_TIMEOUT = 5000;
 
         function configure(PDFJS) {
             PDFJS.imageResourcesPath = '../images/';
             PDFJS.workerSrc = '../../build/pdf.worker.js';
-            PDFJS.cMapUrl = '../../web/cmaps/';
+            PDFJS.cMapUrl = '/cmaps/';
             PDFJS.cMapPacked = true;
         }
 

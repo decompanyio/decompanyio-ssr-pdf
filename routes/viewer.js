@@ -77,10 +77,12 @@ router.get('/', (req, res, next) => {
 
         if (data.success) {
             console.log('Document Data GET 성공 . . .');
-            const document = data.document;
+            const documentData = data.document;
 
-            if(document.status !== "CONVERT_COMPLETE" || document.isPublish) {
+            if(documentData.state !== "CONVERT_COMPLETE" || !documentData.isPublic) {
                 console.log('Document Data 유효하지 않음 . . .');
+                console.log('Document State : ' + documentData.state);
+                console.log('Document isPublic : ' + documentData.isPublic);
                 return Promise.reject();
             }else {
                 return Promise.resolve(data);

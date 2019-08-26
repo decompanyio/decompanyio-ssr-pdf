@@ -2140,7 +2140,9 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
 
 
 
-
+/*dean
+2019-08-??
+이메일 체크 박스 CSS*/
 input[type="checkbox"]:checked + label span div {
   position: absolute;
   background:url(https://static.polarishare.com/viewer/images/check.png) left top no-repeat;
@@ -2151,4 +2153,20 @@ input[type="checkbox"]:checked + label span div {
   user-select: none;
   height: 20px;
   width: 20px;
+}
+
+
+/*dean
+2019-08-26
+로딩 gif CSS*/
+#loadingWrapper {
+  width: 100%;
+  height: calc(100% - 50px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#loadingWrapper > img{
+  width: 100px;
 }
