@@ -289,17 +289,17 @@ block script
     script(src='/js/onload.js')
     script.
         let resData = {
-            shortId : '#{shortid}' || "",
-            documentId : '#{documentId}' || "",
-            seoTitle : '#{seoTitle}' || "",
-            username : '#{username}' || "",
-            docTitle : `#{docTitle}` || "",
-            pdfUrl : '#{pdfUrl}' || "",
-            env : '#{env}' || "",
-            apiUrl : '#{apiUrl}' || "",
-            forceTracking : '#{forceTracking}' === "true",
-            useTracking : '#{useTracking}' === "true",
-            page : 1
+            shortId: '#{shortid}' || "",
+            documentId: '#{documentId}' || "",
+            seoTitle: '#{seoTitle}' || "",
+            username: '#{username}' || "",
+            docTitle: `#{docTitle}` || "",
+            pdfUrl: '#{pdfUrl}' || "",
+            env: '#{env}' || "",
+            apiUrl: '#{apiUrl}' || "",
+            forceTracking: '#{forceTracking}' === "true",
+            useTracking: '#{useTracking}' === "true",
+            page: 1
         };
 
 
@@ -314,31 +314,16 @@ block script
 
 
         // 이메일 모달 값 입력 체크
-        $("#email-input").keyup( () => {
-            let value = $("#email-input").val(),
-                checkEmail = checkEmailForm(value),
-                errMsg = checkEmail ? "" : "Email address does not fit the form .";
-            $(".emailError").text(errMsg);
-        })
+        $("#email-input").keyup(() => checkEmailInput());
 
 
         // 이메일 모달 체크박스 클릭
-        $("#termsCheckbox").change(() => {
-            const termsCheckbox = document.getElementById("termsCheckbox").nextElementSibling.firstChild;
-            if ($("#termsCheckbox").is(":checked")) {
-                termsCheckbox.style.border = "1px solid #3681fe";
-            } else {
-                termsCheckbox.style.border = "1px solid #f92121";
-            }
-        })
+        $("#termsCheckbox").change(() => checkTermsCheckbox())
 
 
         // 이메일 sign up 버튼 클릭
         $(".ok-btn").click(() => {
-            let emailError = $(".emailError").text();
-            if (emailError !== "" && !$("#termsCheckbox").is(":checked")) {
-                return;
-            }
+            if (!checkEmailInput() || !checkTermsCheckbox()) return false;
 
             let data = {
                 "cid": getId().cid,

@@ -7,18 +7,30 @@ let cid = null,
 // pdf data get
 const getPdfData = pdfUrl => {
     let url = pdfUrl.replace(/&amp;/g, "&");
-    const txtFile = new XMLHttpRequest();
-    txtFile.open("GET", url, true);
-    txtFile.onreadystatechange = function () {
-        if (txtFile.readyState === 4) {  // Makes sure the document is ready to parse.
-            if (txtFile.status === 200) {  // Makes sure it's found the file.
-                let allText = txtFile.responseText;
-                setPdfData(allText);
+    const xhtml = new XMLHttpRequest();
+    xhtml.onprogress = updateProgress;
+    xhtml.open("GET", url, true);
+    xhtml.onreadystatechange = function () {
+        if (xhtml.readyState === 4) {  // Makes sure the document is ready to parse.
+            if (xhtml.status === 200) {  // Makes sure it's found the file.
+                setPdfData(xhtml.response);
             }
         }
     };
 
-    txtFile.send(null);
+    xhtml.send(null);
+};
+
+
+//update progress
+const updateProgress = e => {
+    let contentLength;
+    if (e.lengthComputable)
+        contentLength = e.total;
+    else
+        contentLength = parseInt(e.target.getResponseHeader('content-length'), 10);
+
+    console.log(Math.floor((e.loaded / contentLength) * 100) + " %");
 };
 
 
@@ -31,7 +43,7 @@ const setPdfData = pdfEncoded => {
     }
 
     $("#loadingWrapper").display = "none";
-    $('#toolbarViewer').css('display','block');
+    $('#toolbarViewer').css('display', 'block');
     PDFViewerApplication.open(uint8ArrayPdf);
 };
 
@@ -95,5 +107,31 @@ const postTracking = ({shortId, documentId, forceTracking, useTracking, apiUrl, 
 
         setId(params);
     });
+};
+
+
+// 이메일 모달 값 입력 체크
+const checkEmailInput = () => {
+    let value = $("#email-input").val();
+    if (checkEmailForm(value)) {
+        $(".emailError").text("");
+        return true;
+    } else {
+        $(".emailError").text("Email address does not fit the form .");
+        return false;
+    }
+};
+
+
+// 이메일 모달 체크박스 클릭
+const checkTermsCheckbox = () => {
+    const termsCheckbox = document.getElementById("termsCheckbox").nextElementSibling.firstChild;
+    if ($("#termsCheckbox").is(":checked")) {
+        termsCheckbox.style.border = "1px solid #3681fe";
+        return true;
+    } else {
+        termsCheckbox.style.border = "1px solid #f92121";
+        return false;
+    }
 };
 
