@@ -19,8 +19,6 @@ const router = express.Router();
 
 let viewerRouter = require('./routes/viewer');
 let notFoundPageRouter = require('./routes/notFoundPage');
-//let callbackRouter = require('./routes/callback');
-
 
 
 // NOTE: tests can't find the views directory without this
@@ -38,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));      // s3 사용
 router.use(compression());
 
 
-
+app.use('/favicon.ico', (req, res) => res.status(204));
 app.use('/', notFoundPageRouter);
 app.use('/404', notFoundPageRouter);
 //app.use('/callback', callbackRouter);

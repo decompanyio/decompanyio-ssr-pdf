@@ -1,6 +1,6 @@
 {
   "name": "decompanyio-ssr-pdf",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "polaris share embed project for pdf js",
   "main": "lambda.js",
   "config": {

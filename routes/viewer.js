@@ -10,13 +10,11 @@ let viewerUrl = process.env.NODE_ENV_SUB === 'prod' ? "https://viewer.polarishar
 let mainHost = process.env.NODE_ENV_SUB === 'prod' ? "https://www.polarishare.com" : "https://share.decompany.io";
 let getMetaUrl = "/api/document/meta?seoTitle=";
 let getPdfUrl = "/api/document/pdf?documentId=";
-let staticUrl = process.env.NODE_ENV_SUB === 'prod'  ? "https://static.polarishare.com/viewer" : "https://static.share.decompany.io/viewer";
+let staticUrl = process.env.NODE_ENV_SUB === 'prod' ? "https://static.polarishare.com/viewer" : "https://static.share.decompany.io/viewer";
 
 
 router.get('/', (req, res, next) => {
-
     let docData = {};
-
 
     // 초기화
     const init = () => {
@@ -32,7 +30,7 @@ router.get('/', (req, res, next) => {
 
 
     // Document 정보 GET
-    const getData = (url) => {
+    const getData = url => {
         return new Promise((resolve, reject) => {
             let XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
             let xhr = new XMLHttpRequest();
@@ -60,14 +58,15 @@ router.get('/', (req, res, next) => {
 
 
     // pdf 파일 read
-    const readPdfFile = data => {
-        return new Promise((resolve, reject) => {
+    const readPdfFile = data =>
+        new Promise((resolve, reject) => {
+            console.log('\nPDF FILE READ 시작 . . .');
+            console.log(data.pdf);
             let _data = setData(docData);
             _data.pdfUrl = data.pdf;
             docData = _data;
             resolve();
         });
-    };
 
 
     // GET data 체크
@@ -79,12 +78,12 @@ router.get('/', (req, res, next) => {
             console.log('Document Data GET 성공 . . .');
             const documentData = data.document;
 
-            if(documentData.state !== "CONVERT_COMPLETE" || !documentData.isPublic) {
+            if (documentData.state !== "CONVERT_COMPLETE" || !documentData.isPublic) {
                 console.log('Document Data 유효하지 않음 . . .');
                 console.log('Document State : ' + documentData.state);
                 console.log('Document isPublic : ' + documentData.isPublic);
                 return Promise.reject();
-            }else {
+            } else {
                 return Promise.resolve(data);
             }
         } else {
