@@ -2,38 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7805649e-d1ca-4177-9d23-e02a3917af5c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/static/gif/loading.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/onload.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/onload.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/viewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/viewer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/android-icon-144x144.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/android-icon-192x192.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/android-icon-36x36.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/android-icon-48x48.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/android-icon-72x72.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/android-icon-96x96.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/apple-icon-114x114.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/apple-icon-120x120.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/apple-icon-144x144.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/apple-icon-152x152.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/apple-icon-180x180.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/apple-icon-57x57.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/apple-icon-60x60.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/apple-icon-72x72.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/apple-icon-76x76.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/apple-icon-precomposed.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/apple-icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/browserconfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/favicon-16x16.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/favicon-32x32.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/favicon-96x96.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/manifest.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/ms-icon-144x144.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/ms-icon-150x150.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/ms-icon-310x310.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/favicon/ms-icon-70x70.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/layout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/layout.pug" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,26 +26,26 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/apis" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="MTConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public" />
-      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\static\images" />
-      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\images" />
-      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\js" />
-      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\css" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public" />
       <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf" />
       <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\static\gif" />
       <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\apis" />
       <recent name="C:\Users\dean.h.park\Downloads\decompanyio-ssr-pdf\public" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\apis" />
+      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public" />
+      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\static\images" />
+      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\images" />
+      <recent name="C:\Users\dean.h.park\WebstormProjects\decompanyio-ssr-pdf\public\js" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -164,6 +135,9 @@
       <workItem from="1570503967839" duration="2984000" />
       <workItem from="1570669175508" duration="5025000" />
       <workItem from="1570683865667" duration="644000" />
+      <workItem from="1570688937991" duration="568000" />
+      <workItem from="1571899419894" duration="4473000" />
+      <workItem from="1572225450542" duration="5803000" />
     </task>
     <task id="LOCAL-00001" summary="2019-06-24&#10;dean">
       <created>1561359680508</created>
@@ -340,7 +314,14 @@
       <option name="project" value="LOCAL" />
       <updated>1567498156269</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="- noindex, header meta tag 추가&#10;- favicon.ico 추가">
+      <created>1570689038919</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1570689038919</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -396,6 +377,7 @@
     <MESSAGE value="- 불필요한 viewer 코드 제거&#10;- 404 페이지 css 에러 수정&#10;- doc title, 따옴표 관련 에러 수정" />
     <MESSAGE value="- FOUC 해결&#10;- 로딩 이미지 추가" />
     <MESSAGE value="- 체크박스 미체크시 컨펌 가능 에러 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="- 체크박스 미체크시 컨펌 가능 에러 수정" />
+    <MESSAGE value="- noindex, header meta tag 추가&#10;- favicon.ico 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="- noindex, header meta tag 추가&#10;- favicon.ico 추가" />
   </component>
 </project>
