@@ -1,5 +1,6 @@
 let cid = null, sid = null, clientEmail = null, useTrackingModalFlag = false;
 
+
 // pdf data get
 const getPdfData = pdfUrl => {
     let url = pdfUrl.replace(/&amp;/g, "&");
@@ -20,6 +21,7 @@ const getPdfData = pdfUrl => {
     xhtml.send(null);
 };
 
+
 //update progress
 const updateProgress = e => {
     let contentLength;
@@ -28,7 +30,8 @@ const updateProgress = e => {
     else
         contentLength = parseInt(e.target.getResponseHeader('content-length'), 10);
 
-    console.log(Math.floor((e.loaded / contentLength) * 100) + " %");
+    $('#toolbarProgress').css('width', Math.floor((e.loaded / contentLength) * 100) + "%");
+    //console.log(Math.floor((e.loaded / contentLength) * 100) + " %");
 };
 
 
@@ -60,7 +63,9 @@ const setPdfData = pdfEncoded => {
         uint8ArrayPdf[i] = pdfData.charCodeAt(i)
     }
 
-    $("#loadingWrapper").display = "none";
+    $('#loadingWrapper').css('display', 'none');
+    $('#thumbnailWrapper').css('display', 'none');
+    $('#toolbarProgress').css('display', 'none');
     $('#toolbarViewer').css('display', 'block');
     PDFViewerApplication.open(uint8ArrayPdf);
 };
@@ -131,6 +136,7 @@ const postTracking = ({shortId, documentId, forceTracking, useTracking, apiUrl, 
     );
 };
 
+
 // 이메일 모달 값 입력 체크
 const checkEmailInput = () => {
     let value = $("#email-input").val();
@@ -143,6 +149,7 @@ const checkEmailInput = () => {
     }
 };
 
+
 // 이메일 모달 체크박스 클릭
 const checkTermsCheckbox = () => {
     const termsCheckbox = document.getElementById("termsCheckbox").nextElementSibling.firstChild;
@@ -152,5 +159,19 @@ const checkTermsCheckbox = () => {
     } else {
         termsCheckbox.style.border = "1px solid #f92121";
         return false;
+    }
+};
+
+
+// 썸네일 GET
+const getThumbnail = resData => {
+    const thumbnailWrapper = document.getElementById('thumbnailWrapper');
+
+    for (let i = 0; i < resData.totalPages; ++i) {
+        const img = document.createElement('img');
+        img.classList.add('temp_thumbnail');
+        img.classList.add('canvasWrapper');
+        img.src = resData.imageUrl + "/" + resData.documentId + "/1024/" + (i + 1);
+        thumbnailWrapper.append(img);
     }
 };

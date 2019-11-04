@@ -7,6 +7,7 @@ let templateFn = pug.compileFile(templatePath);
 
 let apiUrl = process.env.NODE_ENV_SUB === 'prod' ? "https://api.polarishare.com/rest" : "https://api.share.decompany.io/rest";
 let viewerUrl = process.env.NODE_ENV_SUB === 'prod' ? "https://viewer.polarishare.com/rest" : "https://viewer.share.decompany.io/rest";
+let imageUrl = process.env.NODE_ENV_SUB === 'prod' ? "https://res.polarishare.com/thumb" : "https://res.share.decompany.io/thumb";
 let mainHost = process.env.NODE_ENV_SUB === 'prod' ? "https://www.polarishare.com" : "https://share.decompany.io";
 let getMetaUrl = "/api/document/meta?seoTitle=";
 let getPdfUrl = "/api/document/pdf?documentId=";
@@ -110,6 +111,7 @@ router.get('/', (req, res, next) => {
             desc: document.desc || "",
             forceTracking: document.forceTracking,
             useTracking: document.useTracking,
+            totalPages: document.totalPages,
             shortid: shortid.generate(),
             created: new Date(document.created),
             env: process.env.NODE_ENV_SUB,
@@ -118,7 +120,8 @@ router.get('/', (req, res, next) => {
             apiUrl: apiUrl,
             ogUrl: viewerUrl + "/" + document.seoTitle,
             pdfUrl: "",
-            staticUrl: staticUrl
+            staticUrl: staticUrl,
+            imageUrl: imageUrl
         };
     };
 

@@ -65,6 +65,7 @@ block body
 
             .toolbar
                 #toolbarContainer
+                    #toolbarProgress(class="toolbar-progress")
                     #toolbarViewer(style="display:none")
                         #toolbarViewerLeft
                             button(id="sidebarToggle" class="toolbarButton" title="Toggle Sidebar" tabindex="11" data-l10n-id="toggle_sidebar")
@@ -125,8 +126,8 @@ block body
             #loadingWrapper
                 img(src=staticUrl + "/gif/loading.gif")
             #viewerContainer(tabindex="0")
+                #thumbnailWrapper(class="pdfViewer")
                 #viewer(class="pdfViewer")
-
             #errorWrapper(hidden='true')
                 #errorMessageLeft
                     span(id="errorMessage")
@@ -294,9 +295,11 @@ block script
             seoTitle: '#{seoTitle}' || "",
             username: '#{username}' || "",
             docTitle: `#{docTitle}` || "",
+            totalPages: `#{totalPages}` || "",
             pdfUrl: '#{pdfUrl}' || "",
             env: '#{env}' || "",
             apiUrl: '#{apiUrl}' || "",
+            imageUrl: '#{imageUrl}' || "",
             forceTracking: '#{forceTracking}' === "true",
             useTracking: '#{useTracking}' === "true",
             page: 1
@@ -306,6 +309,8 @@ block script
         $(document).ready(() => {
             // 첫 페이지 트랙킹
             postTracking(resData);
+            // 썸네일 GET
+            getThumbnail(resData);
             // pdf 정보 SET
             getPdfData(resData.pdfUrl);
             // 서비스 워커 시작
