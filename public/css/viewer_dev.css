@@ -509,6 +509,7 @@ html[dir='rtl'] #toolbarSidebar {
 }
 
 #toolbarContainer, .findbar, .secondaryToolbar {
+    overflow-x: hidden;
     position: relative;
     height: 50px;
     background-color: #307eff; /* fallback */

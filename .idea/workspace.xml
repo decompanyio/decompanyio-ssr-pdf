@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7805649e-d1ca-4177-9d23-e02a3917af5c" name="Default Changelist" comment="- 로딩바 추가&#10;- 썸네일 추가&#10;- robots.js 추가">
+    <list default="true" id="7805649e-d1ca-4177-9d23-e02a3917af5c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/viewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/viewer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/viewer.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/viewer.css" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,6 +21,11 @@
   </component>
   <component name="ProjectId" id="1OrB5sfjjXxjcQ7ftjhuoxte9UO" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -47,15 +51,15 @@
       <recent name="C:\Users\dean.h.park\Downloads\decompanyio-ssr-pdf\public" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
+  <component name="ServiceViewManager">
+    <option name="viewStates">
       <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
       </list>
     </option>
   </component>
@@ -142,6 +146,7 @@
       <workItem from="1572308800599" duration="1555000" />
       <workItem from="1572832110288" duration="9817000" />
       <workItem from="1574233369079" duration="2729000" />
+      <workItem from="1576217784179" duration="352000" />
     </task>
     <task id="LOCAL-00001" summary="2019-06-24&#10;dean">
       <created>1561359680508</created>
@@ -346,7 +351,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574233429545</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="- 문서 message 에러 추가">
+      <created>1576217910669</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1576217910669</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -380,7 +392,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="2019-06-26&#10;dean" />
     <MESSAGE value="2019-07-01&#10;dean" />
     <MESSAGE value="2019-07-08&#10;    dean" />
     <MESSAGE value="2019-07-09&#10;dean" />
@@ -405,6 +416,21 @@
     <MESSAGE value="- 로딩바 추가&#10;- 썸네일 추가" />
     <MESSAGE value="- 로딩바 추가&#10;- 썸네일 추가&#10;- robots.js 추가" />
     <MESSAGE value="- 오타 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="- 오타 수정" />
+    <MESSAGE value="- 문서 message 에러 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="- 문서 message 에러 추가" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2480" y="11" key="CommitChangelistDialog2" timestamp="1576218167546">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2480" y="11" key="CommitChangelistDialog2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1576218167546" />
+    <state x="2472" y="252" key="Vcs.Push.Dialog.v2" timestamp="1576217914317">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2472" y="252" key="Vcs.Push.Dialog.v2/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1576217914317" />
+    <state x="2617" y="356" key="git4idea.ui.GitTagDialog" timestamp="1576218184505">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2617" y="356" key="git4idea.ui.GitTagDialog/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1576218184505" />
   </component>
 </project>
