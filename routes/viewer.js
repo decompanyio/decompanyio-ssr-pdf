@@ -42,7 +42,10 @@ router.get('/', (req, res, next) => {
             console.log("요청 URL : " + apiUrl + url);
 
             xhr.onreadystatechange = () => {
-                if (xhr.readyState === 4 && xhr.status === 200) resolve(JSON.parse(xhr.responseText));
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    if(JSON.parse(xhr.responseText).message) reject();
+                    resolve(JSON.parse(xhr.responseText));
+                }
             };
 
             xhr.send(null);
@@ -79,10 +82,9 @@ router.get('/', (req, res, next) => {
             console.log('Document Data GET 성공 . . .');
             const documentData = data.document;
 
-            if (documentData.state !== "CONVERT_COMPLETE" || !documentData.isPublic) {
+            if (documentData.state !== "CONVERT_COMPLETE") {
                 console.log('Document Data 유효하지 않음 . . .');
                 console.log('Document State : ' + documentData.state);
-                console.log('Document isPublic : ' + documentData.isPublic);
                 return Promise.reject();
             } else {
                 return Promise.resolve(data);

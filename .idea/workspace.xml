@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7805649e-d1ca-4177-9d23-e02a3917af5c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/robots.txt" afterDir="false" />
+    <list default="true" id="7805649e-d1ca-4177-9d23-e02a3917af5c" name="Default Changelist" comment="- 로딩바 추가&#10;- 썸네일 추가&#10;- robots.js 추가">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/viewer.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/viewer.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/viewer_dev.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/viewer_dev.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/onload.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/onload.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/viewer.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/viewer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/viewer.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/viewer.pug" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -145,7 +140,8 @@
       <workItem from="1572239575875" duration="97000" />
       <workItem from="1572246827933" duration="4452000" />
       <workItem from="1572308800599" duration="1555000" />
-      <workItem from="1572832110288" duration="9255000" />
+      <workItem from="1572832110288" duration="9817000" />
+      <workItem from="1574233369079" duration="2729000" />
     </task>
     <task id="LOCAL-00001" summary="2019-06-24&#10;dean">
       <created>1561359680508</created>
@@ -336,7 +332,21 @@
       <option name="project" value="LOCAL" />
       <updated>1572231514830</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="- 로딩바 추가&#10;- 썸네일 추가&#10;- robots.js 추가">
+      <created>1572843368253</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1572843368253</updated>
+    </task>
+    <task id="LOCAL-00029" summary="- 오타 수정">
+      <created>1574233429545</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1574233429545</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -370,8 +380,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="2019-06-24&#10;dean" />
-    <MESSAGE value="2019-06-25&#10;dean" />
     <MESSAGE value="2019-06-26&#10;dean" />
     <MESSAGE value="2019-07-01&#10;dean" />
     <MESSAGE value="2019-07-08&#10;    dean" />
@@ -394,6 +402,9 @@
     <MESSAGE value="- 체크박스 미체크시 컨펌 가능 에러 수정" />
     <MESSAGE value="- noindex, header meta tag 추가&#10;- favicon.ico 추가" />
     <MESSAGE value="- arraybuffer 적용" />
-    <option name="LAST_COMMIT_MESSAGE" value="- arraybuffer 적용" />
+    <MESSAGE value="- 로딩바 추가&#10;- 썸네일 추가" />
+    <MESSAGE value="- 로딩바 추가&#10;- 썸네일 추가&#10;- robots.js 추가" />
+    <MESSAGE value="- 오타 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="- 오타 수정" />
   </component>
 </project>
